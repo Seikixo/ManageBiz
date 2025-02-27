@@ -1,58 +1,46 @@
-name: Tests
+name: Laravel Tests
 
-on:
-  push:
-    branches:
-      - master
-      - '*.x'
-  pull_request:
-  schedule:
-    - cron: '0 0 * * *'
-
-permissions:
-  contents: read
+on: [push, pull_request]
 
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [8.2]
-
-    name: PHP ${{ matrix.php }}
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_DATABASE: managebiz
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
-          coverage: none
+          php-version: 8.2
+          extensions: pdo_mysql, mysqli
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Install Dependencies
+        run: composer install --no-dev --optimize-autoloader
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      - name: Setup Application Environment
+        run: |
+          cp .env.example .env
+          php artisan config:clear
 
-      - name: Install NPM dependencies
-        run: npm install
+      - name: Wait for MySQL to be ready
+        run: sleep 15s
 
-      - name: Build frontend assets
-        run: npm run build
+      - name: Run Migrations
+        run: php artisan migrate --force --env=testing
 
-      - name: Copy environment file
-        run: cp .env.example .env
-
-      - name: Generate app key
-        run: php artisan key:generate
-
-      - name: Execute backend tests
-        run: vendor/bin/phpunit
+      - name: Run Tests
+        run: php artisan test
