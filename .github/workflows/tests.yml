@@ -12,22 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_DATABASE: managebiz
-          MYSQL_USER: laravel
-          MYSQL_PASSWORD: password
-          MYSQL_ROOT_PASSWORD: root
-        options: >-
-          --health-cmd "mysqladmin ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 3
-        ports:
-          - 3306:3306
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -37,7 +21,7 @@ jobs:
         with:
           php-version: 8.2
           tools: composer:v2
-          extensions: mbstring, bcmath, pdo_mysql, zip
+          extensions: mbstring, bcmath, pdo_sqlite, zip
           coverage: none
 
       - name: Install Dependencies
@@ -48,13 +32,19 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
+      - name: Create SQLite database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
       - name: Run Migrations
         env:
-          DB_CONNECTION: mysql
-          DB_DATABASE: managebiz
-          DB_USERNAME: laravel
-          DB_PASSWORD: password
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
         run: php artisan migrate --force
 
       - name: Run Tests
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
