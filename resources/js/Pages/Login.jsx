@@ -77,6 +77,13 @@ export default function Login({ status, canResetPassword }) {
                         <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
                             Remember me
                         </span>
+
+                        <Link
+                            href={route('register')}
+                            className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                        >
+                            Register
+                        </Link>
                     </label>
                 </div>
 
