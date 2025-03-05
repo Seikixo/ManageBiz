@@ -1,11 +1,11 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard() {
+export default function Orders() {
     return (
         <MainLayout>
-            <Head title='Dashboard' />
-            <h1>Dashboard</h1>
+            <Head title='Orders'/>
+            <h1>Orders</h1>
         </MainLayout>
     );
 }

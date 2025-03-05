@@ -4,8 +4,8 @@ import { Head } from '@inertiajs/react';
 export default function Dashboard() {
     return (
         <MainLayout>
-            <Head title='Dashboard' />
-            <h1>Dashboard</h1>
+            <Head title='Products' />
+            <h1>Products</h1>
         </MainLayout>
     );
 }

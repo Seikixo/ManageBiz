@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings, LogOut, LogOutIcon } from "lucide-react";
+import { LayoutDashboardIcon, HandshakeIcon, ListOrderedIcon, BaggageClaimIcon, LogOut, } from "lucide-react";
 import { usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 
@@ -17,30 +17,26 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Dashboard",
+    url: route('dashboard'),
+    icon: LayoutDashboardIcon,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Inventory",
+    url: route('inventory'),
+    icon: ListOrderedIcon,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    title: "Products",
+    url: route('products'),
+    icon: BaggageClaimIcon,
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "Orders",
+    url: route('orders'),
+    icon: HandshakeIcon,
   },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
+
   
 ]
 
@@ -59,10 +55,12 @@ export function AppSidebar() {
                     {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                            <item.icon />
-                            <span>{item.title}</span>
-                        </a>
+
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     ))}               

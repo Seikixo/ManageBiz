@@ -5,7 +5,7 @@ export default function Dashboard() {
     return (
         <MainLayout>
             <Head title='Dashboard' />
-            <h1>Dashboard</h1>
+            <h1>Inventory</h1>
         </MainLayout>
     );
 }
