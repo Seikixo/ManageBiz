@@ -5,7 +5,6 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Label } from "@/Components/ui/label"
-
 import {
     Card,
     CardContent,
@@ -40,7 +39,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            <Card>
+            <Card className="w-96">
                 <CardHeader>
                     <CardTitle className="text-2xl">Login</CardTitle>
                     <CardDescription>
@@ -113,7 +112,7 @@ export default function Login({ status, canResetPassword }) {
                             <Button className="ms-4" disabled={processing}>
                                 Log in
                             </Button>
-                            <Button variant="secondary" className="ms-4">
+                            <Button variant="outline" className="ms-4">
                                 <Link
                                     href={route('register')}
                                 >
