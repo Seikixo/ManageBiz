@@ -56,7 +56,7 @@ export function AppSidebar() {
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild>
 
-                        <Link href={item.url}>
+                        <Link href={item.url} preserveState>
                           <item.icon />
                           <span>{item.title}</span>
                         </Link>
