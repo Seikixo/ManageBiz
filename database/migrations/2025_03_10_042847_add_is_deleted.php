@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('isDeleted')->default('false');
+            $table->boolean('is_deleted')->default(false);
+        });
+
+        Schema::table('products', function (Blueprint $table) {
+            $table->boolean('is_deleted')->default(false);
         });
     }
 
@@ -22,7 +26,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('isDeleted');
+            $table->dropColumn('is_deleted');
+        });
+
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('is_deleted');
         });
     }
 };
