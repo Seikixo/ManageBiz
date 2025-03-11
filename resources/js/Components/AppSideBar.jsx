@@ -28,7 +28,7 @@ const items = [
   },
   {
     title: "Products",
-    url: route('products'),
+    url: route('products.index'),
     icon: BaggageClaimIcon,
   },
   {

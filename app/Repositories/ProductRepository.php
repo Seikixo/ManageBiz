@@ -4,14 +4,14 @@ namespace App\Repositories;
 
 use App\Models\Product;
 
-class PublicRepository {
+class ProductRepository {
 
     public function getAll() {
         return Product::get();
     }
 
     public function paginate($perPage) {
-        return Product::paginate( $perPage );
+        return Product::paginate($perPage);
     }
 
     public function findById($id) {

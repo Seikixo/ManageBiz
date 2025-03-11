@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -22,9 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Inventory');
     })->name('inventory');
 
-    Route::get('/products', function () {
-        return Inertia::render('Products');
-    })->name('products');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
     Route::get('/orders', function () {
         return Inertia::render('Orders');
