@@ -22,7 +22,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = $this->productRepository->paginate(10)->toArray();
+
         return Inertia::render('Products/ProductsIndex', [
             'products' => $products
         ]);
