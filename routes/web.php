@@ -23,7 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Inventory');
     })->name('inventory');
 
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::resource('products', ProductController::class);
+    
 
     Route::get('/orders', function () {
         return Inertia::render('Orders');

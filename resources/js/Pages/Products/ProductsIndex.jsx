@@ -1,9 +1,13 @@
 import { DataTable } from '@/Components/DataTable';
 import { Button } from '@/Components/ui/button';
 import MainLayout from '@/Layouts/MainLayout';
-import { Head, usePage, router } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 
 const productCol = [
+    {
+        accessorKey: "id",
+        header: "Id",
+    },
     {
         accessorKey: "name",
         header: "Name",
@@ -32,10 +36,19 @@ export default function ProductsIndex() {
     const { products } = usePage().props;
     return (
         <MainLayout>
-            <div className='w-full'>
+            <div>
                 <div>
                     <Head title='Products'/>
-                    <h1 className="text-2xl font-bold mb-4">Products</h1>
+
+                    <div className='flex justify-between'>
+                        <p className="text-xl font-bold mb-4">Products</p>
+                        <Button>
+                            <Link href={route('products.create')}>
+                                Create Product
+                            </Link>
+                        </Button>
+                    </div>
+                    
                     <DataTable columns={productCol} data={products.data}/>
                 </div>
 

@@ -21,9 +21,9 @@ export function DataTable ({ columns, data }) {
       });
     
     return (
-    <div className="rounded-md border">
+    <div className="rounded-md border bg-white">
         <Table>
-        <TableHeader>
+        <TableHeader className="bg-slate-300">
             {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

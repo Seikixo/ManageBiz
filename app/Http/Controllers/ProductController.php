@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Repositories\ProductRepository;
+use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -34,15 +37,25 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Products/ProductsCreate');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        $this->productRepository->create([
+            'user_id' => Auth::id(),
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'total_cost' => $validatedData['total_cost'],
+            'price' => $validatedData['price'],
+        ]);
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
     /**
