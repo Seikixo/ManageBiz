@@ -103,7 +103,7 @@ export default function ProductsCreate () {
                             Submit
                         </Button>
 
-                        <Button className='mt-6 ms-4' variant='outline'>
+                        <Button className='mt-6 ms-4' variant='outline' type="button">
                             <Link
                                 href={route('products.index')}
                             >
