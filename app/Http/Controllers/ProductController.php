@@ -85,8 +85,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $this->productRepository->softDelete($id);
+        return redirect()->route('products.index');
     }
 }

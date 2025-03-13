@@ -6,30 +6,42 @@ use App\Models\Product;
 
 class ProductRepository {
 
-    public function getAll() {
+    public function getAll() 
+    {
         return Product::get();
     }
 
-    public function paginate($perPage) {
+    public function getWithDeleted() 
+    {
+        return Product::withDeleted()->get();
+    }
+
+    public function paginate($perPage) 
+    {
         return Product::paginate($perPage);
     }
 
-    public function findById($id) {
+    public function findById($id) 
+    {
         return Product::findOrFail($id);
     }
 
-    public function create(array $data) {
+    public function create(array $data) 
+    {
         return Product::create($data);
     }
 
-    public function update($id, array $data) {
+    public function update($id, array $data) 
+    {
         $product = Product::findOrFail($id);
         $product->update($data);
         return $product;
     }
 
-    public function delete($id) {
-        return Product::destroy($id);
+    public function softDelete($id) 
+    {
+        $product = Product::findOrFail($id);
+        return $product->update(['is_deleted' => true]);
     }
 }
 
