@@ -69,17 +69,26 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        $product = $this->productRepository->findById($id);
+
+        return Inertia::render('Products/ProductEdit', [
+            'product' => $product
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $validatedData = $request->validated();
+
+        $this->productRepository->update($id, $validatedData);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
+
     }
 
     /**

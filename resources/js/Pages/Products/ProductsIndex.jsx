@@ -3,6 +3,7 @@ import { DataTable } from '@/Components/DataTable';
 import { Button } from '@/Components/ui/button';
 import { toast } from 'sonner';
 import { Head, Link, usePage, router } from '@inertiajs/react';
+import { Plus, Trash2, Pencil} from "lucide-react";
 import { useState } from 'react';
 import {
     AlertDialog,
@@ -40,7 +41,12 @@ const productCol = [
     {
         accessorKey: "actions",
         header: "Actions",      
-        cell: ({ row }) => <DeleteProductButton id={ row.original.id } />
+        cell: ({ row }) => (
+        <div className='flex gap-2'>
+            <DeleteProductButton id={ row.original.id }/>
+            <UpdateProductButton id={ row.original.id }/>
+        </div>
+        )
     }
 ]
 
@@ -79,7 +85,17 @@ const DeleteProductButton = ({ id }) => {
     );
 }
 
-
+const UpdateProductButton = ({ id }) => {
+    return(
+        <Button>
+            <Link
+            href={route('products.edit', id)}
+            >
+                Edit
+            </Link>
+        </Button>
+    );
+}
 
 const gotoPage = (url) => {
     if(url) {
