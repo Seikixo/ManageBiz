@@ -65,7 +65,11 @@ const DeleteProductButton = ({ id }) => {
     return(
     <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete</Button>
+            
+            <Button variant="destructive" className="flex gap-2">
+                <Trash2/>
+                Delete
+            </Button>
         </AlertDialogTrigger>
 
         <AlertDialogContent>
@@ -87,13 +91,16 @@ const DeleteProductButton = ({ id }) => {
 
 const UpdateProductButton = ({ id }) => {
     return(
-        <Button>
+        
             <Link
             href={route('products.edit', id)}
             >
-                Edit
+                <Button className="flex gap-2">
+                    <Pencil/>
+                    Edit
+                </Button>
             </Link>
-        </Button>
+        
     );
 }
 
@@ -113,11 +120,16 @@ export default function ProductsIndex() {
 
                     <div className='flex justify-between mb-2'>
                         <p className="text-xl font-bold mb-4">Products</p>
-                        <Button>
-                            <Link href={route('products.create')}>
-                                Create Product
+                        
+                            <Link 
+                            href={route('products.create')}
+                            >
+                                <Button className="flex gap-2">
+                                    <Plus/>
+                                    Create Product
+                                </Button>
                             </Link>
-                        </Button>
+
                     </div>
                     
                     <DataTable columns={productCol} data={products.data}/>

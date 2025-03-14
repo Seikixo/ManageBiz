@@ -103,13 +103,11 @@ export default function ProductsCreate () {
                             Submit
                         </Button>
 
-                        <Button className='mt-6 ms-4' variant='outline' type="button">
-                            <Link
-                                href={route('products.index')}
-                            >
-                                Cancel
-                            </Link>
-                        </Button>
+                        <Link href={route('products.index')}>
+                                <Button className='mt-6 ms-4' variant='outline' type="button">
+                                    Cancel
+                                </Button>
+                        </Link>
                     </form>
                 </div>
             </div>

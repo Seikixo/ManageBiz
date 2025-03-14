@@ -104,14 +104,13 @@ export default function ProductEdit () {
                         <Button className='mt-6' type='submit' disabled={processing}>
                             Update
                         </Button>
-
-                        <Button className='mt-6 ms-4' variant='outline' type="button">
-                            <Link
-                                href={route('products.index')}
-                            >
+                     
+                        <Link href={route('products.index')}>                    
+                            <Button className='mt-6 ms-4' variant='outline' type="button">
                                 Cancel
-                            </Link>
-                        </Button>
+                            </Button>
+                        </Link>
+                        
                     </form>
                 </div>
             </div>
