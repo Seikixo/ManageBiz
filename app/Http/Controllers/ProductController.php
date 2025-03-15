@@ -23,12 +23,15 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productRepository->paginate(10)->toArray();
+        $search = $request->query('search', '');
+
+        $products = $this->productRepository->search($search)->toArray();
 
         return Inertia::render('Products/ProductsIndex', [
-            'products' => $products
+            'products' => $products,
+            'search' => $search
         ]);
     }
 
