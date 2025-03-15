@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductRepository {
 
@@ -42,6 +44,14 @@ class ProductRepository {
     {
         $product = Product::findOrFail($id);
         return $product->update(['is_deleted' => true]);
+    }
+
+    public function search(string $search, int $perPage = 10): LengthAwarePaginator
+    {
+        return Product::when($search, 
+            fn (Builder $query) => 
+                $query->where('name', 'like', "%{$search}%")
+        )->paginate($perPage);
     }
 }
 

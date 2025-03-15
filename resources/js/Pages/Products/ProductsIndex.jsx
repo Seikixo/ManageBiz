@@ -1,9 +1,10 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { DataTable } from '@/Components/DataTable';
 import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
 import { toast } from 'sonner';
 import { Head, Link, usePage, router } from '@inertiajs/react';
-import { Plus, Trash2, Pencil} from "lucide-react";
+import { Plus, Trash2, Pencil, Search} from "lucide-react";
 import { useState } from 'react';
 import {
     AlertDialog,
@@ -15,7 +16,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from "@/Components/ui/alert-dialog"
+} from "@/Components/ui/alert-dialog"
+
 
 const productCol = [
     {
@@ -66,7 +68,7 @@ const DeleteProductButton = ({ id }) => {
     <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogTrigger asChild>
             
-            <Button variant="destructive" className="flex gap-2">
+            <Button variant="destructive" className="flex gap-2 justify-center">
                 <Trash2/>
                 Delete
             </Button>
@@ -95,12 +97,44 @@ const UpdateProductButton = ({ id }) => {
             <Link
             href={route('products.edit', id)}
             >
-                <Button className="flex gap-2">
+                <Button className="flex gap-2 justify-center">
                     <Pencil/>
                     Edit
                 </Button>
             </Link>
         
+    );
+}
+
+const SearchProductButton = ({ search }) => {
+    const [searchQuery, setSearchQuery] = useState(search || '');
+
+    const submit = (e) => {
+        e.preventDefault();
+
+        router.get(route('products.index'),
+            { search: searchQuery },
+            { preserveState: true, replace: true}
+        );
+    }
+
+    return(
+        <form onSubmit={submit}>
+            <div className='flex gap-2'>
+                <Input 
+                    id='search'
+                    name='search'
+                    placeholder="Search Product..." 
+                    className="bg-white"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button type="submit">
+                    <Search/>
+                </Button>
+            </div>
+
+        </form>
     );
 }
 
@@ -112,27 +146,30 @@ const gotoPage = (url) => {
 
 export default function ProductsIndex() {
     const { products } = usePage().props;
+    const { search } = usePage().props;
+
     return (
         <MainLayout>
             <div className='mt-4'>
+                <p className="text-xl font-bold mb-4">Products</p>
                 <div>
                     <Head title='Products'/>
 
-                    <div className='flex justify-between mb-2'>
-                        <p className="text-xl font-bold mb-4">Products</p>
+                    <div className='flex justify-between mb-2 gap-2'>
+                        <SearchProductButton search={search}/>
                         
-                            <Link 
-                            href={route('products.create')}
-                            >
-                                <Button className="flex gap-2">
-                                    <Plus/>
-                                    Create Product
-                                </Button>
-                            </Link>
+                        <Link 
+                        href={route('products.create')}
+                        >
+                            <Button className="flex gap-2 justify-center" variant='outline'>
+                                <Plus/>
+                                Create
+                            </Button>
+                        </Link>
 
                     </div>
                     
-                    <DataTable columns={productCol} data={products.data}/>
+                    <DataTable columns={productCol} data={products?.data || []}/>
                 </div>
 
                 <div className='flex justify-end gap-4 mt-4'>
