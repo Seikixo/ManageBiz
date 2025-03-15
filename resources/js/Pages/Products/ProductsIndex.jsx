@@ -120,17 +120,22 @@ const SearchProductButton = ({ search }) => {
 
     return(
         <form onSubmit={submit}>
-            <div className='flex gap-2'>
-                <Input 
-                    id='search'
-                    name='search'
-                    placeholder="Search Product..." 
-                    className="bg-white"
+            <div className="relative w-full">
+                <Input
+                    id="search"
+                    name="search"
+                    placeholder="Search Product..."
+                    className="bg-white pr-12"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button type="submit">
-                    <Search/>
+                <Button
+                    type="submit"
+                    className="absolute inset-y-0 right-2 flex items-center justify-center p-2"
+                    size="icon"
+                    variant="ghost"
+                >
+                    <Search className="w-5 h-5 text-gray-500" />
                 </Button>
             </div>
 
@@ -148,51 +153,50 @@ export default function ProductsIndex() {
     const { products } = usePage().props;
     const { search } = usePage().props;
 
-    return (
-        <MainLayout>
-            <div className='mt-4'>
-                <p className="text-xl font-bold mb-4">Products</p>
-                <div>
-                    <Head title='Products'/>
+    return (       
+        <div className='mt-4'>
+            <p className="text-xl font-bold mb-4">Products</p>
+            <div>
+                <Head title='Products'/>
 
-                    <div className='flex justify-between mb-2 gap-2'>
-                        <SearchProductButton search={search}/>
-                        
-                        <Link 
-                        href={route('products.create')}
-                        >
-                            <Button className="flex gap-2 justify-center" variant='outline'>
-                                <Plus/>
-                                Create
-                            </Button>
-                        </Link>
-
-                    </div>
+                <div className='flex justify-between mb-2 gap-2'>
+                    <SearchProductButton search={search}/>
                     
-                    <DataTable columns={productCol} data={products?.data || []}/>
-                </div>
+                    <Link 
+                    href={route('products.create')}
+                    >
+                        <Button className="flex gap-2 justify-center" variant='outline'>
+                            <Plus/>
+                            Create
+                        </Button>
+                    </Link>
 
-                <div className='flex justify-end gap-4 mt-4'>
-                    <Button 
-                        variant="outline"
-                        size="sm"
-                        disable={!products.prev_page_url}
-                        onClick={() => gotoPage(products.prev_page_url)}
-                    >
-                        Previous
-                    </Button>
-                    <span>Page {products.current_page} of {products.last_page}</span>
-                    <Button 
-                        variant="outline"
-                        size="sm"
-                        disable={!products.next_page_url}
-                        onClick={() => gotoPage(products.next_page_url)}
-                    >
-                        Next
-                    </Button>
                 </div>
+                
+                <DataTable columns={productCol} data={products?.data || []}/>
             </div>
-            
-        </MainLayout>
+
+            <div className='flex justify-end gap-4 mt-4'>
+                <Button 
+                    variant="outline"
+                    size="sm"
+                    disable={!products.prev_page_url}
+                    onClick={() => gotoPage(products.prev_page_url)}
+                >
+                    Previous
+                </Button>
+                <span>Page {products.current_page} of {products.last_page}</span>
+                <Button 
+                    variant="outline"
+                    size="sm"
+                    disable={!products.next_page_url}
+                    onClick={() => gotoPage(products.next_page_url)}
+                >
+                    Next
+                </Button>
+            </div>
+        </div>  
     );
 }
+
+ProductsIndex.layout = (page) => <MainLayout>{page}</MainLayout>
