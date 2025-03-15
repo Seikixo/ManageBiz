@@ -120,17 +120,22 @@ const SearchProductButton = ({ search }) => {
 
     return(
         <form onSubmit={submit}>
-            <div className='flex gap-2'>
-                <Input 
-                    id='search'
-                    name='search'
-                    placeholder="Search Product..." 
-                    className="bg-white"
+            <div className="relative w-full">
+                <Input
+                    id="search"
+                    name="search"
+                    placeholder="Search Product..."
+                    className="bg-white pr-12"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button type="submit">
-                    <Search/>
+                <Button
+                    type="submit"
+                    className="absolute inset-y-0 right-2 flex items-center justify-center p-2"
+                    size="icon"
+                    variant="ghost"
+                >
+                    <Search className="w-5 h-5 text-gray-500" />
                 </Button>
             </div>
 
