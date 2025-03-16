@@ -94,14 +94,29 @@ const DeleteProductButton = ({ id }) => {
 const UpdateProductButton = ({ id }) => {
     return(
         
-            <Link
-            href={route('products.edit', id)}
-            >
-                <Button className="flex gap-2 justify-center">
-                    <Pencil/>
-                    Edit
-                </Button>
-            </Link>
+        <Link
+        href={route('products.edit', id)}
+        >
+            <Button className="flex gap-2 justify-center">
+                <Pencil/>
+                Edit
+            </Button>
+        </Link>
+        
+    );
+}
+
+const CreateProductButton = () => {
+    return(
+        
+        <Link 
+        href={route('products.create')}
+        >
+            <Button className="flex gap-2 justify-center" variant='outline'>
+                <Plus/>
+                Create
+            </Button>
+        </Link>
         
     );
 }
@@ -109,7 +124,7 @@ const UpdateProductButton = ({ id }) => {
 const SearchProductButton = ({ search }) => {
     const [searchQuery, setSearchQuery] = useState(search || '');
 
-    const submit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         router.get(route('products.index'),
@@ -119,7 +134,7 @@ const SearchProductButton = ({ search }) => {
     }
 
     return(
-        <form onSubmit={submit}>
+        <form onSubmit={handleSubmit}>
             <div className="relative w-full">
                 <Input
                     id="search"
@@ -162,14 +177,7 @@ export default function ProductsIndex() {
                 <div className='flex justify-between mb-2 gap-2'>
                     <SearchProductButton search={search}/>
                     
-                    <Link 
-                    href={route('products.create')}
-                    >
-                        <Button className="flex gap-2 justify-center" variant='outline'>
-                            <Plus/>
-                            Create
-                        </Button>
-                    </Link>
+                    <CreateProductButton/>
 
                 </div>
                 
