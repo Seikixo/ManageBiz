@@ -1,22 +1,18 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { DataTable } from '@/Components/DataTable';
 import { Button } from '@/Components/ui/button';
-import { Input } from '@/Components/ui/input';
-import { toast } from 'sonner';
-import { Head, Link, usePage, router } from '@inertiajs/react';
-import { Plus, Trash2, Pencil, Search} from "lucide-react";
-import { useState } from 'react';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/Components/ui/alert-dialog"
+import { Head, usePage, router } from '@inertiajs/react';
+import { createContext } from 'react';
+
+import CreateButton from '@/Components/CreateButton';
+import SearchForm from '@/Components/SearchForm';
+import UpdateButton from '@/Components/UpdateButton';
+import DeleteButton from '@/Components/DeleteButton';
+
+export const SearchFormContext = createContext();
+export const CreateButtonContext = createContext();
+export const UpdateButtonContext = createContext();
+export const DeleteButtonContext = createContext();
 
 
 const productCol = [
@@ -45,118 +41,18 @@ const productCol = [
         header: "Actions",      
         cell: ({ row }) => (
         <div className='flex gap-2'>
-            <DeleteProductButton id={ row.original.id }/>
-            <UpdateProductButton id={ row.original.id }/>
+            
+            <DeleteButtonContext.Provider value={{id: row.original.id, deleteRoute: 'products.destroy'}}>
+                <DeleteButton/>
+            </DeleteButtonContext.Provider>
+            
+            <UpdateButtonContext.Provider value={{id: row.original.id, updateRoute: 'products.edit'}}>
+                <UpdateButton/>
+            </UpdateButtonContext.Provider>
         </div>
         )
     }
 ]
-
-const DeleteProductButton = ({ id }) => {
-    const [open, setOpen] = useState(false);
-
-    const handleDelete = () => {
-
-        router.delete(route('products.destroy', id), {
-            onSuccess: () => toast.success("Product deleted successfully"),
-            onError: () => toast.error("Failed to delete product")
-        });
-        setOpen(false);
-    };
-
-    return(
-    <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogTrigger asChild>
-            
-            <Button variant="destructive" className="flex gap-2 justify-center">
-                <Trash2/>
-                Delete
-            </Button>
-        </AlertDialogTrigger>
-
-        <AlertDialogContent>
-            <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete the product.
-                </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-            </AlertDialogFooter>
-        </AlertDialogContent>
-
-    </AlertDialog>
-    );
-}
-
-const UpdateProductButton = ({ id }) => {
-    return(
-        
-        <Link
-        href={route('products.edit', id)}
-        >
-            <Button className="flex gap-2 justify-center">
-                <Pencil/>
-                Edit
-            </Button>
-        </Link>
-        
-    );
-}
-
-const CreateProductButton = () => {
-    return(
-        
-        <Link 
-        href={route('products.create')}
-        >
-            <Button className="flex gap-2 justify-center" variant='outline'>
-                <Plus/>
-                Create
-            </Button>
-        </Link>
-        
-    );
-}
-
-const SearchProductButton = ({ search }) => {
-    const [searchQuery, setSearchQuery] = useState(search || '');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        router.get(route('products.index'),
-            { search: searchQuery },
-            { preserveState: true, replace: true}
-        );
-    }
-
-    return(
-        <form onSubmit={handleSubmit}>
-            <div className="relative w-full">
-                <Input
-                    id="search"
-                    name="search"
-                    placeholder="Search Product..."
-                    className="bg-white pr-12"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <Button
-                    type="submit"
-                    className="absolute inset-y-0 right-2 flex items-center justify-center p-2"
-                    size="icon"
-                    variant="ghost"
-                >
-                    <Search className="w-5 h-5 text-gray-500" />
-                </Button>
-            </div>
-
-        </form>
-    );
-}
 
 const gotoPage = (url) => {
     if(url) {
@@ -168,6 +64,9 @@ export default function ProductsIndex() {
     const { products } = usePage().props;
     const { search } = usePage().props;
 
+    const indexRoute = 'products.index'
+    const createRoute = 'products.create'
+
     return (       
         <div className='mt-4'>
             <p className="text-xl font-bold mb-4">Products</p>
@@ -175,9 +74,13 @@ export default function ProductsIndex() {
                 <Head title='Products'/>
 
                 <div className='flex justify-between mb-2 gap-2'>
-                    <SearchProductButton search={search}/>
+                    <SearchFormContext.Provider value={{search, indexRoute}}>
+                        <SearchForm/>
+                    </SearchFormContext.Provider>
                     
-                    <CreateProductButton/>
+                    <CreateButtonContext.Provider value={createRoute}>
+                        <CreateButton/>
+                    </CreateButtonContext.Provider>
 
                 </div>
                 
