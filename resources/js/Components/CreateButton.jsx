@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { CreateButtonContext } from '@/Pages/Products/ProductsIndex.jsx'
 
 const CreateButton = () => {
-    const createRoute = useContext(CreateButtonContext);
+    const {createRoute} = useContext(CreateButtonContext);
 
     return(
 

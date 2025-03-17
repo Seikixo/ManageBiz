@@ -64,9 +64,6 @@ export default function ProductsIndex() {
     const { products } = usePage().props;
     const { search } = usePage().props;
 
-    const indexRoute = 'products.index'
-    const createRoute = 'products.create'
-
     return (       
         <div className='mt-4'>
             <p className="text-xl font-bold mb-4">Products</p>
@@ -74,11 +71,11 @@ export default function ProductsIndex() {
                 <Head title='Products'/>
 
                 <div className='flex justify-between mb-2 gap-2'>
-                    <SearchFormContext.Provider value={{search, indexRoute}}>
+                    <SearchFormContext.Provider value={{search, indexRoute: 'products.index'}}>
                         <SearchForm/>
                     </SearchFormContext.Provider>
                     
-                    <CreateButtonContext.Provider value={createRoute}>
+                    <CreateButtonContext.Provider value={{createRoute: 'products.create'}}>
                         <CreateButton/>
                     </CreateButtonContext.Provider>
 
