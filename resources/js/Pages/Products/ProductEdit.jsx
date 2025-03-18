@@ -1,3 +1,4 @@
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
 import InputError from '@/Components/InputError';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
@@ -11,7 +12,7 @@ export default function ProductEdit () {
     const { data, put, processing, errors, reset, setData } = useForm({
         name: product?.name || '',
         description: product?.description || '',
-        total_cost: product?.total_cost || '',
+        category: product?.category|| '',
         price: product?.price || '',
     });
 
@@ -21,7 +22,6 @@ export default function ProductEdit () {
         put(route('products.update', product.id), {
             data: {
                 ...data,
-                total_cost: Number(data.total_cost),
                 price:  Number(data.price),
             }
         });
@@ -70,19 +70,22 @@ export default function ProductEdit () {
                         </div>
 
                         <div className='mt-4'>
-                            <Label htmlFor="total_cost">Total Cost</Label>
-
-                            <Input 
-                                id="total_cost"
-                                type="number"
-                                name="total_cost"
-                                value={data.total_cost}
-                                className="mt-1 block w-full bg-white"
-                                isFocused={true}
-                                onChange={(e) => setData('total_cost', e.target.value)}
-                            />
-                            <Label className='text-gray-600'>This will be the total cost of the product</Label>
-                            <InputError message={errors.total_cost} className='mt-2' />
+                            <Label>Category</Label>
+                            <Select 
+                                onValueChange={(value) => setData('category', value)} 
+                                value={data.category}
+                            >
+                                <SelectTrigger className="mt-1 w-full bg-white">
+                                    <SelectValue placeholder="Select a category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="bar">Bar</SelectItem>
+                                    <SelectItem value="liquid">Liquid</SelectItem>
+                                    <SelectItem value="powder">Powder</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <Label className='text-gray-600'>Select the category of the product</Label>
+                            <InputError message={errors.category} className='mt-2' />
                         </div>
 
                         <div className='mt-4'>

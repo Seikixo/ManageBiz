@@ -29,8 +29,8 @@ const productCol = [
         header: "Description",
     },
     {
-        accessorKey: "total_cost",
-        header: "Total Cost",
+        accessorKey: "category",
+        header: "Category",
     },
     {
         accessorKey: "price",

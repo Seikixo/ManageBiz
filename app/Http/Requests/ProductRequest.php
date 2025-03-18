@@ -24,7 +24,7 @@ class ProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:500',
-            'total_cost' => 'required|numeric|min:0',
+            'category' => 'required|string|in:bar,liquid,powder',
             'price' => 'required|numeric|min:0'
         ];
     }
