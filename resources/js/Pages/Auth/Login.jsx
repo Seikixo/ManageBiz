@@ -112,13 +112,13 @@ export default function Login({ status, canResetPassword }) {
                             <Button className="ms-4" disabled={processing}>
                                 Log in
                             </Button>
-                            <Button variant="outline" className="ms-4">
-                                <Link
-                                    href={route('register')}
-                                >
+                            
+                            <Link href={route('register')}>
+                                <Button variant="outline" type="submit" className="ms-4">                                
                                     Register
-                                </Link>
-                            </Button>
+                                </Button>
+                            </Link>
+                            
                         </div>
                     </form>
                 </CardContent>
