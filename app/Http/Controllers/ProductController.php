@@ -54,7 +54,7 @@ class ProductController extends Controller
             'user_id' => Auth::id(),
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
-            'total_cost' => $validatedData['total_cost'],
+            'category' => $validatedData['category'],
             'price' => $validatedData['price'],
         ]);
 

@@ -14,7 +14,7 @@ class Product extends Model
         'user_id',
         'name', 
         'description', 
-        'total_cost', 
+        'category', 
         'price',
         'is_deleted'
     ];

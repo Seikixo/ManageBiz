@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('productions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('description');
-            $table->enum('category', ['bar', 'liquid', 'powder']);
-            $table->decimal('price', 8, 2);
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->integer('quantity_produced');
+            $table->date('production_date');
+            $table->decimal('material_cost', 10, 2);
+            $table->decimal('production_cost', 10, 2);
+            $table->decimal('overall_cost', 10, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('productions');
     }
 };
