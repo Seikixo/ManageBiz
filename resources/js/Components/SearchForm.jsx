@@ -3,11 +3,10 @@ import { router } from "@inertiajs/react";
 import { Search } from "lucide-react";
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
-import { useContext } from "react";
-import { SearchFormContext } from "@/Pages/Products/ProductsIndex";
+import { useSearchForm } from '@/hooks/Contexts/SearchFormContext';
 
 const SearchForm = () => {
-    const {search, indexRoute} = useContext(SearchFormContext);
+    const {search, indexRoute, placeholder = "Search..."} = useSearchForm();
     const [searchQuery, setSearchQuery] = useState(search || '');
 
     const handleSubmit = (e) => {
@@ -25,7 +24,7 @@ const SearchForm = () => {
                 <Input
                     id="search"
                     name="search"
-                    placeholder="Search Product..."
+                    placeholder={placeholder}
                     className="bg-white pr-12"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}

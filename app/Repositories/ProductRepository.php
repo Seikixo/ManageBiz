@@ -6,23 +6,14 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProductRepository {
-
-    public function getAll() 
-    {
-        return Product::get();
-    }
+class ProductRepository 
+{
 
     public function getWithDeleted() 
     {
         return Product::withDeleted()->get();
     }
-
-    public function paginate($perPage) 
-    {
-        return Product::paginate($perPage);
-    }
-
+    
     public function findById($id) 
     {
         return Product::findOrFail($id);
