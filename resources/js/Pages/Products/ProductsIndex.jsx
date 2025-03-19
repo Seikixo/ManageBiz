@@ -3,13 +3,14 @@ import { DataTable } from '@/Components/DataTable';
 import { Button } from '@/Components/ui/button';
 import { Head, usePage, router } from '@inertiajs/react';
 import { createContext } from 'react';
+import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 
 import CreateButton from '@/Components/CreateButton';
 import SearchForm from '@/Components/SearchForm';
 import UpdateButton from '@/Components/UpdateButton';
 import DeleteButton from '@/Components/DeleteButton';
 
-export const SearchFormContext = createContext();
+
 export const CreateButtonContext = createContext();
 export const UpdateButtonContext = createContext();
 export const DeleteButtonContext = createContext();
@@ -65,45 +66,47 @@ export default function ProductsIndex() {
     const { search } = usePage().props;
 
     return (       
-        <div className='mt-4'>
-            <p className="text-xl font-bold mb-4">Products</p>
-            <div>
-                <Head title='Products'/>
+        <>
+            <div className='mt-4'>
+                <p className="text-xl font-bold mb-4">Products</p>
+                <div>
+                    <Head title='Products'/>
 
-                <div className='flex justify-between mb-2 gap-2'>
-                    <SearchFormContext.Provider value={{search, indexRoute: 'products.index'}}>
-                        <SearchForm/>
-                    </SearchFormContext.Provider>
+                    <div className='flex justify-between mb-2 gap-2'>
+                        <SearchFormContext.Provider value={{search, indexRoute: 'products.index', placeholder: "Search Products..."}}>
+                            <SearchForm/>
+                        </SearchFormContext.Provider>
+                        
+                        <CreateButtonContext.Provider value={{createRoute: 'products.create'}}>
+                            <CreateButton/>
+                        </CreateButtonContext.Provider>
+
+                    </div>
                     
-                    <CreateButtonContext.Provider value={{createRoute: 'products.create'}}>
-                        <CreateButton/>
-                    </CreateButtonContext.Provider>
-
+                    <DataTable columns={productCol} data={products?.data || []}/>
                 </div>
-                
-                <DataTable columns={productCol} data={products?.data || []}/>
-            </div>
 
-            <div className='flex justify-end gap-4 mt-4'>
-                <Button 
-                    variant="outline"
-                    size="sm"
-                    disable={!products.prev_page_url}
-                    onClick={() => gotoPage(products.prev_page_url)}
-                >
-                    Previous
-                </Button>
-                <span>Page {products.current_page} of {products.last_page}</span>
-                <Button 
-                    variant="outline"
-                    size="sm"
-                    disable={!products.next_page_url}
-                    onClick={() => gotoPage(products.next_page_url)}
-                >
-                    Next
-                </Button>
-            </div>
-        </div>  
+                <div className='flex justify-end gap-4 mt-4'>
+                    <Button 
+                        variant="outline"
+                        size="sm"
+                        disable={!products.prev_page_url}
+                        onClick={() => gotoPage(products.prev_page_url)}
+                    >
+                        Previous
+                    </Button>
+                    <span>Page {products.current_page} of {products.last_page}</span>
+                    <Button 
+                        variant="outline"
+                        size="sm"
+                        disable={!products.next_page_url}
+                        onClick={() => gotoPage(products.next_page_url)}
+                    >
+                        Next
+                    </Button>
+                </div>
+            </div>  
+        </>
     );
 }
 

@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, HandshakeIcon, ListOrderedIcon, BaggageClaimIcon, LogOut, } from "lucide-react";
+import { LayoutDashboardIcon, HandshakeIcon, ListOrderedIcon, BaggageClaimIcon, Cog, LogOut, } from "lucide-react";
 import { usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 
@@ -35,6 +35,11 @@ const items = [
     title: "Orders",
     url: route('orders'),
     icon: HandshakeIcon,
+  },
+  {
+    title: "Production",
+    url: route('productions.index'),
+    icon: Cog,
   },
 
   

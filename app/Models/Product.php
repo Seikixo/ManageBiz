@@ -24,6 +24,11 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function production()
+    {
+        return $this->hasMany(Production::class);
+    }
+
     protected static function booted() 
     {
         static::addGlobalScope('notDeleted', function(Builder $builder){

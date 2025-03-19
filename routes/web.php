@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,18 +17,20 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard/Dashboard');
     })->name('dashboard');
 
     Route::get('/inventory', function () {
-        return Inertia::render('Inventory');
+        return Inertia::render('Inventory/Inventory');
     })->name('inventory');
 
     Route::resource('products', ProductController::class);
+
+    Route::resource('productions', ProductionController::class);
     
 
     Route::get('/orders', function () {
-        return Inertia::render('Orders');
+        return Inertia::render('Orders/Orders');
     })->name('orders');
 });
 

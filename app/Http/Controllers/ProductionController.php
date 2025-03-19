@@ -4,16 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Production;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductionRequest;
+use App\Repositories\ProductionRepository;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductionController extends Controller
 {
+    protected $productionRepository;
+
+    public function __construct(ProductionRepository $productionRepository)
+    {
+        $this->productionRepository = $productionRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->query('search', '');
+
+        $productions = $this->productionRepository->search($search)->toArray();
+
+        return Inertia::render('Productions/ProductionsIndex', [
+            'productions' => $productions,
+            'search' => $search
+        ]);
     }
 
     /**
@@ -27,7 +44,7 @@ class ProductionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductionRequest $request)
     {
         //
     }
@@ -51,7 +68,7 @@ class ProductionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Production $production)
+    public function update(ProductionRequest $request, Production $production)
     {
         //
     }
