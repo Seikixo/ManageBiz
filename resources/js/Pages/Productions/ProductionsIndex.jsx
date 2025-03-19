@@ -1,7 +1,6 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { DataTable } from '@/Components/DataTable';
 import { Head, usePage } from '@inertiajs/react';
-import { createContext } from 'react';
 import SearchForm from '@/Components/SearchForm';
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 
