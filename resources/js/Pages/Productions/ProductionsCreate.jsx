@@ -11,7 +11,7 @@ import { Calendar } from "@/Components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover";
 
 export default function ProductionsCreate() {
-    const { products } = usePage().props; // Retrieve available products
+    const { products } = usePage().props;
 
     const { data, post, processing, errors, setData } = useForm({
         product_id: '',
