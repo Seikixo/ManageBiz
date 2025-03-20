@@ -49,7 +49,7 @@ export default function ProductionsCreate() {
 
                 <div className='w-1/2'>
                     <form onSubmit={submit}>
-                        {/* Product Selection */}
+                        
                         <div className='mt-4'>
                             <Label>Product</Label>
                             <Select 
@@ -70,7 +70,6 @@ export default function ProductionsCreate() {
                             <InputError message={errors.product_id} className='mt-2' />
                         </div>
 
-                        {/* Quantity Produced */}
                         <div className='mt-4'>
                             <Label htmlFor="quantity_produced">Quantity Produced</Label>
                             <Input 
@@ -84,7 +83,6 @@ export default function ProductionsCreate() {
                             <InputError message={errors.quantity_produced} className='mt-2' />
                         </div>
 
-                        {/* Production Date using Shadcn DatePicker */}
                         <div className='mt-4'>
                             <Label>Production Date</Label>
                             <Popover>
@@ -110,7 +108,6 @@ export default function ProductionsCreate() {
                             <InputError message={errors.production_date} className='mt-2' />
                         </div>
 
-                        {/* Material Cost */}
                         <div className='mt-4'>
                             <Label htmlFor="material_cost">Material Cost</Label>
                             <Input 
@@ -125,7 +122,6 @@ export default function ProductionsCreate() {
                             <InputError message={errors.material_cost} className='mt-2' />
                         </div>
 
-                        {/* Production Cost */}
                         <div className='mt-4'>
                             <Label htmlFor="production_cost">Production Cost</Label>
                             <Input 
@@ -140,7 +136,6 @@ export default function ProductionsCreate() {
                             <InputError message={errors.production_cost} className='mt-2' />
                         </div>
 
-                        {/* Submit & Cancel Buttons */}
                         <div className="mt-6 flex gap-4">
                             <Button type='submit' disabled={processing}>
                                 Submit
