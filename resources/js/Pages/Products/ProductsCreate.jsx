@@ -26,7 +26,7 @@ export default function ProductsCreate () {
     }
 
     return(
-        <MainLayout>
+        <>
             <Head title="Create Products"/>
             <div>
                 <div>
@@ -114,6 +114,8 @@ export default function ProductsCreate () {
                     </form>
                 </div>
             </div>
-        </MainLayout>
+        </>
     );
 }
+
+ProductsCreate.layout = (page) => <MainLayout>{page}</MainLayout>

@@ -1,8 +1,12 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { DataTable } from '@/Components/DataTable';
 import { Head, usePage } from '@inertiajs/react';
-import SearchForm from '@/Components/SearchForm';
+
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
+import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
+
+import SearchForm from '@/Components/SearchForm';
+import CreateButton from '@/Components/CreateButton';
 
 const productionCol = [
     {
@@ -29,6 +33,10 @@ const productionCol = [
         accessorKey: "production_cost",
         header: "Production Cost",
     },
+    {
+        accessorKey: "overall_cost",
+        header: "Overall Cost",
+    },
 ];
 
 export default function ProductionsIndex() {
@@ -46,6 +54,10 @@ export default function ProductionsIndex() {
                         <SearchFormContext.Provider value={{search, indexRoute: 'productions.index', placeholder: "Search Products..."}}>
                             <SearchForm/>
                         </SearchFormContext.Provider>
+
+                        <CreateButtonContext.Provider value={{createRoute: 'productions.create'}}>
+                            <CreateButton/>
+                        </CreateButtonContext.Provider>
 
                     </div>
                     

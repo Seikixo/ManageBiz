@@ -1,11 +1,10 @@
 import { Link, router } from '@inertiajs/react';
 import { Button } from '@/Components/ui/button';
 import { Plus } from "lucide-react";
-import { useContext } from 'react';
-import { CreateButtonContext } from '@/Pages/Products/ProductsIndex.jsx'
+import { useCreateButtonContext } from '@/hooks/Contexts/CreateButtonContext';
 
 const CreateButton = () => {
-    const {createRoute} = useContext(CreateButtonContext);
+    const {createRoute} = useCreateButtonContext();
 
     return(
 

@@ -17,6 +17,7 @@ class Production extends Model
         'production_date',
         'material_cost',
         'production_cost',
+        'overall_cost'
     ];
 
     public function user()
@@ -27,6 +28,15 @@ class Production extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($production) {
+            $production->overall_cost = $production->material_cost + $production->production_cost;
+        });
     }
 
     public static function booted()
