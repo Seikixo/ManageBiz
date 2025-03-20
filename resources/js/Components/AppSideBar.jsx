@@ -80,7 +80,6 @@ export function AppSidebar() {
                 <span>{user.name}</span>
             </SidebarGroupLabel>
 
-            
             <Link
                 method="post"
                 href={route('logout')}
