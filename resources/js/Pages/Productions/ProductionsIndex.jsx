@@ -4,9 +4,11 @@ import { Head, usePage } from '@inertiajs/react';
 
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
+import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
 
 import SearchForm from '@/Components/SearchForm';
 import CreateButton from '@/Components/CreateButton';
+import NavigationButton from '@/Components/NavigationButton';
 
 const productionCol = [
     {
@@ -51,7 +53,7 @@ export default function ProductionsIndex() {
                     <Head title='Productions'/>
 
                     <div className='flex justify-between mb-2 gap-2'>
-                        <SearchFormContext.Provider value={{search, indexRoute: 'productions.index', placeholder: "Search Products..."}}>
+                        <SearchFormContext.Provider value={{search, indexRoute: 'productions.index', placeholder: "Search productions..."}}>
                             <SearchForm/>
                         </SearchFormContext.Provider>
 
@@ -62,6 +64,14 @@ export default function ProductionsIndex() {
                     </div>
                     
                     <DataTable columns={productionCol} data={productions?.data || []}/>
+                </div>
+
+                <div className='flex justify-end gap-4 mt-4'>
+
+                    <NavigationButtonContext.Provider value={{prevPageUrl: productions.prev_page_url, nextPageUrl: productions.next_page_url, currentPage: productions.current_page, lastPage: productions.last_page}}>
+                        <NavigationButton/>
+                    </NavigationButtonContext.Provider>
+
                 </div>
 
                 

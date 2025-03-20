@@ -1,16 +1,18 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { DataTable } from '@/Components/DataTable';
 import { Button } from '@/Components/ui/button';
-import { Head, usePage, router } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { createContext } from 'react';
 
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
+import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
 
 import CreateButton from '@/Components/CreateButton';
 import SearchForm from '@/Components/SearchForm';
 import UpdateButton from '@/Components/UpdateButton';
 import DeleteButton from '@/Components/DeleteButton';
+import NavigationButton from '@/Components/NavigationButton';
 
 export const UpdateButtonContext = createContext();
 export const DeleteButtonContext = createContext();
@@ -55,12 +57,6 @@ const productCol = [
     }
 ]
 
-const gotoPage = (url) => {
-    if(url) {
-        router.get(url);
-    }
-};
-
 export default function ProductsIndex() {
     const { products } = usePage().props;
     const { search } = usePage().props;
@@ -87,23 +83,11 @@ export default function ProductsIndex() {
                 </div>
 
                 <div className='flex justify-end gap-4 mt-4'>
-                    <Button 
-                        variant="outline"
-                        size="sm"
-                        disable={!products.prev_page_url}
-                        onClick={() => gotoPage(products.prev_page_url)}
-                    >
-                        Previous
-                    </Button>
-                    <span>Page {products.current_page} of {products.last_page}</span>
-                    <Button 
-                        variant="outline"
-                        size="sm"
-                        disable={!products.next_page_url}
-                        onClick={() => gotoPage(products.next_page_url)}
-                    >
-                        Next
-                    </Button>
+
+                    <NavigationButtonContext.Provider value={{prevPageUrl: products.prev_page_url, nextPageUrl: products.next_page_url, currentPage: products.current_page, lastPage: products.last_page}}>
+                        <NavigationButton/>
+                    </NavigationButtonContext.Provider>
+                    
                 </div>
             </div>  
         </>
