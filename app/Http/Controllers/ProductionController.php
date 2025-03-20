@@ -6,16 +6,20 @@ use App\Models\Production;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductionRequest;
 use App\Repositories\ProductionRepository;
+use App\Repositories\ProductRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductionController extends Controller
 {
     protected $productionRepository;
+    protected $productRepository;
 
-    public function __construct(ProductionRepository $productionRepository)
+    public function __construct(ProductionRepository $productionRepository, ProductRepository $productRepository)
     {
         $this->productionRepository = $productionRepository;
+        $this->productRepository= $productRepository;
     }
 
     /**
@@ -38,7 +42,10 @@ class ProductionController extends Controller
      */
     public function create()
     {
-        //
+        $products = $this->productRepository->getAllName();
+        return Inertia::render('Productions/ProductionsCreate', [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -46,7 +53,18 @@ class ProductionController extends Controller
      */
     public function store(ProductionRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        
+        $this->productionRepository->create([
+            'user_id' => Auth::id(),
+            'product_id' => $validatedData['product_id'],
+            'quantity_produced' => $validatedData['quantity_produced'],
+            'production_date' => $validatedData['production_date'],
+            'material_cost' => $validatedData['material_cost'],
+            'production_cost' => $validatedData['production_cost'],
+        ]);
+
+        return redirect()->route('productions.index')->with('success', 'Production created successfully');
     }
 
     /**

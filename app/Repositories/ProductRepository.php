@@ -9,6 +9,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ProductRepository 
 {
 
+    public function getAllName()
+    {
+        return Product::all(['id', 'name']);
+    }
+
     public function getWithDeleted() 
     {
         return Product::withDeleted()->get();

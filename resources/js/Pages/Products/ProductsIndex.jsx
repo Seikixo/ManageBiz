@@ -3,15 +3,15 @@ import { DataTable } from '@/Components/DataTable';
 import { Button } from '@/Components/ui/button';
 import { Head, usePage, router } from '@inertiajs/react';
 import { createContext } from 'react';
+
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
+import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
 
 import CreateButton from '@/Components/CreateButton';
 import SearchForm from '@/Components/SearchForm';
 import UpdateButton from '@/Components/UpdateButton';
 import DeleteButton from '@/Components/DeleteButton';
 
-
-export const CreateButtonContext = createContext();
 export const UpdateButtonContext = createContext();
 export const DeleteButtonContext = createContext();
 
