@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Repositories\ProductionRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
@@ -14,10 +15,12 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
     protected $productRepository;
+    protected $productionRepository;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository, ProductionRepository $productionRepository)
     {
         $this->productRepository = $productRepository;
+        $this->productionRepository = $productionRepository;
     }
 
     /**
