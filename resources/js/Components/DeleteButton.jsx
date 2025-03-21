@@ -10,15 +10,15 @@ import {
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog"
 import { toast } from 'sonner';
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Button } from '@/Components/ui/button';
 import { Trash2 } from "lucide-react";
 import { router } from "@inertiajs/react";
-import { DeleteButtonContext } from "@/Pages/Products/ProductsIndex";
+import { useDeleteButtonContext } from "@/hooks/Contexts/DeleteButtonContext";
 
 const DeleteButton = () => {
 
-    const {id, deleteRoute} = useContext(DeleteButtonContext);
+    const {id, deleteRoute, dataLabel} = useDeleteButtonContext();
     const [open, setOpen] = useState(false);
 
     const handleDelete = () => {
@@ -44,7 +44,7 @@ const DeleteButton = () => {
             <AlertDialogHeader>
                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete the product.
+                    This action can be undone. This will delete the <span className="text-red-600">{dataLabel}</span>.
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

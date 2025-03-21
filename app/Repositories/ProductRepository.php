@@ -39,7 +39,6 @@ class ProductRepository
     public function softDelete($id) 
     {
         $product = Product::findOrFail($id);
-
         $product->update(['is_deleted' => true]);
         $product->production()->update(['is_deleted' => true]);
 

@@ -28,7 +28,9 @@ class ProductionRepository
     public function softDelete($id)
     {
         $production = Production::findOrFail($id);     
-        return $production->update(['is_deleted' => true]);
+        $production->update(['is_deleted' => true]);
+        
+        return true;
     }
 
     public function search(string $search, $perPage = 10): LengthAwarePaginator
