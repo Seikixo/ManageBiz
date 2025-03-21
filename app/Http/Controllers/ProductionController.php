@@ -94,8 +94,10 @@ class ProductionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Production $production)
+    public function destroy($id)
     {
-        //
+        $this->productionRepository->softDelete($id);
+        
+        return redirect()->route('productions.index');
     }
 }

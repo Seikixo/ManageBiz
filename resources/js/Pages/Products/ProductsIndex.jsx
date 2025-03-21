@@ -7,6 +7,7 @@ import { createContext } from 'react';
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
 import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
+import DeleteButtonContext from '@/hooks/Contexts/DeleteButtonContext';
 
 import CreateButton from '@/Components/CreateButton';
 import SearchForm from '@/Components/SearchForm';
@@ -15,7 +16,6 @@ import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 
 export const UpdateButtonContext = createContext();
-export const DeleteButtonContext = createContext();
 
 
 const productCol = [
@@ -42,12 +42,12 @@ const productCol = [
     {
         accessorKey: "actions",
         header: "Actions",      
-        cell: ({ row }) => {
-            console.log("Row data:",row.original);
+        cell: ({ row, productId }) => {
+            productId = row.original.id;
 
             return(
                 <div className='flex gap-2'>
-                    <DeleteButtonContext.Provider value={{id: row.original.id, deleteRoute: 'products.destroy'}}>
+                    <DeleteButtonContext.Provider value={{id: productId, deleteRoute: 'products.destroy', dataLabel: 'product'}}>
                         <DeleteButton/>
                     </DeleteButtonContext.Provider>
                     

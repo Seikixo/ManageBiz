@@ -4,10 +4,12 @@ import { Head, usePage } from '@inertiajs/react';
 
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
+import DeleteButtonContext from '@/hooks/Contexts/DeleteButtonContext';
 import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
 
 import SearchForm from '@/Components/SearchForm';
 import CreateButton from '@/Components/CreateButton';
+import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 
 const productionCol = [
@@ -38,6 +40,21 @@ const productionCol = [
     {
         accessorKey: "overall_cost",
         header: "Overall Cost",
+    },
+    {
+        accessorKey: "actions",
+        header: "Actions",
+        cell: ({ row, productionId }) => {
+            productionId = row.original.id;
+
+            return(
+                <div className='flex gap-2'>
+                    <DeleteButtonContext.Provider value={{id: productionId, deleteRoute: 'productions.destroy', dataLabel: 'production'}}>
+                        <DeleteButton/>
+                    </DeleteButtonContext.Provider>
+                </div>
+            );
+        }
     },
 ];
 

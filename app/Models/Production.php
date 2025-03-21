@@ -17,7 +17,8 @@ class Production extends Model
         'production_date',
         'material_cost',
         'production_cost',
-        'overall_cost'
+        'overall_cost',
+        'is_deleted'
     ];
 
     public function user()
