@@ -53,7 +53,7 @@ export default function ProductionsIndex() {
                     <Head title='Productions'/>
 
                     <div className='flex justify-between mb-2 gap-2'>
-                        <SearchFormContext.Provider value={{search, indexRoute: 'productions.index', placeholder: "Search productions..."}}>
+                        <SearchFormContext.Provider value={{search, indexRoute: 'productions.index', placeholder: "Search Products..."}}>
                             <SearchForm/>
                         </SearchFormContext.Provider>
 

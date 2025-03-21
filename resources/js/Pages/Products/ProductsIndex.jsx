@@ -42,18 +42,22 @@ const productCol = [
     {
         accessorKey: "actions",
         header: "Actions",      
-        cell: ({ row }) => (
-        <div className='flex gap-2'>
-            
-            <DeleteButtonContext.Provider value={{id: row.original.id, deleteRoute: 'products.destroy'}}>
-                <DeleteButton/>
-            </DeleteButtonContext.Provider>
-            
-            <UpdateButtonContext.Provider value={{id: row.original.id, updateRoute: 'products.edit'}}>
-                <UpdateButton/>
-            </UpdateButtonContext.Provider>
-        </div>
-        )
+        cell: ({ row }) => {
+            console.log("Row data:",row.original);
+
+            return(
+                <div className='flex gap-2'>
+                    <DeleteButtonContext.Provider value={{id: row.original.id, deleteRoute: 'products.destroy'}}>
+                        <DeleteButton/>
+                    </DeleteButtonContext.Provider>
+                    
+                    <UpdateButtonContext.Provider value={{id: row.original.id, updateRoute: 'products.edit'}}>
+                        <UpdateButton/>
+                    </UpdateButtonContext.Provider>
+                </div>
+            );
+        }
+
     }
 ]
 
