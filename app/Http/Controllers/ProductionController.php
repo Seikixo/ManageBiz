@@ -78,17 +78,27 @@ class ProductionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Production $production)
+    public function edit($id)
     {
-        //
+        $production = $this->productionRepository->findById($id);
+        $products = $this->productRepository->getAllName();
+
+        return Inertia::render('Productions/ProductionsEdit', [
+            'production' => $production,
+            'products' => $products
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductionRequest $request, Production $production)
+    public function update(ProductionRequest $request, $id)
     {
-        //
+        $validatedData = $request->validated();
+
+        $this->productionRepository->update($id, $validatedData);
+
+        return redirect()->route('productions.index')->with('success', 'Production updated successfully');
     }
 
     /**

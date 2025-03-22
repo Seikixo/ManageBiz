@@ -8,14 +8,13 @@ import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
 import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
 import DeleteButtonContext from '@/hooks/Contexts/DeleteButtonContext';
+import UpdateButtonContext from '@/hooks/Contexts/UpdateButtonContext';
 
 import CreateButton from '@/Components/CreateButton';
 import SearchForm from '@/Components/SearchForm';
 import UpdateButton from '@/Components/UpdateButton';
 import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
-
-export const UpdateButtonContext = createContext();
 
 
 const productCol = [
