@@ -1,6 +1,7 @@
 import { Button } from '@/Components/ui/button';
 import { useNavigationButtonContext } from '@/hooks/Contexts/NavigationButtonContext';
 import { router } from '@inertiajs/react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 
 const gotoPage = (url) => {
@@ -20,7 +21,8 @@ const NavigationButton = () => {
                 disabled={!prevPageUrl}
                 onClick={() => gotoPage(prevPageUrl)}
             >
-                Previous
+                <ChevronLeft/>
+                Prev             
             </Button>
             <span>Page {currentPage} of {lastPage}</span>
             <Button 
@@ -28,8 +30,9 @@ const NavigationButton = () => {
                 size="sm"
                 disabled={!nextPageUrl}
                 onClick={() => gotoPage(nextPageUrl)}
-            >
+            >             
                 Next
+                <ChevronRight/>
             </Button>        
         </>
     );
