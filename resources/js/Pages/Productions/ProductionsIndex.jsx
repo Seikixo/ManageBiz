@@ -6,11 +6,13 @@ import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
 import DeleteButtonContext from '@/hooks/Contexts/DeleteButtonContext';
 import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
+import UpdateButtonContext from '@/hooks/Contexts/UpdateButtonContext';
 
 import SearchForm from '@/Components/SearchForm';
 import CreateButton from '@/Components/CreateButton';
 import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
+import UpdateButton from '@/Components/UpdateButton';
 
 const productionCol = [
     {
@@ -51,7 +53,11 @@ const productionCol = [
                 <div className='flex gap-2'>
                     <DeleteButtonContext.Provider value={{id: productionId, deleteRoute: 'productions.destroy', dataLabel: 'production'}}>
                         <DeleteButton/>
-                    </DeleteButtonContext.Provider>
+                    </DeleteButtonContext.Provider >
+
+                    <UpdateButtonContext.Provider value={{id: productionId, updateRoute: 'productions.edit'}}>
+                        <UpdateButton/>
+                    </UpdateButtonContext.Provider>
                 </div>
             );
         }

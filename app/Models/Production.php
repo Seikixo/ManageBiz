@@ -38,6 +38,10 @@ class Production extends Model
         static::creating(function ($production) {
             $production->overall_cost = $production->material_cost + $production->production_cost;
         });
+
+        static::updating(function ($production) {
+            $production->overall_cost = $production->material_cost + $production->production_cost;
+        });
     }
 
     public static function booted()
