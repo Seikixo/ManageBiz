@@ -50,9 +50,9 @@ export function AppSidebar() {
 
   return (
     <Sidebar variant="sidebar" collapsible="icon">
-      <SidebarContent>
+      <SidebarContent className="bg-white">
             <SidebarGroup>
-                <SidebarGroupLabel>Application</SidebarGroupLabel>
+                <SidebarGroupLabel>Managebiz</SidebarGroupLabel>
 
                 <SidebarGroupContent>        
 
@@ -75,7 +75,7 @@ export function AppSidebar() {
             </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
+      <SidebarFooter className="bg-white">
             <SidebarGroupLabel>
                 <span>{user.name}</span>
             </SidebarGroupLabel>
