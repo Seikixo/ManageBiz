@@ -5,6 +5,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
+import { Textarea } from "@/Components/ui/textarea";
 
 export default function ProductsCreate () {
     const { data, post, processing, errors, reset, setData } = useForm({
@@ -54,7 +55,7 @@ export default function ProductsCreate () {
                         <div className='mt-4'>
                             <Label htmlFor="description">Description</Label>
 
-                            <Input 
+                            <Textarea 
                                 id="description"
                                 type="text"
                                 name="description"
