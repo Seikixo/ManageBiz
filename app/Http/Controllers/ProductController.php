@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\ProductionRepository;
 use App\Repositories\ProductRepository;
+use Exception;
 use Illuminate\Contracts\Support\ValidatedData;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -28,14 +31,21 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->query('search', '');
+        try
+        {
+            $search = $request->query('search', '');
+            $products = $this->productRepository->search($search)->toArray();
+    
+            return Inertia::render('Products/ProductsIndex', [
+                'products' => $products,
+                'search' => $search
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while fetching products details']);
+        } 
 
-        $products = $this->productRepository->search($search)->toArray();
-
-        return Inertia::render('Products/ProductsIndex', [
-            'products' => $products,
-            'search' => $search
-        ]);
     }
 
     /**
@@ -51,17 +61,30 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $validatedData = $request->validated();
+        try
+        {
+            $validatedData = $request->validated();
 
-        $this->productRepository->create([
-            'user_id' => Auth::id(),
-            'name' => $validatedData['name'],
-            'description' => $validatedData['description'],
-            'category' => $validatedData['category'],
-            'price' => $validatedData['price'],
-        ]);
+            $this->productRepository->create([
+                'user_id' => Auth::id(),
+                'name' => $validatedData['name'],
+                'description' => $validatedData['description'],
+                'category' => $validatedData['category'],
+                'price' => $validatedData['price'],
+            ]);
+    
+            return redirect()->route('products.index')->with('success', 'Product created successfully!');
+        }
+        catch (QueryException $e)
+        {
+            return back()->withErrors(['error' => 'Database error: Unable to create product']);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while creating product']);
+        }
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully!');
+        
     }
 
     /**
@@ -77,11 +100,23 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = $this->productRepository->findById($id);
+        try
+        {
+            $product = $this->productRepository->findById($id);
 
-        return Inertia::render('Products/ProductEdit', [
-            'product' => $product
-        ]);
+            return Inertia::render('Products/ProductEdit', [
+                'product' => $product
+            ]);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return redirect()->route('products.index')->withErrors(['error' => 'Product not found']);
+        }
+        catch (Exception $e)
+        {
+            return redirect()->route('products.index')->withErrors(['error' => 'Something went wrong while fetching the product details']);
+        }
+
     }
 
     /**
@@ -89,11 +124,27 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, $id)
     {
-        $validatedData = $request->validated();
+        try
+        {
+            $validatedData = $request->validated();
 
-        $this->productRepository->update($id, $validatedData);
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully');
+            $this->productRepository->update($id, $validatedData);
+    
+            return redirect()->route('products.index')->with('success', 'Product updated successfully');
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return back()->withErrors(['error' => 'Product not found']);
+        }
+        catch (QueryException $e)
+        {
+            return back()->withErrors(['error' => 'Unable to update product']);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while updating product']);
+        }
+       
 
     }
 
@@ -102,7 +153,19 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $this->productRepository->softDelete($id);
-        return redirect()->route('products.index');
+        try
+        {
+            $this->productRepository->softDelete($id);
+            return redirect()->route('products.index');
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return back()->withErrors(['error' => 'Product not found']);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while deleting product']);
+        }
+
     }
 }
