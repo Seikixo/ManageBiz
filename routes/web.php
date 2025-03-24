@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductionController;
@@ -21,9 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard/Dashboard');
     })->name('dashboard');
 
-    Route::get('/inventory', function () {
-        return Inertia::render('Inventory/Inventory');
-    })->name('inventory');
+    Route::resource('customers', CustomerController::class);
 
     Route::resource('products', ProductController::class);
 

@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, HandshakeIcon, ListOrderedIcon, Package, Cog, LogOut, } from "lucide-react";
+import { LayoutDashboardIcon, HandshakeIcon, Users, Package, Cog, LogOut, } from "lucide-react";
 import { usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 
@@ -22,9 +22,9 @@ const items = [
     icon: LayoutDashboardIcon,
   },
   {
-    title: "Inventory",
-    url: route('inventory'),
-    icon: ListOrderedIcon,
+    title: "Customers",
+    url: route('customers.index'),
+    icon: Users,
   },
   {
     title: "Products",
@@ -33,7 +33,7 @@ const items = [
   },
   {
     title: "Orders",
-    url: route('orders'),
+    url: route('orders.index'),
     icon: HandshakeIcon,
   },
   {
