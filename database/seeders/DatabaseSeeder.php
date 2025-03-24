@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Production;
 use App\Models\User;
@@ -19,5 +22,8 @@ class DatabaseSeeder extends Seeder
 
         Product::factory(20)->create();
         Production::factory(20)->create();
+        Customer::factory(20)->create();
+        Order::factory(100)->create();
+        Payment::factory(100)->create();
     }
 }
