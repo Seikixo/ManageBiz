@@ -50,7 +50,7 @@ const productCol = [
                         <DeleteButton/>
                     </DeleteButtonContext.Provider>
                     
-                    <UpdateButtonContext.Provider value={{id: row.original.id, updateRoute: 'products.edit'}}>
+                    <UpdateButtonContext.Provider value={{id: productId, updateRoute: 'products.edit'}}>
                         <UpdateButton/>
                     </UpdateButtonContext.Provider>
                 </div>

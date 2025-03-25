@@ -1,10 +1,14 @@
 import CreateButton from '@/Components/CreateButton';
 import { DataTable } from '@/Components/DataTable';
+import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import SearchForm from '@/Components/SearchForm';
+import UpdateButton from '@/Components/UpdateButton';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
+import DeleteButtonContext from '@/hooks/Contexts/DeleteButtonContext';
 import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
+import UpdateButtonContext from '@/hooks/Contexts/UpdateButtonContext';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, usePage } from '@inertiajs/react';
 
@@ -38,6 +42,9 @@ const customerCol = [
 
             return(
                 <div className='flex gap-2'>
+                    <DeleteButtonContext.Provider value={{id: customerId, deleteRoute: 'customers.destroy', dataLabel: 'customer'}}>
+                        <DeleteButton/>
+                    </DeleteButtonContext.Provider>
 
                 </div>
             );
