@@ -65,8 +65,7 @@ const productionCol = [
 ];
 
 export default function ProductionsIndex() {
-    const { productions } = usePage().props;
-    const { search } = usePage().props;
+    const { productions, search } = usePage().props;
 
     return (
         <>

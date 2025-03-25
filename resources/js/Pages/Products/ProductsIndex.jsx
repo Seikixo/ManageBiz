@@ -61,8 +61,7 @@ const productCol = [
 ]
 
 export default function ProductsIndex() {
-    const { products } = usePage().props;
-    const { search } = usePage().props;
+    const { products, search } = usePage().props;
 
     return (       
         <>

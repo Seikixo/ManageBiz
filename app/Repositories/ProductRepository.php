@@ -50,7 +50,7 @@ class ProductRepository
         return Product::when($search, 
             fn (Builder $query) => 
                 $query->where('name', 'like', "%{$search}%")
-        )->paginate($perPage);
+        )->latest()->paginate($perPage);
     }
 }
 

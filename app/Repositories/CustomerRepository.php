@@ -2,32 +2,32 @@
 
 namespace App\Repositories;
 
-use App\Models\Production;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProductionRepository 
+class CustomerRepository 
 {
     public function findById($id)
     {
-        return Production::findOrFail($id);
+        return Customer::findOrFail($id);
     }
 
     public function create(array $data)
     {
-        return Production::create($data);
+        return Customer::create($data);
     }
 
     public function update($id, array $data)
     {
-        $production = Production::findOrFail($id);
+        $production = Customer::findOrFail($id);
         $production->update($data);
         return $production;
     }
 
     public function softDelete($id)
     {
-        $production = Production::findOrFail($id);     
+        $production = Customer::findOrFail($id);     
         $production->update(['is_deleted' => true]);
         
         return true;
@@ -35,11 +35,9 @@ class ProductionRepository
 
     public function search(string $search, $perPage = 10): LengthAwarePaginator
     {
-        return Production::with('product')
-        ->when($search, fn (Builder $query) =>
-             $query->whereHas('product', fn (Builder $subQuery) =>
-                 $subQuery->where('name', 'like', "%{$search}%")
-                )
+        return Customer::when($search, 
+            fn (Builder $query) =>
+                $query->where('name', 'like', "%{$search}%")
         )->latest()->paginate($perPage);
     }
 }
