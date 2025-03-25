@@ -11,7 +11,7 @@ class CustomerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,11 +22,10 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:500',
             'contact_number' => 'required|string|regex:/^09\d{9}$/', // Ensures a valid PH mobile number
-            'email' => 'required|email|unique:customers,email',
+            'email' => 'required|string|email',
             'is_deleted' => 'boolean',
         ];
     }

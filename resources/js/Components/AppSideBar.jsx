@@ -83,7 +83,7 @@ export function AppSidebar() {
             <Link
                 method="post"
                 href={route('logout')}
-                as="button"
+                as="a"
             >
                 <SidebarMenuButton>
                     <LogOut/>

@@ -67,7 +67,6 @@ class ProductionController extends Controller
         try
         {
             $validatedData = $request->validated();
-        
             $this->productionRepository->create([
                 'user_id' => Auth::id(),
                 'product_id' => $validatedData['product_id'],

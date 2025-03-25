@@ -1,6 +1,8 @@
+import CreateButton from '@/Components/CreateButton';
 import { DataTable } from '@/Components/DataTable';
 import NavigationButton from '@/Components/NavigationButton';
 import SearchForm from '@/Components/SearchForm';
+import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
 import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import MainLayout from '@/Layouts/MainLayout';
@@ -31,8 +33,8 @@ const customerCol = [
     {
         accessorKey: "actions",
         header: "Actions",      
-        cell: ({ row, productId }) => {
-            productId = row.original.id;
+        cell: ({ row, customerId }) => {
+            customerId = row.original.id;
 
             return(
                 <div className='flex gap-2'>
@@ -57,6 +59,10 @@ export default function CustomersIndex () {
                         <SearchFormContext.Provider value={{search, indexRoute: 'customers.index', placeholder: "Search Customers..."}}>
                             <SearchForm/>
                         </SearchFormContext.Provider>
+
+                        <CreateButtonContext.Provider value={{createRoute: 'customers.create'}}>
+                            <CreateButton/>
+                        </CreateButtonContext.Provider>
                     </div>
 
                     <DataTable columns={customerCol} data={customers?.data || []}/>

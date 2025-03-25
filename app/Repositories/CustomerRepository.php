@@ -35,9 +35,11 @@ class CustomerRepository
 
     public function search(string $search, $perPage = 10): LengthAwarePaginator
     {
-        return Customer::when($search, 
-            fn (Builder $query) =>
-                $query->where('name', 'like', "%{$search}%")
-        )->latest()->paginate($perPage);
+        return Customer::when($search, function (Builder $query) use ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('contact_number', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+        })->latest()->paginate($perPage);
     }
 }
