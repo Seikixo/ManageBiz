@@ -19,10 +19,15 @@ class Customer extends Model
         'is_deleted',
     ];
 
-    public function order () 
+    public function orders() 
     {
         return $this->hasMany(Order::class);
     } 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     protected static function booted() 
     {

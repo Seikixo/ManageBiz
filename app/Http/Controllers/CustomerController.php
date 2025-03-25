@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Repositories\CustomerRepository;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -45,7 +47,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Customers/CustomersCreate');
     }
 
     /**
@@ -53,7 +55,28 @@ class CustomerController extends Controller
      */
     public function store(CustomerRequest $request)
     {
-        //
+        try
+        {
+            $validatedData = $request->validated();
+            $this->customerRepository->create([
+                'user_id' => Auth::id(),
+                'name' => $validatedData['name'],
+                'address' => $validatedData['address'],
+                'contact_number' => $validatedData['contact_number'],
+                'email' => $validatedData['email'],
+            ]);
+
+            return redirect()->route('customers.index')->with('success', 'Customer created successfully!');
+        }
+        catch (QueryException $e)
+        {
+            return back()->withErrors(['error' => 'Database error: Unable to create customer']);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while creating customer']);
+        }
+
     }
 
     /**
