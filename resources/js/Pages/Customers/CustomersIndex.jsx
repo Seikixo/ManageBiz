@@ -46,6 +46,9 @@ const customerCol = [
                         <DeleteButton/>
                     </DeleteButtonContext.Provider>
 
+                    <UpdateButtonContext.Provider value={{id: customerId, updateRoute: 'customers.edit'}}>
+                        <UpdateButton/>
+                    </UpdateButtonContext.Provider>
                 </div>
             );
         }
