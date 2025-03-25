@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Repositories\CustomerRepository;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class CustomerController extends Controller
         }
        catch (Exception $e)
        {
-            return back()->withErrors(['error' => 'Something went wrong while fetching products details']);
+            return back()->withErrors(['error' => 'Something went wrong while fetching Customers details']);
        }
     }
 
@@ -47,7 +48,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Customers/CustomersCreate');
+        return Inertia::render('Customers/CustomerCreate');
     }
 
     /**
@@ -92,7 +93,22 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        try
+        {
+            $customer = $this->customerRepository->findById($id);
+
+            return Inertia::render('Customers/CustomerEdit', [
+                'customer' => $customer
+            ]);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return redirect()->route('customers.index')->withErrors(['error' => 'Customer not found']);
+        }
+        catch (Exception $e)
+        {
+            return redirect()->route('customers.index')->withErrors(['error' => 'Something went wrong while fetching the Customer details']);
+        }
     }
 
     /**
@@ -100,7 +116,26 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, $id)
     {
-        //
+        try
+        {
+            $validatedData = $request->validated();
+
+            $this->customerRepository->update($id, $validatedData);
+    
+            return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return back()->withErrors(['error' => 'Customer not found']);
+        }
+        catch (QueryException $e)
+        {
+            return back()->withErrors(['error' => 'Unable to update Customer']);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while updating Customer']);
+        }
     }
 
     /**
@@ -108,6 +143,19 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try
+        {
+            $this->customerRepository->softDelete($id);
+            return redirect()->route('customers.index');
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return back()->withErrors(['error' => 'Customer not found']);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while deleting customer']);
+        }
+
     }
 }

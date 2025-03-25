@@ -1,31 +1,32 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
 import InputError from '@/Components/InputError';
 import MainLayout from '@/Layouts/MainLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 
+export default function CustomerEdit () {
+    const { customer } = usePage().props;
 
-export default function CustomersCreate () {
-    const { data, post, processing, errors, reset, setData } = useForm({
-        name: '',
-        address: '',
-        contact_number: '',
-        email: '',
+    const { data, put, processing, errors, reset, setData } = useForm({
+        name: customer?.name || '',
+        address: customer?.address || '',
+        contact_number: customer?.contact_number || '',
+        email: customer?.email || '',
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('customers.store'), { data });
-    }
+        put(route('customers.update', customer.id), { data });
+    } 
 
     return(
         <>
             <Head title="Create Customers"/>
             <div>
                 <div>
-                    <p className="text-xl font-bold mb-4">Create Customers</p>
+                    <p className="text-xl font-bold mb-4">Update Customers</p>
                 </div>
 
                 <div className='w-1/2'>
@@ -94,7 +95,7 @@ export default function CustomersCreate () {
                         </div>
 
                         <Button className='mt-6' type='submit' disabled={processing}>
-                            Submit
+                            Update
                         </Button>
 
                         <Link href={route('customers.index')}>
@@ -109,4 +110,4 @@ export default function CustomersCreate () {
     );
 }
 
-CustomersCreate.layout = (page) => <MainLayout>{page}</MainLayout>
+CustomerEdit.layout = (page) => <MainLayout>{page}</MainLayout>
