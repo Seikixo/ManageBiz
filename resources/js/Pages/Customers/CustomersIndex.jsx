@@ -1,5 +1,7 @@
 import { DataTable } from '@/Components/DataTable';
+import NavigationButton from '@/Components/NavigationButton';
 import SearchForm from '@/Components/SearchForm';
+import NavigationButtonContext from '@/hooks/Contexts/NavigationButtonContext';
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, usePage } from '@inertiajs/react';
@@ -60,7 +62,11 @@ export default function CustomersIndex () {
                     <DataTable columns={customerCol} data={customers?.data || []}/>
                 </div>
                 
-                
+                <div className='flex justify-end gap-4 mt-4'>
+                    <NavigationButtonContext.Provider value={{prevPageUrl: customers.prev_page_url, nextPageUrl: customers.next_page_url, currentPage: customers.current_page, lastPage: customers.last_page}}>
+                        <NavigationButton/>
+                    </NavigationButtonContext.Provider>
+                </div>
             </div>
         </>
     );
