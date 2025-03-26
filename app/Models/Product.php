@@ -29,6 +29,13 @@ class Product extends Model
         return $this->hasMany(Production::class);
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_product')
+                    ->withPivot('quantity', 'price')
+                    ->withTimestamps();
+    }
+
     protected static function booted() 
     {
         static::addGlobalScope('notDeleted', function(Builder $builder){
