@@ -4,17 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+use App\Repositories\OrderRepository;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class OrderController extends Controller
 {
+    protected $orderRepository;
+
+    public function __construct(OrderRepository $orderRepository)
+    {
+        $this->orderRepository = $orderRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Orders/OrdersIndex');
+        try
+        {
+            $search = $request->query('search', '');
+            $orders = $this->orderRepository->search($search);
+            
+            return Inertia::render('Orders/OrdersIndex',[
+                'orders' => $orders,
+                'search' => $search
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while fetching orders detail']);
+        } 
     }
 
     /**

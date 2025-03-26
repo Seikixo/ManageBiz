@@ -36,7 +36,6 @@ const DeleteButton = () => {
             
             <Button className="flex gap-2 justify-center bg-red-400" variant="outline">
                 <Trash2/>
-                Delete
             </Button>
         </AlertDialogTrigger>
 

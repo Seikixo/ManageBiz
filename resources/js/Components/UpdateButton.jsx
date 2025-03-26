@@ -11,7 +11,6 @@ const UpdateButton = () => {
         <Link href={route(updateRoute, id)}>
             <Button className="flex gap-2 justify-center bg-green-400" variant='outline'>
                 <Pencil/>
-                Update
             </Button>
         </Link>
     );

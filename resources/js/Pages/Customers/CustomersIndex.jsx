@@ -61,10 +61,10 @@ export default function CustomersIndex () {
 
     return (
         <>
+            <Head title='Customers' />
             <div className='mt-4'>
                 <p className="text-xl font-bold mb-4">Customers</p>
                 <div>
-                    <Head title='Customers' />
                     <div className='flex justify-between mb-2 gap-2'>
                         <SearchFormContext.Provider value={{search, indexRoute: 'customers.index', placeholder: "Search Customers..."}}>
                             <SearchForm/>
