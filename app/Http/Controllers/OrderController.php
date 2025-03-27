@@ -8,9 +8,11 @@ use App\Repositories\OrderRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
+    
     protected $orderRepository;
 
     public function __construct(OrderRepository $orderRepository)
@@ -27,7 +29,6 @@ class OrderController extends Controller
         {
             $search = $request->query('search', '');
             $orders = $this->orderRepository->search($search);
-            
             return Inertia::render('Orders/OrdersIndex',[
                 'orders' => $orders,
                 'search' => $search

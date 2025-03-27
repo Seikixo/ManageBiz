@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
         //Product::factory(20)->create();
         //Production::factory(20)->create();
         //Customer::factory(20)->create();
-        //Order::factory(100)->create();
-        //Payment::factory(100)->create();
+        //Order::factory(10)->create();
+        //Payment::factory(10)->create();
         $this->call(OrderProductSeeder::class);
     }
 }

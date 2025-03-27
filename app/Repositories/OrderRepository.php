@@ -10,7 +10,7 @@ class OrderRepository
 {
     public function findById($id)
     {
-        return Order::findOrFail($id);
+        return Order::with(['customer', 'products'])->findOrFail($id);
     }
 
     public function create(array $data)
@@ -35,7 +35,7 @@ class OrderRepository
 
     public function search(string $search, $perPage = 10): LengthAwarePaginator
     {
-        return Order::with('customer')
+        return Order::with(['customer', 'products'])
         ->when($search, fn (Builder $query) => 
             $query->whereHas('customer', fn (Builder $subQuery) =>
                 $subQuery->where('name', 'like', "%{$search}%")

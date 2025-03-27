@@ -17,7 +17,6 @@ class Order extends Model
         'order_date',
         'total_price',
         'quantity',
-        'location',
         'status',
         'is_deleted',
     ];
@@ -25,7 +24,7 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'order_product')
-        ->withPivot('quantity', 'price') // Include extra fields from pivot table
+        ->withPivot('quantity', 'price_at_order') 
         ->withTimestamps();
     }
 
