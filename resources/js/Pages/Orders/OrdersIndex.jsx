@@ -1,8 +1,6 @@
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/Components/ui/card"
@@ -13,45 +11,74 @@ import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
 import SearchForm from "@/Components/SearchForm";
 import NavigationButtonContext from "@/hooks/Contexts/NavigationButtonContext";
 import NavigationButton from "@/Components/NavigationButton";
-
-const orderCol = [
-    {
-        accessorKey: "customer.name",
-        header: "Customer",
-    },
-    {
-        accessorKey: "order_date",
-        header: "Order Date",
-    },
-    {
-        accessorKey: "total_price",
-        header: "Total Price",
-    },
-    {
-        accessorKey: "quantity",
-        header: "Quantity",
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
-    },
-    {
-        accessorKey: "actions",
-        header: "Actions",      
-        cell: ({ row, productId }) => {
-            productId = row.original.id;
-
-            return(
-                <div className='flex gap-2'>
-                </div>
-            );
-        }
-
-    }
-]
+import { useState } from "react";
+import { Eye } from "lucide-react";
+import { Button } from "@/Components/ui/button";
 
 export default function OrdersIndex() {
     const { orders, search } = usePage().props;
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const statusColors = {
+        Pending: "bg-yellow-100 text-yellow-800",
+        Processing: "bg-blue-100 text-blue-800",
+        Delivered: "bg-green-100 text-green-800",
+    };
+
+    const orderCol = [
+        {
+            accessorKey: "id",
+            header: "Id",
+        },
+        {
+            accessorKey: "customer",
+            header: "Customer",
+            cell: ({ row }) => row.original.customer?.name || "No Customer",
+        },
+        {
+            accessorKey: "order_date",
+            header: "Order Date",
+        },
+        {
+            accessorKey: "total_price",
+            header: "Total Price",
+        },
+        {
+            accessorKey: "quantity",
+            header: "Quantity",
+        },
+        {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }) => {
+                const orderStatus = row.original.status;
+
+                return(
+                    <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[orderStatus] || "bg-gray-100 text-gray-800"}`}>
+                        {orderStatus}
+                    </span>
+                )
+            }
+        },
+        {
+            accessorKey: "actions",
+            header: "Actions",      
+            cell: ({ row }) => {
+                const order = row.original;
+                console.log(order);
+                return (
+                    <div className='flex gap-2'>
+                        <Button
+                            variant='outline'
+                            className="bg-blue-400 text-white px-4 rounded-md"
+                            onClick={() => setSelectedOrder(order)}
+                        >
+                            <Eye />
+                        </Button>
+                    </div>
+                );
+            }
+        }
+    ];
 
     return (
         <>
@@ -64,37 +91,61 @@ export default function OrdersIndex() {
                         <Card className="p-2 h-full">
                             <div className="flex mb-2">
                                 <SearchFormContext.Provider value={{search, indexRoute: 'orders.index', placeholder: "Search Customer..."}}>
-                                    <SearchForm/>
+                                    <SearchForm />
                                 </SearchFormContext.Provider>
                             </div>
                             <div>
-                                <DataTable columns={orderCol} data={orders?.data || []}/>
+                                <DataTable columns={orderCol} data={orders?.data || []} />
                             </div>
                             <div className='flex justify-end gap-4 mt-4'>
                                 <NavigationButtonContext.Provider value={{prevPageUrl: orders.prev_page_url, nextPageUrl: orders.next_page_url, currentPage: orders.current_page, lastPage: orders.last_page}}>
-                                    <NavigationButton/>
+                                    <NavigationButton />
                                 </NavigationButtonContext.Provider>
                             </div>
-                            
                         </Card>
-                        
                     </div>
 
                     <div className="flex flex-col flex-grow w-full h-full">
-                    <Card className="p-2 h-full">
-                        <CardHeader>
-                        <CardTitle>Customer Details</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                        {/* Order Details Content */}
-                        </CardContent>
-                    </Card>
+                        <Card className="p-2 h-full">
+                            <CardHeader>
+                                <CardTitle className="text-blue-400 text-xl">
+                                    Order Product Details
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="max-h-[600px] overflow-y-auto">
+                                {selectedOrder ? (
+                                    <div>
+                                        <h5 className="mt-2 text-lg font-bold">Order</h5>
+                                        <div className="mb-8">
+                                            <p>Order ID: {selectedOrder.id}</p>
+                                            <p>Customer: {selectedOrder.customer?.name || "No Customer"}</p>
+                                            <p>Order Date: {selectedOrder.order_date}</p>
+                                            <p>Total Price: {selectedOrder.total_price ? `$${Number(selectedOrder.total_price).toFixed(2)}` : 'N/A'}</p>
+                                            <p>Status: <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[selectedOrder.status] || "bg-gray-100 text-gray-800"}`}>{selectedOrder.status}</span></p>
+                                        </div>
+                                        <div>
+                                            <h5 className="mt-2 text-lg font-bold">Products</h5>
+                                            <ul>
+                                                {selectedOrder.products?.map((product) => (
+                                                    <li key={product.id} className="border-b py-2">
+                                                        <p>Product Name: {product.name}</p>
+                                                        <p>Quantity: {product.pivot.quantity}</p>
+                                                        <p>Price at Order: ${Number(product.pivot.price_at_order || 0).toFixed(2)}</p>
+                                                    </li>
+                                                )) || <p>No Products Available</p>}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p>Select an order to view product orders.</p>
+                                )}
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
             </div>
-
         </>
     );
 }
 
-OrdersIndex.layout = (page) => <MainLayout>{page}</MainLayout>
+OrdersIndex.layout = (page) => <MainLayout>{page}</MainLayout>;

@@ -26,7 +26,6 @@ class OrderFactory extends Factory
             'order_date' => $this->faker->date(),
             'total_price' => $this->faker->randomFloat(2, 100, 5000),
             'quantity' => $this->faker->numberBetween(1, 10),
-            'location' => $this->faker->address(),
             'status' => $this->faker->randomElement(['Pending', 'Processing', 'Delivered']),
             'is_deleted' => false,
         ];

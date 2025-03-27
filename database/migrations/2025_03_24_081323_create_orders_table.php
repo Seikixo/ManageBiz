@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('order_date');
             $table->decimal('total_price', 10, 2);
             $table->integer('quantity');
-            $table->string('location');
             $table->enum('status', ['Pending', 'Processing', 'Delivered']);
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();

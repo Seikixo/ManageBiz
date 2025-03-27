@@ -27,7 +27,6 @@ class OrderRequest extends FormRequest
             'order_date' => 'required|date',
             'total_price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:1',
-            'location' => 'required|string|max:255',
             'status' => 'required|in:Pending,Processing,Delivered',
             'is_deleted' => 'boolean',
         ];

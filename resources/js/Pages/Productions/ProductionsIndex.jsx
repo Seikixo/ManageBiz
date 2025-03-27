@@ -13,6 +13,7 @@ import CreateButton from '@/Components/CreateButton';
 import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import UpdateButton from '@/Components/UpdateButton';
+import { Card } from '@/Components/ui/card';
 
 const productionCol = [
     {
@@ -70,8 +71,9 @@ export default function ProductionsIndex() {
     return (
         <>
             <Head title='Productions'/>
-            <div className='mt-4'>
-                <p className="text-xl font-bold mb-4">Productions</p>
+            <p className="text-xl font-bold mb-4">Productions</p>
+            <Card className='p-2 mt-4'>
+                
                 <div>
                     <div className='flex justify-between mb-2 gap-2'>
                         <SearchFormContext.Provider value={{search, indexRoute: 'productions.index', placeholder: "Search Products..."}}>
@@ -96,7 +98,7 @@ export default function ProductionsIndex() {
                 </div>
 
                 
-            </div>  
+            </Card>  
         </>
     );
 }

@@ -3,6 +3,7 @@ import { DataTable } from '@/Components/DataTable';
 import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import SearchForm from '@/Components/SearchForm';
+import { Card } from '@/Components/ui/card';
 import UpdateButton from '@/Components/UpdateButton';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
 import DeleteButtonContext from '@/hooks/Contexts/DeleteButtonContext';
@@ -62,8 +63,8 @@ export default function CustomersIndex () {
     return (
         <>
             <Head title='Customers' />
-            <div className='mt-4'>
-                <p className="text-xl font-bold mb-4">Customers</p>
+            <p className="text-xl font-bold mb-4">Customers</p>
+            <Card className='p-2 mt-4'>    
                 <div>
                     <div className='flex justify-between mb-2 gap-2'>
                         <SearchFormContext.Provider value={{search, indexRoute: 'customers.index', placeholder: "Search Customers..."}}>
@@ -83,7 +84,7 @@ export default function CustomersIndex () {
                         <NavigationButton/>
                     </NavigationButtonContext.Provider>
                 </div>
-            </div>
+            </Card>
         </>
     );
 }

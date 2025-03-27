@@ -19,7 +19,7 @@ class OrderProductSeeder extends Seeder
 
         foreach ($orders as $order) {
             // Get random products (each order will have 1-3 products)
-            $products = Product::inRandomOrder()->take(rand(1, 3))->get();
+            $products = Product::inRandomOrder()->take(rand(1, 5))->get();
 
             $totalPrice = 0;
 
