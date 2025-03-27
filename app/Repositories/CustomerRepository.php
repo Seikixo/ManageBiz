@@ -20,16 +20,16 @@ class CustomerRepository
 
     public function update($id, array $data)
     {
-        $production = Customer::findOrFail($id);
-        $production->update($data);
-        return $production;
+        $customer = Customer::findOrFail($id);
+        $customer->update($data);
+        return $customer;
     }
 
     public function softDelete($id)
     {
-        $production = Customer::findOrFail($id);     
-        $production->update(['is_deleted' => true]);
-        
+        $customer = Customer::findOrFail($id);     
+        $customer->update(['is_deleted' => true]);
+        $customer->orders()->update(['is_deleted' => true]);
         return true;
     }
 
