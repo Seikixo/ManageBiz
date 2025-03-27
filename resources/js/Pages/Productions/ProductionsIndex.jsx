@@ -51,7 +51,7 @@ const productionCol = [
 
             return(
                 <div className='flex gap-2'>
-                    <DeleteButtonContext.Provider value={{id: productionId, deleteRoute: 'productions.destroy', dataLabel: 'production'}}>
+                    <DeleteButtonContext.Provider value={{id: productionId, deleteRoute: 'productions.destroy', dataLabel: 'Production'}}>
                         <DeleteButton/>
                     </DeleteButtonContext.Provider >
 

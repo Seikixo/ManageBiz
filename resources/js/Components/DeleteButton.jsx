@@ -24,7 +24,7 @@ const DeleteButton = () => {
     const handleDelete = () => {
 
         router.delete(route(deleteRoute, id), {
-            onSuccess: () => toast.success("Product deleted successfully"),
+            onSuccess: () => toast.success(dataLabel + " deleted successfully"),
             onError: () => toast.error("Failed to delete product")
         });
         setOpen(false);
