@@ -20,15 +20,15 @@ class OrderRepository
 
     public function update($id, array $data)
     {
-        $production = Order::findOrFail($id);
-        $production->update($data);
-        return $production;
+        $order = Order::findOrFail($id);
+        $order->update($data);
+        return $order;
     }
 
     public function softDelete($id)
     {
-        $production = Order::findOrFail($id);     
-        $production->update(['is_deleted' => true]);
+        $order = Order::findOrFail($id);     
+        $order->update(['is_deleted' => true]);
         
         return true;
     }

@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderRepository;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
@@ -83,8 +84,22 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        try
+        {
+            $this->orderRepository->softDelete($id);
+        
+            return redirect()->route('orders.index'); 
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return back()->withErrors(['error' => 'Order not found']);
+        }
+        catch (Exception $e)
+        {
+            return back()->withErrors(['error' => 'Something went wrong while deleting order']);
+        }
+
     }
 }
