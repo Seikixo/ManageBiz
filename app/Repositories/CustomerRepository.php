@@ -29,7 +29,6 @@ class CustomerRepository
     {
         $customer = Customer::findOrFail($id);     
         $customer->update(['is_deleted' => true]);
-        $customer->orders()->update(['is_deleted' => true]);
         return true;
     }
 

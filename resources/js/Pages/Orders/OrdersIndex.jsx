@@ -14,6 +14,8 @@ import NavigationButton from "@/Components/NavigationButton";
 import { useState } from "react";
 import { Eye } from "lucide-react";
 import { Button } from "@/Components/ui/button";
+import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
+import DeleteButton from "@/Components/DeleteButton";
 
 export default function OrdersIndex() {
     const { orders, search } = usePage().props;
@@ -64,7 +66,7 @@ export default function OrdersIndex() {
             header: "Actions",      
             cell: ({ row }) => {
                 const order = row.original;
-                console.log(order);
+                const orderId = row.original.id;
                 return (
                     <div className='flex gap-2'>
                         <Button
@@ -74,6 +76,9 @@ export default function OrdersIndex() {
                         >
                             <Eye />
                         </Button>
+                        <DeleteButtonContext.Provider value={{id: orderId, deleteRoute: 'orders.destroy', dataLabel: 'Order'}}>
+                            <DeleteButton/>
+                        </DeleteButtonContext.Provider>
                     </div>
                 );
             }
@@ -120,7 +125,7 @@ export default function OrdersIndex() {
                                             <p>Order ID: {selectedOrder.id}</p>
                                             <p>Customer: {selectedOrder.customer?.name || "No Customer"}</p>
                                             <p>Order Date: {selectedOrder.order_date}</p>
-                                            <p>Total Price: {selectedOrder.total_price ? `$${Number(selectedOrder.total_price).toFixed(2)}` : 'N/A'}</p>
+                                            <p>Total Price: {selectedOrder.total_price ? `${Number(selectedOrder.total_price).toFixed(2)}` : 'N/A'}</p>
                                             <p>Status: <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[selectedOrder.status] || "bg-gray-100 text-gray-800"}`}>{selectedOrder.status}</span></p>
                                         </div>
                                         <div>
