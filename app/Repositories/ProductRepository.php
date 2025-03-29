@@ -11,7 +11,7 @@ class ProductRepository
 
     public function getAllName()
     {
-        return Product::all(['id', 'name']);
+        return Product::select('id', 'name')->get();
     }
 
     public function getWithDeleted() 

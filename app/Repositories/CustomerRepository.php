@@ -8,6 +8,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class CustomerRepository 
 {
+    public function getAllName()
+    {
+        return Customer::select('id', 'name')->get();
+    }
+
     public function findById($id)
     {
         return Customer::findOrFail($id);

@@ -22,13 +22,12 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'required|exists:products,id',
             'customer_id' => 'required|exists:customers,id',
             'order_date' => 'required|date',
-            'total_price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
-            'status' => 'required|in:Pending,Processing,Delivered',
-            'is_deleted' => 'boolean',
+            'status' => 'required|string|in:Pending,Processing,Delivered',
+            'products' => 'required|array|min:1',
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.quantity' => 'required|integer|min:1',
         ];
     }
 }
