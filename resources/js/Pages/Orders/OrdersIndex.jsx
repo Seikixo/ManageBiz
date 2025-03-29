@@ -16,6 +16,10 @@ import { Eye } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
 import DeleteButton from "@/Components/DeleteButton";
+import CreateButtonContext from "@/hooks/Contexts/CreateButtonContext";
+import CreateButton from "@/Components/CreateButton";
+import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
+import UpdateButton from "@/Components/UpdateButton";
 
 export default function OrdersIndex() {
     const { orders, search } = usePage().props;
@@ -71,7 +75,7 @@ export default function OrdersIndex() {
                     <div className='flex gap-2'>
                         <Button
                             variant='outline'
-                            className="bg-blue-400 text-white px-4 rounded-md"
+                            className="bg-blue-300 text-white px-4 rounded-md"
                             onClick={() => setSelectedOrder(order)}
                         >
                             <Eye />
@@ -79,6 +83,9 @@ export default function OrdersIndex() {
                         <DeleteButtonContext.Provider value={{id: orderId, deleteRoute: 'orders.destroy', dataLabel: 'Order'}}>
                             <DeleteButton/>
                         </DeleteButtonContext.Provider>
+                        <UpdateButtonContext.Provider value={{id: orderId, updateRoute: 'orders.edit'}}>
+                            <UpdateButton/>
+                        </UpdateButtonContext.Provider>
                     </div>
                 );
             }
@@ -94,10 +101,13 @@ export default function OrdersIndex() {
                     
                     <div className="flex flex-col flex-grow w-full h-full lg:col-span-2">
                         <Card className="p-2 h-full">
-                            <div className="flex mb-2">
+                            <div className="flex justify-between mb-2 gap-2">
                                 <SearchFormContext.Provider value={{search, indexRoute: 'orders.index', placeholder: "Search Customer..."}}>
                                     <SearchForm />
                                 </SearchFormContext.Provider>
+                                <CreateButtonContext.Provider value={{createRoute: 'orders.create'}}>
+                                    <CreateButton/>
+                                </CreateButtonContext.Provider>
                             </div>
                             <div>
                                 <DataTable columns={orderCol} data={orders?.data || []} />
@@ -135,7 +145,7 @@ export default function OrdersIndex() {
                                                     <li key={product.id} className="border-b py-2">
                                                         <p>Product Name: {product.name}</p>
                                                         <p>Quantity: {product.pivot.quantity}</p>
-                                                        <p>Price at Order: ${Number(product.pivot.price_at_order || 0).toFixed(2)}</p>
+                                                        <p>Price at Order: {Number(product.pivot.price_at_order || 0).toFixed(2)}</p>
                                                     </li>
                                                 )) || <p>No Products Available</p>}
                                             </ul>
