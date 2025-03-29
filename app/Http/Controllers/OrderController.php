@@ -116,6 +116,7 @@ class OrderController extends Controller
             $order = $this->orderRepository->findById($id);
             $products = $this->productRepository->getAllName();
             $customers = $this->customerRepository->getAllName();
+            //dd([$order, $products, $customers]);
 
             return Inertia::render('Orders/OrderEdit', [
                 'order' => $order,
@@ -138,9 +139,25 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $order)
+    public function update(OrderRequest $request, $id)
     {
-        //
+        try
+        {
+            $validatedData = $request->validated();
+            $this->orderRepository->updateOrder($id, $validatedData);
+
+            return redirect()->route('orders.index');
+        }
+        catch (ModelNotFoundException $e)
+        {
+            Log::error("Order not found for updating: " . $e->getMessage());
+            return redirect()->route('orders.index')->withErrors(['error' => 'Order not found']);
+        }
+        catch (Exception $e)
+        {
+            Log::error("Unexpected error in order update: " . $e->getMessage());
+            return redirect()->route('orders.index')->withErrors(['error' => 'Something went wrong while updating order']);
+        }
     }
 
     /**

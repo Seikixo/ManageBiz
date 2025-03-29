@@ -66,6 +66,42 @@ class OrderRepository
         });
     }   
 
+    public function updateOrder(int $orderId, array $data)
+{
+    return DB::transaction(function () use ($orderId, $data) {
+        $order = Order::findOrFail($orderId);
+        
+        // Update Order details
+        $order->update([
+            'customer_id' => $data['customer_id'],
+            'order_date' => $data['order_date'],
+            'status' => $data['status'],
+        ]);
+
+        // Sync products with quantity and price_at_order
+        $order->products()->sync(
+            collect($data['products'])->mapWithKeys(fn($product) => [
+                $product['product_id'] => [
+                    'quantity' => $product['quantity'],
+                    'price_at_order' => Product::find($product['product_id'])->price, // Ensure correct price
+                ]
+            ])->toArray()
+        );
+
+        // ✅ Recalculate and update order total price
+        $totalQuantity = $order->products->sum(fn($p) => $p->pivot->quantity);
+        $totalPrice = $order->products->sum(fn($p) => $p->pivot->quantity * $p->pivot->price_at_order);
+        $order->update([
+            'quantity' => $totalQuantity,
+            'total_price' => $totalPrice
+        ]);
+
+        return $order->fresh(); // Return updated order
+    });
+}
+
+    
+
 
     public function update($id, array $data)
     {
