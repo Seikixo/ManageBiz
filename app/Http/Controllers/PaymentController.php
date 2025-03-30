@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Http\Controllers\Controller;
 use App\Repositories\PaymentRepository;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -83,8 +84,23 @@ class PaymentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Payment $payment)
+    public function destroy($id)
     {
-        //
+        try
+        {
+            $this->paymentRepository->softDelete($id);
+        
+            return redirect()->route('payments.index'); 
+        }
+        catch (ModelNotFoundException $e)
+        {
+            Log::error("Payment not found for deleting:: " . $e->getMessage());
+            return back()->withErrors(['error' => 'payment not found']);
+        }
+        catch (Exception $e)
+        {
+            Log::error("Unexpected error in payment deleting: " . $e->getMessage());
+            return back()->withErrors(['error' => 'Something went wrong while deleting payment']);
+        }
     }
 }
