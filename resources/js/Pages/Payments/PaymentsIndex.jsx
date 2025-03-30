@@ -15,6 +15,12 @@ import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import { Card } from '@/Components/ui/card';
 
+const statusColors = {
+    Pending: "bg-yellow-100 text-yellow-800",
+    Refund: "bg-blue-100 text-blue-800",
+    Paid: "bg-green-100 text-green-800",
+    Failed: "bg-red-100 text-red-800"
+};
 
 const paymentCol = [
     {
@@ -36,6 +42,15 @@ const paymentCol = [
     {
         accessorKey: "payment_status",
         header: "Payment Status",
+        cell: ({ row }) => {
+            const paymentStatus = row.original.payment_status;
+
+            return(
+                <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[paymentStatus] || "bg-gray-100 text-gray-800"}`}>
+                    {paymentStatus}
+                </span>
+            );
+        }
     },
     {
         accessorKey: "payment_type",
@@ -69,7 +84,7 @@ export default function PaymentsIndex() {
     return (       
         <>
             <Head title='payments'/>
-            <p className="text-xl font-bold mb-4">payments</p>
+            <p className="text-xl font-bold mb-4">Payments</p>
             <Card className='mt-4 p-2'>
                 <div>
                     <div className='flex justify-between mb-2 gap-2'>

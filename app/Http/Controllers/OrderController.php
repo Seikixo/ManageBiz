@@ -174,7 +174,7 @@ class OrderController extends Controller
         }
         catch (ModelNotFoundException $e)
         {
-            Log::error("Unexpected error in order deleting: " . $e->getMessage());
+            Log::error("Order not found for deleting: " . $e->getMessage());
             return back()->withErrors(['error' => 'Order not found']);
         }
         catch (Exception $e)
