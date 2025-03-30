@@ -88,7 +88,7 @@ class OrderRepository
             ])->toArray()
         );
 
-        // ✅ Recalculate and update order total price
+        // Recalculate and update order total price
         $totalQuantity = $order->products->sum(fn($p) => $p->pivot->quantity);
         $totalPrice = $order->products->sum(fn($p) => $p->pivot->quantity * $p->pivot->price_at_order);
         $order->update([

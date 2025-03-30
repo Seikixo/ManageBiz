@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductionController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('productions', ProductionController::class);
     
     Route::resource('orders', OrderController::class);
+
+    Route::resource('payments', PaymentController::class);
 });
 
 Route::middleware('auth')->group(function () {

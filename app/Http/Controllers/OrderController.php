@@ -46,6 +46,7 @@ class OrderController extends Controller
         }
         catch (Exception $e)
         {
+            Log::error("Unexpected error in order fetching: " . $e->getMessage());
             return back()->withErrors(['error' => 'Something went wrong while fetching orders detail']);
         } 
     }

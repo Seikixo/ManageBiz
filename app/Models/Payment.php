@@ -18,4 +18,14 @@ class Payment extends Model
         'payment_type',
         'is_deleted',
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

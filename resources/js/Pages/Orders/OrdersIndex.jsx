@@ -75,14 +75,16 @@ export default function OrdersIndex() {
                     <div className='flex gap-2'>
                         <Button
                             variant='outline'
-                            className="bg-blue-300 text-white px-4 rounded-md"
+                            className="bg-blue-400 text-white px-4 rounded-md"
                             onClick={() => setSelectedOrder(order)}
                         >
                             <Eye />
                         </Button>
+
                         <DeleteButtonContext.Provider value={{id: orderId, deleteRoute: 'orders.destroy', dataLabel: 'Order'}}>
                             <DeleteButton/>
                         </DeleteButtonContext.Provider>
+
                         <UpdateButtonContext.Provider value={{id: orderId, updateRoute: 'orders.edit'}}>
                             <UpdateButton/>
                         </UpdateButtonContext.Provider>
@@ -130,8 +132,8 @@ export default function OrdersIndex() {
                             <CardContent className="max-h-[600px] overflow-y-auto">
                                 {selectedOrder ? (
                                     <div>
-                                        <h5 className="mt-2 text-lg font-bold">Order</h5>
                                         <div className="mb-8">
+                                            <h5 className="mt-2 mb-2 text-lg font-bold">Order</h5>
                                             <p>Order ID: {selectedOrder.id}</p>
                                             <p>Customer: {selectedOrder.customer?.name || "No Customer"}</p>
                                             <p>Order Date: {selectedOrder.order_date}</p>
@@ -139,7 +141,7 @@ export default function OrdersIndex() {
                                             <p>Status: <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[selectedOrder.status] || "bg-gray-100 text-gray-800"}`}>{selectedOrder.status}</span></p>
                                         </div>
                                         <div>
-                                            <h5 className="mt-2 text-lg font-bold">Products</h5>
+                                            <h5 className="text-lg font-bold">Products</h5>
                                             <ul>
                                                 {selectedOrder.products?.map((product) => (
                                                     <li key={product.id} className="border-b py-2">
