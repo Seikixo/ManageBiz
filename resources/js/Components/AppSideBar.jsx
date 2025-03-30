@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, HandshakeIcon, Users, Package, Cog, LogOut, } from "lucide-react";
+import { LayoutDashboardIcon, HandshakeIcon, Users, Package, Cog, HandCoins, LogOut, } from "lucide-react";
 import { usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 
@@ -30,6 +30,11 @@ const items = [
     title: "Products",
     url: route('products.index'),
     icon: Package,
+  },
+  {
+    title: "Payments",
+    url: route('payments.index'),
+    icon: HandCoins,
   },
   {
     title: "Orders",

@@ -9,7 +9,7 @@ const CreateButton = () => {
     return(
 
         <Link href={route(createRoute)}>
-            <Button className="flex gap-2 justify-center bg-blue-400" variant='outline'>
+            <Button className="flex gap-2 justify-center bg-slate-800 text-white" variant='outline'>
                 <Plus/>
                 Create
             </Button>
