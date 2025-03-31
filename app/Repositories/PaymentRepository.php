@@ -2,15 +2,17 @@
 
 namespace App\Repositories;
 
+use App\Models\Customer;
 use App\Models\Payment;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaymentRepository 
 {
-    public function findById($id)
+    public function findByIdWithOrder($id)
     {
-        return Payment::findOrFail($id);
+        return Payment::with('order.customer')->findOrFail($id);
     }
 
     public function create(array $data)
@@ -21,10 +23,17 @@ class PaymentRepository
     public function update($id, array $data)
     {
         $payment = Payment::findOrFail($id);
+    
+        // Ensure customer exists if customer_id is being updated
+        if (isset($data['customer_id']) && !Customer::where('id', $data['customer_id'])->exists()) {
+            throw new ModelNotFoundException("Customer not found.");
+        }
+    
         $payment->update($data);
         
         return $payment;
     }
+    
 
     public function softDelete($id)
     {
