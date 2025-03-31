@@ -8,11 +8,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PaymentRepository 
 {
-    public function getAllName()
-    {
-        return Payment::select('id', 'name')->get();
-    }
-
     public function findById($id)
     {
         return Payment::findOrFail($id);

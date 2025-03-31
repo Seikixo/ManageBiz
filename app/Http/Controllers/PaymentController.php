@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentRequest;
+use App\Repositories\CustomerRepository;
+use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -14,10 +18,12 @@ use Inertia\Inertia;
 class PaymentController extends Controller
 {
     protected $paymentRepository;
+    protected $orderRepository;
 
-    public function __construct(PaymentRepository $paymentRepository)
+    public function __construct(PaymentRepository $paymentRepository, CustomerRepository $customerRepository, OrderRepository $orderRepository)
     {
         $this->paymentRepository = $paymentRepository;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -46,15 +52,44 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        try{
+            $orders = $this->orderRepository->getOrderWithCustomer();
+
+            return Inertia::render('Payments/PaymentCreate', [
+                'orders' => $orders,
+            ]);    
+        }
+        catch (Exception $e)
+        {
+            Log::error("Unexpected error in payment creation: " . $e->getMessage());
+            return back()->withErrors(['error' => 'Something went wrong while fetching Payments detail']);
+        }
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PaymentRequest $request)
     {
-        //
+        try
+        {
+            $validatedData = $request->validated();
+
+            $this->paymentRepository->create($validatedData);
+    
+            return redirect()->route('payments.index')->with('success', 'Payment created successfully!');
+        }
+        catch (QueryException $e)
+        {
+            Log::error("Payment creation failed: " . $e->getMessage());
+            return back()->withErrors(['error' => 'Database error: Unable to create Payment']);
+        }
+        catch (Exception $e)
+        {
+            Log::error("Unexpected error in Payment creation: " . $e->getMessage());
+            return back()->withErrors(['error' => 'Something went wrong while creating Payment']);
+        }
     }
 
     /**

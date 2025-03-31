@@ -59,16 +59,16 @@ const paymentCol = [
     {
         accessorKey: "actions",
         header: "Actions",      
-        cell: ({ row, paymenttId }) => {
-            paymenttId = row.original.id;
+        cell: ({ row, paymentId }) => {
+            paymentId = row.original.id;
 
             return(
                 <div className='flex gap-2'>
-                    <DeleteButtonContext.Provider value={{id: paymenttId, deleteRoute: 'payments.destroy', dataLabel: 'Payment'}}>
+                    <DeleteButtonContext.Provider value={{id: paymentId, deleteRoute: 'payments.destroy', dataLabel: 'Payment'}}>
                         <DeleteButton/>
                     </DeleteButtonContext.Provider>
                     
-                    <UpdateButtonContext.Provider value={{id: paymenttId, updateRoute: 'payments.edit'}}>
+                    <UpdateButtonContext.Provider value={{id: paymentId, updateRoute: 'payments.edit'}}>
                         <UpdateButton/>
                     </UpdateButtonContext.Provider>
                 </div>
