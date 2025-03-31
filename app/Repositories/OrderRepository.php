@@ -16,7 +16,11 @@ class OrderRepository
         return Order::with(['customer', 'products'])->findOrFail($id);
     }
 
-
+    public function getOrderWithCustomer()
+    {
+        $orders = Order::with('customer')->get();
+        return $orders;
+    }
 
     public function createOrderWithProducts(array $data): Order
     {
