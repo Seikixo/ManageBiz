@@ -103,17 +103,55 @@ class PaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Payment $payment)
+    public function edit($id)
     {
-        //
+        try
+        {
+            $payment = $this->paymentRepository->findByIdWithOrder($id);
+            $orders = $this->orderRepository->getOrderWithCustomer();
+
+            return Inertia::render('Payments/PaymentEdit', [
+                'payment' => $payment,
+                'orders' => $orders
+            ]);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return redirect()->route('payments.index')->withErrors(['error' => 'Payments not found']);
+        }
+        catch (Exception $e)
+        {
+            return redirect()->route('payments.index')->withErrors(['error' => 'Something went wrong while fetching the payments details']);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Payment $payment)
+    public function update(PaymentRequest $request, $id)
     {
-        //
+        try
+        {
+            $validatedData = $request->validated();
+
+            $this->paymentRepository->update($id, $validatedData);
+
+            return redirect()->route('payments.index')->with('success', 'Payment updated successfully');
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return back()->withErrors(['error' => 'Payment not found']);
+        }
+        catch (QueryException $e)
+        {
+            Log::error("Payment update failed: " . $e->getMessage());
+            return back()->withErrors(['error' => 'Unable to update Payment']);      
+        }
+        catch (Exception $e)
+        {
+            Log::error("Unexpected error in Payment update: " . $e->getMessage());
+            return back()->withErrors(['error' => 'Something went wrong while updating Payment']);
+        }
     }
 
     /**
