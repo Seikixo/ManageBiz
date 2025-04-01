@@ -1,6 +1,7 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { DataTable } from '@/Components/DataTable';
 import { Head, usePage } from '@inertiajs/react';
+import { Banknote, Loader, RotateCcw, CircleX } from 'lucide-react';
 
 import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
@@ -13,7 +14,7 @@ import SearchForm from '@/Components/SearchForm';
 import UpdateButton from '@/Components/UpdateButton';
 import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
-import { Card } from '@/Components/ui/card';
+import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 
 const statusColors = {
     Pending: "bg-yellow-100 text-yellow-800",
@@ -21,6 +22,13 @@ const statusColors = {
     Paid: "bg-green-100 text-green-800",
     Failed: "bg-red-100 text-red-800"
 };
+
+const paymentCardColor = {
+    Pending: "text-yellow-800",
+    Refund: "text-blue-800",
+    Paid: "text-green-800",
+    Failed: "text-red-800"
+}
 
 const paymentCol = [
     {
@@ -79,12 +87,31 @@ const paymentCol = [
 ]
 
 export default function PaymentsIndex() {
-    const { payments, search } = usePage().props;
+    const { payments, search, statusesCount } = usePage().props;
+    console.log(statusesCount);
 
     return (       
         <>
             <Head title='payments'/>
             <p className="text-xl font-bold mb-4">Payments</p>
+
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2'>
+                {statusesCount.map(({ status, count }) => (
+                    <Card key={status} className={`${paymentCardColor[status]}`}>
+                        <CardHeader className="flex flex-row gap-2">
+                            {status}
+                            {status === 'Paid' && <Banknote className='w-6 h-6 text-green-800 animate-bounce' />}
+                            {status === 'Pending' && <Loader className='w-6 h-6 text-yellow-800 animate-spin' />}
+                            {status === 'Refund' && <RotateCcw className='w-6 h-6 text-blue-800 animate-pulse' />}
+                            {status === 'Failed' && <CircleX className='w-6 h-6 text-red-800 animate-pulse' />}
+                        </CardHeader>
+                        <CardContent className="text-4xl">
+                            {count}
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+
             <Card className='mt-4 p-2'>
                 <div>
                     <div className='flex justify-between mb-2 gap-2'>
