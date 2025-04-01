@@ -35,9 +35,12 @@ class PaymentController extends Controller
         {
             $search = $request->query('search', '');
             $payments = $this->paymentRepository->search($search);
+            $statusesCount = $this->paymentRepository->getPaymentStatusCount();
+
             return Inertia::render('Payments/PaymentsIndex',[
                 'payments' => $payments,
-                'search' => $search
+                'search' => $search,
+                'statusesCount' => $statusesCount
             ]);
         }
         catch (Exception $e)
@@ -109,10 +112,11 @@ class PaymentController extends Controller
         {
             $payment = $this->paymentRepository->findByIdWithOrder($id);
             $orders = $this->orderRepository->getOrderWithCustomer();
+            
 
             return Inertia::render('Payments/PaymentEdit', [
                 'payment' => $payment,
-                'orders' => $orders
+                'orders' => $orders,
             ]);
         }
         catch (ModelNotFoundException $e)

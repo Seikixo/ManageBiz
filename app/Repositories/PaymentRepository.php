@@ -7,12 +7,33 @@ use App\Models\Payment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class PaymentRepository 
 {
     public function findByIdWithOrder($id)
     {
         return Payment::with('order.customer')->findOrFail($id);
+    }
+
+    public function getPaymentStatusCount()
+    {
+        $statuses = ['Paid', 'Pending', 'Refund', 'Failed'];
+
+        $statusCounts = Payment::selectRaw('payment_status, COUNT(*) as status_count')
+            ->groupBy('payment_status')
+            ->get();
+        
+            $result = [];
+
+            foreach ($statuses as $status) {
+                $result[] = [
+                    'status' => $status,
+                    'count' => $statusCounts->where('payment_status', $status)->first()?->status_count ?? 0
+                ];
+            }
+        
+        return $result;
     }
 
     public function create(array $data)
