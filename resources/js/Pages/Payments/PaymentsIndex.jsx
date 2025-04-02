@@ -93,49 +93,51 @@ export default function PaymentsIndex() {
     return (       
         <>
             <Head title='payments'/>
-            <p className="text-xl font-bold mb-4">Payments</p>
+            <div className='flex flex-col w-full mt-4'>
+                <p className="text-xl font-bold mb-4">Payments</p>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2'>
+                    {statusesCount.map(({ status, count }) => (
+                        <Card key={status} className={`${paymentCardColor[status]}`}>
+                            <CardHeader className="flex flex-row gap-2">
+                                {status}
+                                {status === 'Paid' && <Banknote className='w-6 h-6 text-green-800' />}
+                                {status === 'Pending' && <Loader className='w-6 h-6 text-yellow-800' />}
+                                {status === 'Refund' && <RotateCcw className='w-6 h-6 text-blue-800' />}
+                                {status === 'Failed' && <CircleX className='w-6 h-6 text-red-800' />}
+                            </CardHeader>
+                            <CardContent className="text-4xl">
+                                {count}
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2'>
-                {statusesCount.map(({ status, count }) => (
-                    <Card key={status} className={`${paymentCardColor[status]}`}>
-                        <CardHeader className="flex flex-row gap-2">
-                            {status}
-                            {status === 'Paid' && <Banknote className='w-6 h-6 text-green-800 animate-bounce' />}
-                            {status === 'Pending' && <Loader className='w-6 h-6 text-yellow-800 animate-spin' />}
-                            {status === 'Refund' && <RotateCcw className='w-6 h-6 text-blue-800 animate-pulse' />}
-                            {status === 'Failed' && <CircleX className='w-6 h-6 text-red-800 animate-pulse' />}
-                        </CardHeader>
-                        <CardContent className="text-4xl">
-                            {count}
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
+                <Card className='mt-4 p-2'>
+                    <div>
+                        <div className='flex justify-between mb-2 gap-2'>
+                            <SearchFormContext.Provider value={{search, indexRoute: 'payments.index', placeholder: "Search Customer..."}}>
+                                <SearchForm/>
+                            </SearchFormContext.Provider>
+                            
+                            <CreateButtonContext.Provider value={{createRoute: 'payments.create'}}>
+                                <CreateButton/>
+                            </CreateButtonContext.Provider>
 
-            <Card className='mt-4 p-2'>
-                <div>
-                    <div className='flex justify-between mb-2 gap-2'>
-                        <SearchFormContext.Provider value={{search, indexRoute: 'payments.index', placeholder: "Search Customer..."}}>
-                            <SearchForm/>
-                        </SearchFormContext.Provider>
+                        </div>
                         
-                        <CreateButtonContext.Provider value={{createRoute: 'payments.create'}}>
-                            <CreateButton/>
-                        </CreateButtonContext.Provider>
-
+                        <DataTable columns={paymentCol} data={payments?.data || []}/>
                     </div>
-                    
-                    <DataTable columns={paymentCol} data={payments?.data || []}/>
-                </div>
 
-                <div className='flex justify-end gap-4 mt-4'>
+                    <div className='flex justify-end gap-4 mt-4'>
 
-                    <NavigationButtonContext.Provider value={{prevPageUrl: payments.prev_page_url, nextPageUrl: payments.next_page_url, currentPage: payments.current_page, lastPage: payments.last_page}}>
-                        <NavigationButton/>
-                    </NavigationButtonContext.Provider>
-                    
-                </div>
-            </Card>  
+                        <NavigationButtonContext.Provider value={{prevPageUrl: payments.prev_page_url, nextPageUrl: payments.next_page_url, currentPage: payments.current_page, lastPage: payments.last_page}}>
+                            <NavigationButton/>
+                        </NavigationButtonContext.Provider>
+                        
+                    </div>
+                </Card>  
+            </div>
+            
         </>
     );
 }

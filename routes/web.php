@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -19,9 +20,7 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');*/
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard/Dashboard');
-    })->name('dashboard');
+    Route::resource('dashboard', DashboardController::class);
 
     Route::resource('customers', CustomerController::class);
 

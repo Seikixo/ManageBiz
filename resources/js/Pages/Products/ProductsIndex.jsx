@@ -67,31 +67,33 @@ export default function ProductsIndex() {
     return (       
         <>
             <Head title='Products'/>
-            <p className="text-xl font-bold mb-4">Products</p>
-            <Card className='mt-4 p-2'>
-                <div>
-                    <div className='flex justify-between mb-2 gap-2'>
-                        <SearchFormContext.Provider value={{search, indexRoute: 'products.index', placeholder: "Search Products..."}}>
-                            <SearchForm/>
-                        </SearchFormContext.Provider>
+            <div className='flex flex-col w-full mt-4'>
+                <p className="text-xl font-bold mb-4">Products</p>
+                <Card className='p-2'>
+                    <div>
+                        <div className='flex justify-between mb-2 gap-2'>
+                            <SearchFormContext.Provider value={{search, indexRoute: 'products.index', placeholder: "Search Products..."}}>
+                                <SearchForm/>
+                            </SearchFormContext.Provider>
+                            
+                            <CreateButtonContext.Provider value={{createRoute: 'products.create'}}>
+                                <CreateButton/>
+                            </CreateButtonContext.Provider>
+
+                        </div>
                         
-                        <CreateButtonContext.Provider value={{createRoute: 'products.create'}}>
-                            <CreateButton/>
-                        </CreateButtonContext.Provider>
-
+                        <DataTable columns={productCol} data={products?.data || []}/>
                     </div>
-                    
-                    <DataTable columns={productCol} data={products?.data || []}/>
-                </div>
 
-                <div className='flex justify-end gap-4 mt-4'>
+                    <div className='flex justify-end gap-4 mt-4'>
 
-                    <NavigationButtonContext.Provider value={{prevPageUrl: products.prev_page_url, nextPageUrl: products.next_page_url, currentPage: products.current_page, lastPage: products.last_page}}>
-                        <NavigationButton/>
-                    </NavigationButtonContext.Provider>
-                    
-                </div>
-            </Card>  
+                        <NavigationButtonContext.Provider value={{prevPageUrl: products.prev_page_url, nextPageUrl: products.next_page_url, currentPage: products.current_page, lastPage: products.last_page}}>
+                            <NavigationButton/>
+                        </NavigationButtonContext.Provider>
+                        
+                    </div>
+                </Card>  
+            </div>
         </>
     );
 }

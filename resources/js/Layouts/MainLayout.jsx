@@ -6,7 +6,7 @@ export default function MainLayout({ children }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full p-4 bg-slate-100">
+      <main className="flex flex-col w-full p-4 bg-slate-100">
         <SidebarTrigger/>
         <Toaster/>
         {children}
