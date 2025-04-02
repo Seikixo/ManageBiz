@@ -18,7 +18,7 @@ import {
 const items = [
   {
     title: "Dashboard",
-    url: route('dashboard'),
+    url: route('dashboard.index'),
     icon: LayoutDashboardIcon,
   },
   {
@@ -54,49 +54,51 @@ export function AppSidebar() {
     const user = usePage().props.auth.user;
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon">
-      <SidebarContent className="bg-white">
-            <SidebarGroup>
-                <SidebarGroupLabel>Managebiz</SidebarGroupLabel>
+    <nav>
+      <Sidebar variant="sidebar" collapsible="icon">
+        <SidebarContent className="bg-white">
+              <SidebarGroup>
+                  <SidebarGroupLabel>Managebiz</SidebarGroupLabel>
 
-                <SidebarGroupContent>        
+                  <SidebarGroupContent>        
 
-                <SidebarMenu>
-                    {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild>
+                  <SidebarMenu>
+                      {items.map((item) => (
+                      <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton asChild>
 
-                        <Link href={item.url} preserveState>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
+                          <Link href={item.url} preserveState>
+                            <item.icon />
+                            <span>{item.title}</span>
+                          </Link>
 
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    ))}               
-                </SidebarMenu>    
-                    
-                </SidebarGroupContent>
-            </SidebarGroup>
-      </SidebarContent>
+                          </SidebarMenuButton>
+                      </SidebarMenuItem>
+                      ))}               
+                  </SidebarMenu>    
+                      
+                  </SidebarGroupContent>
+              </SidebarGroup>
+        </SidebarContent>
 
-      <SidebarFooter className="bg-white">
-            <SidebarGroupLabel>
-                <span>{user.name}</span>
-            </SidebarGroupLabel>
+        <SidebarFooter className="bg-white">
+              <SidebarGroupLabel>
+                  <span>{user.name}</span>
+              </SidebarGroupLabel>
 
-            <Link
-                method="post"
-                href={route('logout')}
-                as="a"
-            >
-                <SidebarMenuButton>
-                    <LogOut/>
-                    <span>Logout</span>
-                </SidebarMenuButton>   
-            </Link>
-            
-        </SidebarFooter>
-    </Sidebar>
+              <Link
+                  method="post"
+                  href={route('logout')}
+                  as="a"
+              >
+                  <SidebarMenuButton>
+                      <LogOut/>
+                      <span>Logout</span>
+                  </SidebarMenuButton>   
+              </Link>
+              
+          </SidebarFooter>
+      </Sidebar>
+    </nav>
   )
 }
