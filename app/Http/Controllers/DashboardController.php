@@ -22,12 +22,19 @@ class DashboardController extends Controller
         $totalSold = $this->dashboardRepository->getTotalSold();
         $totalSales = $this->dashboardRepository->getTotalSales();
         $overAllCost = $this->dashboardRepository->getOverAllCost();
+        $salesByYear = $this->dashboardRepository->getSalesByDate('year');
+        $salesByMonth = $this->dashboardRepository->getSalesByDate('month');
+        $salesByDay = $this->dashboardRepository->getSalesByDate('day');
 
         return Inertia::render('Dashboard/Dashboard', [
             'totalStocks' => $totalStocks,
             'totalSold' => $totalSold,
             'totalSales' => $totalSales,
             'overAllCost' => $overAllCost,
+            'salesByYear' => $salesByYear,
+            'salesByMonth' => $salesByMonth,
+            'salesByDay' => $salesByDay
+            
         ]);
     }
 

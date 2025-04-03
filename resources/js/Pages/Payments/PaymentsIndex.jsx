@@ -32,8 +32,8 @@ const paymentCardColor = {
 
 const paymentCol = [
     {
-        accessorKey: "id",
-        header: "Id",
+        accessorKey: "order_id",
+        header: "Order ID",
     },
     {
         accessorKey: "customer.name",
