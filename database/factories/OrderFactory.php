@@ -21,11 +21,10 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
-            'product_id' => Product::inRandomOrder()->first()->id ?? Product::factory(),
             'customer_id' => Customer::inRandomOrder()->first()->id ?? Customer::factory(),
-            'order_date' => $this->faker->date(),
-            'total_price' => $this->faker->randomFloat(2, 100, 5000),
-            'quantity' => $this->faker->numberBetween(1, 10),
+            'order_date' => $this->faker->dateTimeBetween('2024-01-01', '2025-12-31')->format('Y-m-d'),
+            'total_price' => 0, // Will be updated later in OrderProductSeeder
+            'quantity' => 0, // Will be updated later in OrderProductSeeder
             'status' => $this->faker->randomElement(['Pending', 'Processing', 'Delivered']),
             'is_deleted' => false,
         ];

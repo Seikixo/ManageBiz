@@ -66,7 +66,7 @@ class PaymentRepository
 
     public function search(string $search, $perPage = 10): LengthAwarePaginator
     {
-        return Payment::with('customer')
+        return Payment::with(['customer'])
         ->when($search, fn (Builder $query) => 
         $query->whereHas('customer', fn (Builder $subQuery) =>
             $subQuery->where('name', 'like', "%{$search}%")

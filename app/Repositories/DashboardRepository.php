@@ -36,4 +36,35 @@ class DashboardRepository
 
         return $overall_cost;
     }
+
+    public function getSalesByDate($interval = 'year')
+    {
+        $dateFormat = match ($interval) {
+            'year' => 'YYYY',
+            'month' => 'YYYY-MM',
+            'day' => 'YYYY-MM-DD',
+            default => 'YYYY'
+        };
+
+        return DB::select("
+            WITH date_series AS (
+                SELECT generate_series(
+                    (SELECT MIN(payment_date) FROM payments)::DATE,
+                    (SELECT MAX(payment_date) FROM payments)::DATE,
+                    '1 day'::INTERVAL
+                )::DATE AS date
+            )
+            SELECT 
+                TO_CHAR(ds.date, '{$dateFormat}') AS period,
+                COALESCE(SUM(p.payment_amount), 0) AS total_sales
+            FROM date_series ds
+            LEFT JOIN payments p 
+                ON ds.date = p.payment_date::DATE  -- Match directly using DATE
+            GROUP BY period
+            ORDER BY period ASC
+        ");
+    }
+
+    
+    
 }

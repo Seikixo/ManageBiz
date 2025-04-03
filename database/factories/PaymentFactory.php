@@ -21,7 +21,7 @@ class PaymentFactory extends Factory
         return [
             'order_id' => Order::inRandomOrder()->first()->id ?? Order::factory(),
             'customer_id' => Customer::inRandomOrder()->first()->id ?? Customer::factory(),
-            'payment_date' => $this->faker->date(),
+            'payment_date' => $this->faker->dateTimeBetween('2024-01-01', '2025-12-31')->format('Y-m-d'),
             'payment_amount' => $this->faker->randomFloat(2, 100, 5000),
             'payment_status' => $this->faker->randomElement(['Paid', 'Pending', 'Refund', 'Failed']),
             'payment_type' => $this->faker->randomElement(['Cash', 'Gcash', 'Credit Card', 'Bank Transfer']),
