@@ -1,21 +1,20 @@
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 import MainLayout from '@/Layouts/MainLayout';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { ChartNoAxesCombined, ShoppingBagIcon, Container, CircleDollarSign } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
 
 export default function Dashboard() {
-    const { totalStocks, totalSold, totalSales, overAllCost, salesByYear, salesByMonth, salesByDay } = usePage().props;
-    const [interval, setInterval] = useState("year");
+    const { totalStocks, totalSold, totalSales, overAllCost, selectedYear, availableYears, salesByMonth } = usePage().props;
+    const [year, setYear] = useState(selectedYear);
     
 
-    const salesData = {
-        year: salesByYear,
-        month: salesByMonth,
-        day: salesByDay
-    }
+    const handleYearChange = (value) => {
+        setYear(value);
+        router.get(route('dashboard.index'), { year: value }, { preserveState: true });
+    };
 
     return (
         <>
@@ -47,7 +46,7 @@ export default function Dashboard() {
                             <ChartNoAxesCombined/>
                         </CardHeader>
                         <CardContent className="text-4xl">
-                            {totalSales}
+                            ₱{Number(totalSales).toLocaleString()}
                         </CardContent>
                     </Card>
                     <Card>
@@ -56,7 +55,7 @@ export default function Dashboard() {
                             <CircleDollarSign/>
                         </CardHeader>
                         <CardContent className="text-4xl">
-                            {overAllCost}
+                            ₱{Number(overAllCost).toLocaleString()}
                         </CardContent>
                     </Card>
                 </div>
@@ -66,31 +65,27 @@ export default function Dashboard() {
                         <CardHeader>
                             <span>Sales Overview</span>
 
-                            <Select
-                                value={interval}
-                                onValueChange={setInterval}
-                            >
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select Interval" />
+                            <Select value={String(year)} onValueChange={handleYearChange}>
+                                <SelectTrigger className="w-32">
+                                    <SelectValue />
                                 </SelectTrigger>
-
                                 <SelectContent>
-                                    <SelectItem value="year">Year</SelectItem>
-                                    <SelectItem value="month">Month</SelectItem>
-                                    <SelectItem value="day">Day</SelectItem>
+                                    {availableYears.map((y) => (
+                                        <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </CardHeader>
 
                         <CardContent>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={salesData[interval]}>
-                                    <XAxis dataKey="period" />
-                                    <YAxis/>
-                                    <Tooltip/>
-                                    <Bar dataKey="total_sales" fill="#4F46E5" radius={4}/>
-                                </BarChart>
-                            </ResponsiveContainer>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={salesByMonth}>
+                                <XAxis dataKey="month" />
+                                <YAxis />
+                                <Tooltip />
+                                <Bar dataKey="total_sales" fill="#4F46E5" radius={4} />
+                            </BarChart>
+                        </ResponsiveContainer>
                         </CardContent>
                     </Card>
                 </div>
