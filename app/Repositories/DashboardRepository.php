@@ -37,34 +37,27 @@ class DashboardRepository
         return $overall_cost;
     }
 
-    public function getSalesByDate($interval = 'year')
+    public function getSalesByMonthForYear($year)
     {
-        $dateFormat = match ($interval) {
-            'year' => 'YYYY',
-            'month' => 'YYYY-MM',
-            'day' => 'YYYY-MM-DD',
-            default => 'YYYY'
-        };
-
-        return DB::select("
-            WITH date_series AS (
-                SELECT generate_series(
-                    (SELECT MIN(payment_date) FROM payments)::DATE,
-                    (SELECT MAX(payment_date) FROM payments)::DATE,
-                    '1 day'::INTERVAL
-                )::DATE AS date
-            )
-            SELECT 
-                TO_CHAR(ds.date, '{$dateFormat}') AS period,
-                COALESCE(SUM(p.payment_amount), 0) AS total_sales
-            FROM date_series ds
-            LEFT JOIN payments p 
-                ON ds.date = p.payment_date::DATE  -- Match directly using DATE
-            GROUP BY period
-            ORDER BY period ASC
-        ");
+        return DB::table('payments')
+            ->selectRaw("
+                TO_CHAR(payment_date, 'FMMonth') AS month,
+                EXTRACT(MONTH FROM payment_date) AS month_number,
+                SUM(payment_amount) AS total_sales
+            ")
+            ->whereYear('payment_date', $year)
+            ->where('is_deleted', false) 
+            ->groupByRaw("month, month_number")
+            ->orderBy('month_number')
+            ->get();
     }
 
-    
-    
+    public function getAvailableYears()
+    {
+        return DB::table('payments')
+            ->selectRaw('DISTINCT EXTRACT(YEAR FROM payment_date) as year')
+            ->orderByDesc('year')
+            ->pluck('year');
+    }
+
 }
