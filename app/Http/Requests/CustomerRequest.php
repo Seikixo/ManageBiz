@@ -22,7 +22,7 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:customers,name',
             'address' => 'required|string|max:500',
             'contact_number' => 'required|string|regex:/^09\d{9}$/', // Ensures a valid PH mobile number
             'email' => 'required|string|email',

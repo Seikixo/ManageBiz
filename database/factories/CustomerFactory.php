@@ -19,7 +19,7 @@ class CustomerFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->unique()->name(),
             'address' => $this->faker->address(),
             'contact_number' => $this->faker->numerify('09#########'),
             'email' => $this->faker->unique()->safeEmail(),

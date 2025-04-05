@@ -21,7 +21,7 @@ class ProductFactory extends Factory
 
         return [
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
-            'name' => $this->faker->word(),
+            'name' => $this->faker->unique()->word(),
             'description' => $this->faker->sentence(),
             'category' => $this->faker->randomElement($categories),
             'price' => $this->faker->randomFloat(2, 20, 200),
