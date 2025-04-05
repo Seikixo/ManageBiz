@@ -20,12 +20,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        //Product::truncate();
+        //Product::factory(10)->create();
 
-        //Product::factory(20)->create();
+        //Production::truncate();
         //Production::factory(20)->create();
+
+        //Customer::truncate();
         //Customer::factory(20)->create();
+
+        //Order::truncate();
         //Order::factory(50)->create();
-        Payment::factory(30)->create();
+
+        //Payment::truncate();
+        //Payment::factory(30)->create();
+
         //$this->call(OrderProductSeeder::class);
     }
 }
