@@ -10,8 +10,6 @@ export default function Dashboard() {
     const { totalStocks, totalSold, totalSales, overAllCost, selectedYear, availableYears, salesByMonth, productNumberOfOrders } = usePage().props;
     const [year, setYear] = useState(selectedYear);
 
-    console.log('Orders:', productNumberOfOrders);
-
     const handleYearChange = (value) => {
         setYear(value);
         router.get(route('dashboard.index'), { year: value }, { preserveState: true });
@@ -106,7 +104,7 @@ export default function Dashboard() {
                                 <Tooltip contentStyle={{
                                     borderRadius: '4px', 
                                 }}/>
-                                <Bar dataKey="total_sales" fill="#4F46E5" radius={8} />
+                                <Bar dataKey="total_sales" fill="#4F46E5" radius={8} barSize={60} />
                             </BarChart>
                         </ResponsiveContainer>
                         </CardContent>
@@ -124,10 +122,6 @@ export default function Dashboard() {
                                         dataKey="number_of_orders"
                                         nameKey="name"
                                     >
-                                        {productNumberOfOrdersWithColor.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                                        ))}
-
                                         <LabelList
                                             dataKey="name"
                                             position="inside"

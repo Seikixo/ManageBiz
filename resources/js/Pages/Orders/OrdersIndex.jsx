@@ -47,6 +47,16 @@ export default function OrdersIndex() {
         {
             accessorKey: "total_price",
             header: "Total Price",
+            cell: ({ row }) => {
+                const totalPrice = row.original.total_price;
+                return(
+                    <>
+                        <span>
+                            ₱{Number(totalPrice).toLocaleString()}
+                        </span>
+                    </>
+                )
+            }
         },
         {
             accessorKey: "quantity",
