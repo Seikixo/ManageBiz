@@ -35,14 +35,47 @@ const productionCol = [
     {
         accessorKey: "material_cost",
         header: "Material Cost",
+        cell: ({ row }) => {
+            const materialCost = row.original.material_cost;
+
+            return(
+                <>
+                    <span>
+                        ₱{Number(materialCost).toLocaleString()}
+                    </span>
+                </>
+            )
+        }
     },
     {
         accessorKey: "production_cost",
         header: "Production Cost",
+        cell: ({ row }) => {
+            const productionCost = row.original.production_cost;
+
+            return(
+                <>
+                    <span>
+                        ₱{Number(productionCost).toLocaleString()}
+                    </span>
+                </>
+            )
+        }
     },
     {
         accessorKey: "overall_cost",
         header: "Overall Cost",
+        cell: ({ row }) => {
+            const overallCost = row.original.overall_cost;
+
+            return(
+                <>
+                    <span>
+                        ₱{Number(overallCost).toLocaleString()}
+                    </span>
+                </>
+            )
+        }
     },
     {
         accessorKey: "actions",

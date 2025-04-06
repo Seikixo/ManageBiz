@@ -46,6 +46,17 @@ const paymentCol = [
     {
         accessorKey: "payment_amount",
         header: "Payment Amount",
+        cell: ({ row }) => {
+            const paymentAmount = row.original.payment_amount;
+
+            return(
+                <>
+                    <span>
+                        ₱{Number(paymentAmount).toLocaleString()}
+                    </span>
+                </>
+            )
+        }
     },
     {
         accessorKey: "payment_status",
@@ -88,7 +99,6 @@ const paymentCol = [
 
 export default function PaymentsIndex() {
     const { payments, search, statusesCount } = usePage().props;
-    console.log(statusesCount);
 
     return (       
         <>

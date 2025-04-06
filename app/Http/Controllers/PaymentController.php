@@ -34,7 +34,7 @@ class PaymentController extends Controller
         try
         {
             $search = $request->query('search', '');
-            $payments = $this->paymentRepository->search($search);
+            $payments = $this->paymentRepository->search($search)->toArray();
             $statusesCount = $this->paymentRepository->getPaymentStatusCount();
 
             return Inertia::render('Payments/PaymentsIndex',[

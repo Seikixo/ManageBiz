@@ -38,7 +38,7 @@ class OrderController extends Controller
         try
         {
             $search = $request->query('search', '');
-            $orders = $this->orderRepository->search($search);
+            $orders = $this->orderRepository->search($search)->toArray();
             return Inertia::render('Orders/OrdersIndex',[
                 'orders' => $orders,
                 'search' => $search
