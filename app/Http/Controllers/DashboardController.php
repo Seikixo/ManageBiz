@@ -21,16 +21,18 @@ class DashboardController extends Controller
 
         $year = $request->query('year', now()->year);
         
-        $totalStocks = $this->dashboardRepository->getTotalStocks();
+        $totalProductStocks = $this->dashboardRepository->getTotalStocks();
         $totalSold = $this->dashboardRepository->getTotalSold();
         $totalSales = $this->dashboardRepository->getTotalSales();
         $overAllCost = $this->dashboardRepository->getOverAllCost();
         $productNumberOfOrders = $this->dashboardRepository->getProductNumberOfOrder();
         $salesByMonth = $this->dashboardRepository->getSalesByMonthForYear($year);
         $availableYears = $this->dashboardRepository->getAvailableYears();
+        $productStocks = $this->dashboardRepository->getProductStocks();
 
         return Inertia::render('Dashboard/Dashboard', [
-            'totalStocks' => $totalStocks,
+            'totalProductStocks' => $totalProductStocks,
+            'productStocks' => $productStocks,
             'totalSold' => $totalSold,
             'totalSales' => $totalSales,
             'overAllCost' => $overAllCost,
