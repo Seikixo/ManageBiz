@@ -10,6 +10,9 @@ export default function Dashboard() {
     const { totalStocks, totalSold, totalSales, overAllCost, selectedYear, availableYears, salesByMonth, productNumberOfOrders } = usePage().props;
     const [year, setYear] = useState(selectedYear);
 
+    const highestMonthlySales = Math.max(...salesByMonth.map(sale => sale.total_sales));
+    const roundMax = Math.ceil(highestMonthlySales / 1000) * 1000;
+
     const handleYearChange = (value) => {
         setYear(value);
         router.get(route('dashboard.index'), { year: value }, { preserveState: true });
@@ -82,7 +85,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                     <Card className="md:col-span-2">
                         <CardHeader>
-                            <span>Sales Overview</span>
+                            <span>Monthly Sales Overview</span>
 
                             <Select value={String(year)} onValueChange={handleYearChange}>
                                 <SelectTrigger className="w-32">
@@ -99,12 +102,25 @@ export default function Dashboard() {
                         <CardContent>
                         <ResponsiveContainer width="100%" height={400}>
                             <BarChart data={salesByMonth}>
-                                <XAxis dataKey="month" />
-                                <YAxis />
-                                <Tooltip contentStyle={{
-                                    borderRadius: '4px', 
-                                }}/>
-                                <Bar dataKey="total_sales" fill="#4F46E5" radius={8} barSize={60} />
+                                <XAxis 
+                                    dataKey="month" 
+                                    tick={{ fontSize: 14 }}
+                                />
+                                <YAxis 
+                                    domain={[0, roundMax]}
+                                    tickFormatter={(value) => value >= 1000 ? `${value / 1000}k` : value}
+                                    tick={{ fontSize: 14 }}
+                                />
+                                <Tooltip 
+                                    contentStyle={{borderRadius: '4px', }}
+                                    formatter={(value) => `₱${Number(value).toLocaleString()}`}
+                                />
+                                <Bar 
+                                    dataKey="total_sales" 
+                                    fill="#3b82f6" 
+                                    radius={8} 
+                                    barSize={60} 
+                                />
                             </BarChart>
                         </ResponsiveContainer>
                         </CardContent>
