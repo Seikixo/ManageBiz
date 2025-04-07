@@ -15,6 +15,8 @@ import UpdateButton from '@/Components/UpdateButton';
 import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
+import { SidebarTrigger } from '@/Components/ui/sidebar';
+import { Separator } from '@/Components/ui/separator';
 
 const statusColors = {
     Pending: "bg-yellow-100 text-yellow-800",
@@ -103,8 +105,12 @@ export default function PaymentsIndex() {
     return (       
         <>
             <Head title='payments'/>
-            <div className='flex flex-col w-full mt-4'>
-                <p className="text-xl font-bold mb-4">Payments</p>
+            <div className='flex flex-col w-full mt-2 gap-4'>
+                <div className="flex">
+                    <SidebarTrigger/>
+                    <p className="text-xl font-bold">Payments</p>
+                </div>
+                <Separator/>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2'>
                     {statusesCount.map(({ status, count }) => (
                         <Card key={status} className={`${paymentCardColor[status]}`}>

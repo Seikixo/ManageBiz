@@ -40,7 +40,7 @@ class DashboardRepository
     public function getProductNumberOfOrder()
     {
         return DB::table('order_product')
-            ->select(DB::raw('SUM(order_product.quantity) AS number_of_orders'), 'products.name')
+            ->select(DB::raw('SUM(order_product.quantity) AS number_of_orders'), 'products.name') 
             ->rightJoin('products', 'products.id', '=', 'order_product.product_id')
             ->groupBy('products.id')
             ->orderBy('number_of_orders', 'desc')

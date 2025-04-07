@@ -14,6 +14,8 @@ import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import UpdateButton from '@/Components/UpdateButton';
 import { Card } from '@/Components/ui/card';
+import { SidebarTrigger } from '@/Components/ui/sidebar';
+import { Separator } from '@/Components/ui/separator';
 
 const productionCol = [
     {
@@ -104,8 +106,12 @@ export default function ProductionsIndex() {
     return (
         <>
             <Head title='Productions'/>   
-            <div className='flex flex-col w-full mt-4'>
-                <p className="text-xl font-bold mb-4">Productions</p>
+            <div className='flex flex-col w-full mt-2 gap-4'>
+                <div className="flex">
+                    <SidebarTrigger/>
+                    <p className="text-xl font-bold">Productions</p>
+                </div>
+                <Separator/>
                 <Card className='p-2'>
                 <div>
                     <div className='flex justify-between mb-2 gap-2'>
