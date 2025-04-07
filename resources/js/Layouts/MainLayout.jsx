@@ -1,4 +1,4 @@
-import { SidebarProvider, SidebarTrigger, SidebarInset, } from "@/Components/ui/sidebar"
+import { SidebarProvider, SidebarInset, } from "@/Components/ui/sidebar"
 import { Toaster } from "@/Components/ui/sonner"
 import { AppSidebar } from "@/Components/AppSideBar"
 
@@ -7,7 +7,6 @@ export default function MainLayout({ children }) {
     <SidebarProvider>
       <AppSidebar />
       <main className="flex flex-col w-full p-4 bg-slate-100">
-        <SidebarTrigger/>
         <Toaster/>
         {children}
       </main>

@@ -20,6 +20,8 @@ import CreateButtonContext from "@/hooks/Contexts/CreateButtonContext";
 import CreateButton from "@/Components/CreateButton";
 import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
 import UpdateButton from "@/Components/UpdateButton";
+import { SidebarTrigger } from "@/Components/ui/sidebar";
+import { Separator } from "@/Components/ui/separator";
 
 export default function OrdersIndex() {
     const { orders, search } = usePage().props;
@@ -107,8 +109,12 @@ export default function OrdersIndex() {
     return (
         <>
             <Head title='Orders'/>
-            <div className="flex flex-col w-full mt-4">
-                <p className="text-xl font-bold mb-4">Orders</p>
+            <div className="flex flex-col w-full mt-2 gap-4">
+                <div className="flex">
+                    <SidebarTrigger/>
+                    <p className="text-xl font-bold">Customers</p>
+                </div>
+                <Separator/>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center w-full h-full gap-4">
                     
                     <div className="flex flex-col flex-grow w-full h-full lg:col-span-2">

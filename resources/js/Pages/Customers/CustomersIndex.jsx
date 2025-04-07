@@ -4,6 +4,8 @@ import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import SearchForm from '@/Components/SearchForm';
 import { Card } from '@/Components/ui/card';
+import { Separator } from '@/Components/ui/separator';
+import { SidebarTrigger } from '@/Components/ui/sidebar';
 import UpdateButton from '@/Components/UpdateButton';
 import CreateButtonContext from '@/hooks/Contexts/CreateButtonContext';
 import DeleteButtonContext from '@/hooks/Contexts/DeleteButtonContext';
@@ -63,8 +65,12 @@ export default function CustomersIndex () {
     return (
         <>
             <Head title='Customers' />
-            <div className='flex flex-col w-full mt-4'>
-                <p className="text-xl font-bold mb-4">Customers</p>
+            <div className='flex flex-col w-full mt-2 gap-4'>
+                <div className="flex">
+                    <SidebarTrigger/>
+                    <p className="text-xl font-bold">Customers</p>
+                </div>
+                <Separator/>
                 <Card className='p-2'>    
                     <div>
                         <div className='flex justify-between mb-2 gap-2'>

@@ -16,6 +16,8 @@ import UpdateButton from '@/Components/UpdateButton';
 import DeleteButton from '@/Components/DeleteButton';
 import NavigationButton from '@/Components/NavigationButton';
 import { Card } from '@/Components/ui/card';
+import { SidebarTrigger } from '@/Components/ui/sidebar';
+import { Separator } from '@/Components/ui/separator';
 
 
 const productCol = [
@@ -67,8 +69,12 @@ export default function ProductsIndex() {
     return (       
         <>
             <Head title='Products'/>
-            <div className='flex flex-col w-full mt-4'>
-                <p className="text-xl font-bold mb-4">Products</p>
+            <div className='flex flex-col w-full mt-2 gap-4'>
+                <div className="flex">
+                    <SidebarTrigger/>
+                    <p className="text-xl font-bold">Products</p>
+                </div>
+                <Separator/>
                 <Card className='p-2'>
                     <div>
                         <div className='flex justify-between mb-2 gap-2'>

@@ -5,6 +5,8 @@ import { ChartNoAxesCombined, ShoppingBagIcon, Container, CircleDollarSign } fro
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, AreaChart, Area, LabelList } from 'recharts';
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
+import { SidebarTrigger } from '@/Components/ui/sidebar';
+import { Separator } from '@/Components/ui/separator';
 
 export default function Dashboard() {
     const { totalProductStocks, totalSold, totalSales, overAllCost, selectedYear, availableYears, salesByMonth, productNumberOfOrders, productStocks } = usePage().props;
@@ -43,8 +45,13 @@ export default function Dashboard() {
     return (
         <>
             <Head title='Dashboard' />
-            <div className="flex flex-col w-full mt-4 gap-4 overflow-hidden">
-                <p className="text-xl font-bold mb-4">Dashboard</p>
+            <div className="flex flex-col w-full mt-2 gap-4 overflow-hidden">
+                <div className="flex">
+                    <SidebarTrigger/>
+                    <p className="text-xl font-bold">Dashboard</p>
+                </div>
+                <Separator/>
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-2">
                     <Card>
                         <CardHeader className="flex flex-row gap-2">
@@ -107,6 +114,7 @@ export default function Dashboard() {
                                     />
                                     <Tooltip 
                                         contentStyle={{borderRadius: '4px'}}
+                                        formatter={(value) => `${value} items`}
                                     />
                                     <Bar 
                                         dataKey="product_stocks" 
