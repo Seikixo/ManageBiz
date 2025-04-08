@@ -8,31 +8,27 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardRepository
 {
-    public function getTotalStocks()
-    {
-        $produced = Production::sum('quantity_produced');
-        $sold = DB::table('order_product')->sum('quantity');
-
-        return $produced - $sold;
-    }
 
     public function getTotalSold()
     {
-        $sold = DB::table('order_product')->sum('quantity');
+        $sold = DB::table('order_product')
+            ->select(DB::raw('COALESCE(SUM(quantity), 0) AS total_sold'))
+            ->where('is_deleted', '=', false)
+            ->get();
 
         return $sold;
     }
 
     public function getTotalSales()
     {
-        $sales = Payment::sum('payment_amount');
+        $sales = Payment::where('is_deleted', '=', false)->sum('payment_amount');
 
         return $sales;
     }
 
     public function getOverAllCost()
     {
-        $overall_cost = Production::sum('overall_cost');
+        $overall_cost = Production::where('is_deleted', '=', false)->sum('overall_cost');
 
         return $overall_cost;
     }
@@ -40,9 +36,14 @@ class DashboardRepository
     public function getProductNumberOfOrder()
     {
         return DB::table('order_product')
-            ->select(DB::raw('SUM(order_product.quantity) AS number_of_orders'), 'products.name') 
+            ->select(
+                DB::raw('SUM(order_product.quantity) AS number_of_orders'), 
+                'products.name', 
+                'order_product.is_deleted'
+            ) 
+            ->where('order_product.is_deleted', '=', false) 
             ->rightJoin('products', 'products.id', '=', 'order_product.product_id')
-            ->groupBy('products.id')
+            ->groupBy('products.id', 'products.name', 'order_product.is_deleted') 
             ->orderBy('number_of_orders', 'desc')
             ->get(); 
     }
@@ -65,17 +66,18 @@ class DashboardRepository
     public function getAvailableYears()
     {
         return DB::table('payments')
-            ->select(DB::raw('DISTINCT EXTRACT(YEAR FROM payment_date) as year'))
+            ->select(DB::raw('DISTINCT EXTRACT(YEAR FROM payment_date) AS year'))
             ->orderByDesc('year')
             ->pluck('year');
     }
 
     public function getProductStocks()
     {
-        return DB::table('products')
+        $productsStock = DB::table('products')
             ->leftJoinSub(
                 DB::table('productions')
                     ->select('product_id', DB::raw('SUM(quantity_produced) as total_produced'))
+                    ->where('productions.is_deleted', '=', false)
                     ->groupBy('product_id'),
                 'prod',
                 'products.id',
@@ -85,17 +87,26 @@ class DashboardRepository
             ->leftJoinSub(
                 DB::table('order_product')
                     ->select('product_id', DB::raw('SUM(quantity) as total_sold'))
+                    ->where('order_product.is_deleted', '=', false)
                     ->groupBy('product_id'),
                 'ord',
                 'products.id',
                 '=',
                 'ord.product_id'
             )
+            ->where('products.is_deleted', '=', false)
             ->select(
                 'products.name',
                 DB::raw('GREATEST(COALESCE(prod.total_produced, 0) - COALESCE(ord.total_sold, 0), 0) AS product_stocks')
             )
             ->get();
+
+        $totalProductStock = $productsStock->sum('product_stocks');
+
+        return[
+            'productsStock' => $productsStock,
+            'totalProductStock' => $totalProductStock,
+        ];
     }
 
 }

@@ -9,10 +9,12 @@ import { SidebarTrigger } from '@/Components/ui/sidebar';
 import { Separator } from '@/Components/ui/separator';
 
 export default function Dashboard() {
-    const { totalProductStocks, totalSold, totalSales, overAllCost, selectedYear, availableYears, salesByMonth, productNumberOfOrders, productStocks } = usePage().props;
+    const { totalSold, totalSales, overAllCost, selectedYear, availableYears, salesByMonth, productNumberOfOrders, productStocks } = usePage().props;
     const [year, setYear] = useState(selectedYear);
 
-    console.log(productStocks);
+    const {totalProductStock, ...productStock} = productStocks;
+    const productStockArray = productStock.productsStock;
+
 
     const highestMonthlySales = Math.max(...salesByMonth.map(sale => sale.total_sales));
     const roundMax = Math.ceil(highestMonthlySales / 1000) * 1000;
@@ -23,18 +25,13 @@ export default function Dashboard() {
     };
 
     const tailwindColors = [
-        "#78716c", //stone-500
-        "#64748b", //slate-500
-        "#ef4444", // red-500
-        "#3b82f6", // blue-500
-        "#10b981", // green-500
-        "#f59e0b", // yellow-500
-        "#8b5cf6", // purple-500
-        "#ec4899", // pink-500
-        "#14b8a6", // teal-500
-        "#f97316", // orange-500
-        "#22d3ee", // cyan-400
-        "#6366f1", // indigo-500
+        "#22d3ee", // red-500
+        "#38bdf8", // blue-500
+        "#60a5fa", // green-500
+        "#818cf8", // yellow-500
+        "#a78bfa", // purple-500
+        "#c084fc", // pink-500
+        "#e879f9",
     ]
       
     const productNumberOfOrdersWithColor = productNumberOfOrders.map((entry, index) => ({
@@ -59,7 +56,7 @@ export default function Dashboard() {
                             <Container/>
                         </CardHeader>
                         <CardContent className="text-4xl">
-                            {totalProductStocks}
+                            {totalProductStock}
                         </CardContent>
                     </Card>
                     <Card>
@@ -68,7 +65,7 @@ export default function Dashboard() {
                             <ShoppingBagIcon/>
                         </CardHeader>
                         <CardContent className="text-4xl">
-                            {totalSold}
+                            {totalSold.map(t => t.total_sold)}
                         </CardContent>
                     </Card>
                     <Card>
@@ -99,7 +96,7 @@ export default function Dashboard() {
                         <CardContent>
                             <ResponsiveContainer width="100%" height={400}>
                                 <BarChart
-                                    data={productStocks}
+                                    data={productStockArray}
                                     layout="vertical"
                                     margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                                 >
@@ -118,7 +115,7 @@ export default function Dashboard() {
                                     />
                                     <Bar 
                                         dataKey="product_stocks" 
-                                        fill="#3b82f6" 
+                                        fill="#818cf8" 
                                         radius={4} 
                                         barSize={60} 
                                     >
@@ -193,8 +190,8 @@ export default function Dashboard() {
                             <AreaChart data={salesByMonth} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                                 <defs>
                                 <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
-                                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="#818cf8" stopOpacity={0.8} />
+                                    <stop offset="95%" stopColor="#818cf8" stopOpacity={0} />
                                 </linearGradient>
                                 </defs>
                                 <XAxis 
@@ -213,7 +210,7 @@ export default function Dashboard() {
                                 <Area
                                     type="monotone"
                                     dataKey="total_sales"
-                                    stroke="#3b82f6"
+                                    stroke="#818cf8"
                                     fillOpacity={1}
                                     fill="url(#colorSales)"
                                 />

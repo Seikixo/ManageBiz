@@ -128,7 +128,7 @@ export default function PaymentsIndex() {
                     ))}
                 </div>
 
-                <Card className='mt-4 p-2'>
+                <Card className='p-2'>
                     <div>
                         <div className='flex justify-between mb-2 gap-2'>
                             <SearchFormContext.Provider value={{search, indexRoute: 'payments.index', placeholder: "Search Customer..."}}>

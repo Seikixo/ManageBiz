@@ -112,7 +112,7 @@ export default function OrdersIndex() {
             <div className="flex flex-col w-full mt-2 gap-4">
                 <div className="flex">
                     <SidebarTrigger/>
-                    <p className="text-xl font-bold">Customers</p>
+                    <p className="text-xl font-bold">Orders</p>
                 </div>
                 <Separator/>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center w-full h-full gap-4">
