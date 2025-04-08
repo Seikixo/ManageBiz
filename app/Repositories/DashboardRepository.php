@@ -37,7 +37,7 @@ class DashboardRepository
     {
         return DB::table('order_product')
             ->select(
-                DB::raw('SUM(order_product.quantity) AS number_of_orders'), 
+                DB::raw('COALESCE(SUM(order_product.quantity), 0) AS number_of_orders'), 
                 'products.name', 
                 'order_product.is_deleted'
             ) 

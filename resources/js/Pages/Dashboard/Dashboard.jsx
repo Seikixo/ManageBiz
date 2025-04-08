@@ -25,13 +25,18 @@ export default function Dashboard() {
     };
 
     const tailwindColors = [
-        "#22d3ee", // red-500
-        "#38bdf8", // blue-500
-        "#60a5fa", // green-500
-        "#818cf8", // yellow-500
-        "#a78bfa", // purple-500
-        "#c084fc", // pink-500
+        "#f87171",
+        "#34d399", // red-500
+        "#2dd4bf", // blue-500
+        "#22d3ee", // green-500
+        "#38bdf8", // yellow-500
+        "#60a5fa", // purple-500
+        "#818cf8", // pink-500
+        "#a78bfa",
+        "#c084fc",
         "#e879f9",
+        "#f472b6",
+        "#fb7185",
     ]
       
     const productNumberOfOrdersWithColor = productNumberOfOrders.map((entry, index) => ({
@@ -61,7 +66,7 @@ export default function Dashboard() {
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row gap-2">
-                            Total Products Sold
+                            Total Products Order
                             <ShoppingBagIcon/>
                         </CardHeader>
                         <CardContent className="text-4xl">
