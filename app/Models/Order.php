@@ -25,6 +25,7 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class, 'order_product')
                     ->withPivot('quantity', 'price_at_order') 
+                    ->wherePivot('is_deleted', false)
                     ->withTimestamps();
     }
 
@@ -41,7 +42,7 @@ class Order extends Model
     protected static function booted() 
     {
         static::addGlobalScope('notDeleted', function(Builder $builder){
-            $builder->where('is_deleted', false);
+            $builder->where('orders.is_deleted', false);
         });
     }
 }
