@@ -104,7 +104,7 @@ export default function PaymentsIndex() {
 
     return (       
         <>
-            <Head title='payments'/>
+            <Head title='Payments'/>
             <div className='flex flex-col w-full gap-4'>
                 <div className="flex">
                     <SidebarTrigger/>

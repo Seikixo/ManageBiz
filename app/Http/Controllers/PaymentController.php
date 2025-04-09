@@ -56,7 +56,7 @@ class PaymentController extends Controller
     public function create()
     {
         try{
-            $orders = $this->orderRepository->getOrderWithCustomer();
+            $orders = $this->orderRepository->getUnpaidOrdersPerCustomer();
 
             return Inertia::render('Payments/PaymentCreate', [
                 'orders' => $orders,
@@ -111,7 +111,7 @@ class PaymentController extends Controller
         try
         {
             $payment = $this->paymentRepository->findByIdWithOrder($id);
-            $orders = $this->orderRepository->getOrderWithCustomer();
+            $orders = $this->orderRepository->getUnpaidOrdersPerCustomer();
             
 
             return Inertia::render('Payments/PaymentEdit', [
