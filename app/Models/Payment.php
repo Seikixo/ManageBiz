@@ -33,7 +33,7 @@ class Payment extends Model
     protected static function booted() 
     {
         static::addGlobalScope('notDeleted', function(Builder $builder){
-            $builder->where('is_deleted', false);
+            $builder->where('payments.is_deleted', false);
         });
     }
 }

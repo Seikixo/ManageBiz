@@ -16,10 +16,18 @@ class OrderRepository
         return Order::with(['customer', 'products'])->findOrFail($id);
     }
 
-    public function getOrderWithCustomer()
+    public function getUnpaidOrdersPerCustomer()
     {
-        $orders = Order::with('customer')->get();
-        return $orders;
+        return Order::with('customer')
+        ->whereRaw('
+            total_price > (
+                SELECT COALESCE(SUM(payment_amount), 0)
+                FROM payments
+                WHERE payments.order_id = orders.id
+                AND payments.is_deleted = false
+            )
+        ')
+        ->get();
     }
 
     public function createOrderWithProducts(array $data): Order

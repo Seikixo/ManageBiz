@@ -12,6 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover
 
 export default function PaymentEdit() {
     const { payment, orders } = usePage().props;
+    console.log(payment);
 
     const { data, put, processing, errors, setData } = useForm({
         order_id: payment?.order_id || '',
@@ -42,9 +43,9 @@ export default function PaymentEdit() {
 
     return (
         <>
-            <Head title="Create Payment" />
+            <Head title="Edit Payment" />
             <div>
-                <p className="text-xl font-bold mb-4">Create Payment</p>
+                <p className="text-xl font-bold mb-4">Edit Payment</p>
 
                 <div className='w-1/2'>
                     <form onSubmit={submit}>
