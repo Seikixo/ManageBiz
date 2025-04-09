@@ -34,24 +34,23 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Log in" />
 
             {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
+                <div className="mb-4 rounded-md bg-green-50 p-3 text-sm font-medium text-green-600 dark:bg-green-900/20 dark:text-green-400">
                     {status}
                 </div>
             )}
 
-            <Card className="w-96">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
-                    <CardDescription>
-                        Enter your email below to login to your account
+            <Card className="w-full shadow-md dark:border-gray-700">
+                <CardHeader className="space-y-1">
+                    <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
+                    <CardDescription className="text-sm text-gray-500 dark:text-gray-400">
+                        Enter your credentials to access your account
                     </CardDescription>
                 </CardHeader>
 
                 <CardContent>
-                    <form onSubmit={submit}>
-                        <div>
-                            <Label htmlFor="email">Email</Label>
-
+                    <form onSubmit={submit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
                             <Input 
                                 id="email"
                                 type="email"
@@ -59,16 +58,25 @@ export default function Login({ status, canResetPassword }) {
                                 value={data.email}
                                 className="mt-1 block w-full"
                                 autoComplete="username"
-                                isFocused={true}
+                                autoFocus
                                 onChange={(e) => setData('email', e.target.value)}
+                                placeholder="your.email@example.com"
                             />
-
-                            <InputError message={errors.email} className="mt-2" />
+                            <InputError message={errors.email} className="text-xs" />
                         </div>
 
-                        <div className="mt-4">
-                            <Label htmlFor="password">Password</Label>
-
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                                {canResetPassword && (
+                                    <Link
+                                        href={route('password.request')}
+                                        className="text-xs font-medium text-primary hover:underline"
+                                    >
+                                        Forgot password?
+                                    </Link>
+                                )}
+                            </div>
                             <Input
                                 id="password"
                                 type="password"
@@ -77,48 +85,32 @@ export default function Login({ status, canResetPassword }) {
                                 className="mt-1 block w-full"
                                 autoComplete="current-password"
                                 onChange={(e) => setData('password', e.target.value)}
+                                placeholder="••••••••"
                             />
-
-                            <InputError message={errors.password} className="mt-2" />
+                            <InputError message={errors.password} className="text-xs" />
                         </div>
 
-                        <div className="mt-4 block">
-                            <label className="flex items-center justify-between">
-                                <div>
-                                    <Checkbox
-                                        name="remember"
-                                        checked={data.remember}
-                                        onChange={(e) =>
-                                            setData('remember', e.target.checked)
-                                        }
-                                    />
-                                    <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
-                                        Remember me
-                                    </span>
-                                </div>
-                            </label>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                name="remember"
+                                id="remember"
+                                checked={data.remember}
+                                onChange={(e) => setData('remember', e.target.checked)}
+                            />
+                            <Label htmlFor="remember" className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                Remember me
+                            </Label>
                         </div>
 
-                        <div className="mt-4 flex items-center justify-end">
-                            {canResetPassword && (
-                                <Link
-                                    href={route('password.request')}
-                                    className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                                >
-                                    Forgot your password?
-                                </Link>
-                            )}
-
-                            <Button className="ms-4" disabled={processing}>
+                        <div className="mt-6 flex flex-col space-y-3">
+                            <Button className="w-full" disabled={processing}>
                                 Log in
                             </Button>
-                            
-                            <Link href={route('register')}>
-                                <Button variant="outline" type="submit" className="ms-4">                                
+                            <Link href={route('register')} className="w-full sm:w-auto">
+                                <Button variant="outline" type="button" className="w-full">                                
                                     Register
                                 </Button>
                             </Link>
-                            
                         </div>
                     </form>
                 </CardContent>
