@@ -26,12 +26,12 @@ export default function Dashboard() {
 
     const tailwindColors = [
         "#f87171",
-        "#34d399", // red-500
-        "#2dd4bf", // blue-500
-        "#22d3ee", // green-500
-        "#38bdf8", // yellow-500
-        "#60a5fa", // purple-500
-        "#818cf8", // pink-500
+        "#34d399", 
+        "#2dd4bf", 
+        "#22d3ee", 
+        "#38bdf8", 
+        "#60a5fa", 
+        "#818cf8", 
         "#a78bfa",
         "#c084fc",
         "#e879f9",
@@ -47,7 +47,7 @@ export default function Dashboard() {
     return (
         <>
             <Head title='Dashboard' />
-            <div className="flex flex-col w-full mt-2 gap-4 overflow-hidden">
+            <div className="flex flex-col w-full gap-4 overflow-hidden">
                 <div className="flex">
                     <SidebarTrigger/>
                     <p className="text-xl font-bold">Dashboard</p>
@@ -57,20 +57,20 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-2">
                     <Card>
                         <CardHeader className="flex flex-row gap-2">
-                            Available Stocks
-                            <Container/>
-                        </CardHeader>
-                        <CardContent className="text-4xl">
-                            {totalProductStock}
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="flex flex-row gap-2">
                             Total Products Order
                             <ShoppingBagIcon/>
                         </CardHeader>
                         <CardContent className="text-4xl">
                             {totalSold.map(t => t.total_sold)}
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row gap-2">
+                            Available Stocks
+                            <Container/>
+                        </CardHeader>
+                        <CardContent className="text-4xl">
+                            {totalProductStock}
                         </CardContent>
                     </Card>
                     <Card>

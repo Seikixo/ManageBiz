@@ -106,7 +106,7 @@ export default function ProductionsIndex() {
     return (
         <>
             <Head title='Productions'/>   
-            <div className='flex flex-col w-full mt-2 gap-4'>
+            <div className='flex flex-col w-full gap-4'>
                 <div className="flex">
                     <SidebarTrigger/>
                     <p className="text-xl font-bold">Productions</p>
