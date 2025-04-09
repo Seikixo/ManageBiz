@@ -33,34 +33,34 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <Card className="w-96">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Register</CardTitle>
+            <Card className="w-full shadow-md dark:border-gray-700">
+                <CardHeader className="space-y-1">
+                    <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
+                    <CardDescription className="text-sm text-gray-500 dark:text-gray-400">
+                        Enter your information to create a new account
+                    </CardDescription>
                 </CardHeader>
 
-
                 <CardContent>
-                    <form onSubmit={submit}>
-                        <div>
-                            <Label htmlFor="name">Name</Label>
-
+                    <form onSubmit={submit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="name" className="text-sm font-medium">Name</Label>
                             <Input
                                 id="name"
                                 name="name"
                                 value={data.name}
                                 className="mt-1 block w-full"
                                 autoComplete="name"
-                                isFocused={true}
+                                autoFocus
                                 onChange={(e) => setData('name', e.target.value)}
+                                placeholder="John Doe"
                                 required
                             />
-
-                            <InputError message={errors.name} className="mt-2" />
+                            <InputError message={errors.name} className="text-xs" />
                         </div>
 
-                        <div className="mt-4">
-                            <Label htmlFor="email">Email</Label>
-
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
@@ -69,15 +69,14 @@ export default function Register() {
                                 className="mt-1 block w-full"
                                 autoComplete="username"
                                 onChange={(e) => setData('email', e.target.value)}
+                                placeholder="your.email@example.com"
                                 required
                             />
-
-                            <InputError message={errors.email} className="mt-2" />
+                            <InputError message={errors.email} className="text-xs" />
                         </div>
 
-                        <div className="mt-4">
-                            <Label htmlFor="password">Password</Label>
-
+                        <div className="space-y-2">
+                            <Label htmlFor="password" className="text-sm font-medium">Password</Label>
                             <Input
                                 id="password"
                                 type="password"
@@ -86,15 +85,14 @@ export default function Register() {
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
                                 onChange={(e) => setData('password', e.target.value)}
+                                placeholder="••••••••"
                                 required
                             />
-
-                            <InputError message={errors.password} className="mt-2" />
+                            <InputError message={errors.password} className="text-xs" />
                         </div>
 
-                        <div className="mt-4">
-                            <Label htmlFor="password_confirmation">Confirm Password</Label>
-
+                        <div className="space-y-2">
+                            <Label htmlFor="password_confirmation" className="text-sm font-medium">Confirm Password</Label>
                             <Input
                                 id="password_confirmation"
                                 type="password"
@@ -102,34 +100,29 @@ export default function Register() {
                                 value={data.password_confirmation}
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
-                                onChange={(e) =>
-                                    setData('password_confirmation', e.target.value)
-                                }
+                                onChange={(e) => setData('password_confirmation', e.target.value)}
+                                placeholder="••••••••"
                                 required
                             />
-
-                            <InputError
-                                message={errors.password_confirmation}
-                                className="mt-2"
-                            />
+                            <InputError message={errors.password_confirmation} className="text-xs" />
                         </div>
 
-                        <div className="mt-4 flex items-center justify-end">
+                        <div className="mt-6 flex flex-col space-y-3">
                             <Link
                                 href={route('login')}
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                                className="text-sm font-medium text-primary hover:underline"
                             >
-                                Already registered?
+                                Already have an account?
                             </Link>
 
-                            <Button className="ms-4" disabled={processing}>
+                            <Button className="w-full sm:w-auto" disabled={processing}>
                                 Register
                             </Button>
                         </div>
                     </form>
                 </CardContent>
+                
             </Card>
-            
         </GuestLayout>
     );
 }
