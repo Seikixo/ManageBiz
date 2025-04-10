@@ -12,7 +12,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/Components/ui/popover
 
 export default function PaymentEdit() {
     const { payment, orders } = usePage().props;
-    console.log(payment);
 
     const { data, put, processing, errors, setData } = useForm({
         order_id: payment?.order_id || '',
@@ -82,9 +81,10 @@ export default function PaymentEdit() {
                                 name="customer_id"
                                 value={data.customer_id}
                                 placeholder="Customer Id"
-                                className="mt-1 block w-full bg-gray-200"
+                                className="hidden"
                                 readOnly
                             />
+
                             <InputError message={errors.customer_id} className='mt-2' />
                         </div>
 

@@ -81,8 +81,7 @@ export default function PaymentCreate() {
                                 name="customer_id"
                                 value={data.customer_id}
                                 placeholder="Customer Id"
-                                className="mt-1 block w-full bg-gray-200"
-                                readOnly
+                                className="hidden"
                             />
                             <InputError message={errors.customer_id} className='mt-2' />
                         </div>
