@@ -13,14 +13,22 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+
     /**
      * Display the login view.
      */
     public function create(): Response
     {
+        $rememberedEmail = '';
+
+        if (Auth::viaRemember()) {
+            $rememberedEmail = Auth::user()->email;
+        }
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'rememberedEmail' => $rememberedEmail,
         ]);
     }
 
