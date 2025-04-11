@@ -14,11 +14,11 @@ import {
     CardTitle,
 } from "@/Components/ui/card"
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, rememberedEmail = '' }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
+        email: rememberedEmail || '',
         password: '',
-        remember: false,
+        remember: !!rememberedEmail,
     });
 
     const submit = (e) => {
