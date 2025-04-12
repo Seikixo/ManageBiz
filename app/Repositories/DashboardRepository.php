@@ -21,7 +21,9 @@ class DashboardRepository
 
     public function getTotalSales()
     {
-        $sales = Payment::where('is_deleted', '=', false)->sum('payment_amount');
+        $sales = Payment::where('is_deleted', '=', false)
+            ->whereNotIn('payment_status', ['Refund', 'Failed'])
+            ->sum('payment_amount');
 
         return $sales;
     }
@@ -58,6 +60,7 @@ class DashboardRepository
             "))
             ->whereYear('payment_date', $year)
             ->where('is_deleted', false) 
+            ->whereNotIn('payment_status', ['Refund', 'Failed'])
             ->groupByRaw("month, month_number")
             ->orderBy('month_number')
             ->get();
