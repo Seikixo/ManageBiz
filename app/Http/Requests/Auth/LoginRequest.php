@@ -40,7 +40,6 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
-        Log::info('Remember value: ' . ($this->boolean('remember') ? 'true' : 'false'));
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
