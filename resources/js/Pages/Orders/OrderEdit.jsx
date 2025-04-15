@@ -46,7 +46,7 @@ export default function OrderEdit() {
 
     return (
         <>
-            <Head title="Create Order" />
+            <Head title="Update Order" />
             <div>
                 <p className="text-xl font-bold mb-4">Update Order</p>
 
