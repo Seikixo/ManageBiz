@@ -10,7 +10,7 @@ import {
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog"
 import { toast } from 'sonner';
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Button } from '@/Components/ui/button';
 import { Trash2 } from "lucide-react";
 import { router } from "@inertiajs/react";
@@ -56,4 +56,4 @@ const DeleteButton = () => {
     );
 }
 
-export default DeleteButton;
+export default memo(DeleteButton);

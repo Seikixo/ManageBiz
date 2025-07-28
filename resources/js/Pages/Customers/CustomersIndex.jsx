@@ -14,6 +14,7 @@ import SearchFormContext from '@/hooks/Contexts/SearchFormContext';
 import UpdateButtonContext from '@/hooks/Contexts/UpdateButtonContext';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, usePage } from '@inertiajs/react';
+import { useMemo } from 'react';
 
 
 const customerCol = [
@@ -42,14 +43,23 @@ const customerCol = [
         header: "Actions",      
         cell: ({ row, customerId }) => {
             customerId = row.original.id;
+            const deleteContenxtValue = useMemo(() => ({
+                id: customerId, 
+                deleteRoute: 'customers.destroy', 
+                dataLabel: 'Customer'
+            }), [customerId]);
 
+            const updateContextValue = useMemo(() => ({
+                id: customerId,
+                updateRoute: 'customers.edit'
+            }), [customerId]);
             return(
                 <div className='flex gap-2'>
-                    <DeleteButtonContext.Provider value={{id: customerId, deleteRoute: 'customers.destroy', dataLabel: 'Customer'}}>
+                    <DeleteButtonContext.Provider value={deleteContenxtValue}>
                         <DeleteButton/>
                     </DeleteButtonContext.Provider>
 
-                    <UpdateButtonContext.Provider value={{id: customerId, updateRoute: 'customers.edit'}}>
+                    <UpdateButtonContext.Provider value={updateContextValue}>
                         <UpdateButton/>
                     </UpdateButtonContext.Provider>
                 </div>
