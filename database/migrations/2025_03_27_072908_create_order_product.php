@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity');
             $table->decimal('price_at_order', 10, 2);
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }

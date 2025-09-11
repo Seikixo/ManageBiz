@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('material_cost', 10, 2);
             $table->decimal('production_cost', 10, 2);
             $table->decimal('overall_cost', 10, 2);
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }
