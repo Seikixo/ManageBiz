@@ -17,6 +17,7 @@ import NavigationButton from "@/Components/NavigationButton";
 import { Card, CardContent, CardHeader } from "@/Components/ui/card";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import { Separator } from "@/Components/ui/separator";
+import CreatePaymentButton from "./components/CreatePaymentButton";
 
 const statusColors = {
     Pending: "bg-yellow-100 text-yellow-800",
@@ -162,11 +163,7 @@ export default function PaymentsIndex() {
                                 <SearchForm />
                             </SearchFormContext.Provider>
 
-                            <CreateButtonContext.Provider
-                                value={{ createRoute: "payments.create" }}
-                            >
-                                <CreateButton />
-                            </CreateButtonContext.Provider>
+                            <CreatePaymentButton />
                         </div>
 
                         <DataTable

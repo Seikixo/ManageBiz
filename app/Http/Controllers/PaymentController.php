@@ -36,11 +36,13 @@ class PaymentController extends Controller
             $search = $request->query('search', '');
             $payments = $this->paymentRepository->search($search)->toArray();
             $statusesCount = $this->paymentRepository->getPaymentStatusCount();
+            $orders = $this->orderRepository->getUnpaidOrdersPerCustomer();
 
             return Inertia::render('Payments/PaymentsIndex',[
                 'payments' => $payments,
                 'search' => $search,
-                'statusesCount' => $statusesCount
+                'statusesCount' => $statusesCount,
+                'orders' => $orders
             ]);
         }
         catch (Exception $e)
@@ -48,26 +50,6 @@ class PaymentController extends Controller
             Log::error("Unexpected error in payments fetching: " . $e->getMessage());
             return back()->withErrors(['error' => 'Something went wrong while fetching payments detail']);
         } 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        try{
-            $orders = $this->orderRepository->getUnpaidOrdersPerCustomer();
-
-            return Inertia::render('Payments/PaymentCreate', [
-                'orders' => $orders,
-            ]);    
-        }
-        catch (Exception $e)
-        {
-            Log::error("Unexpected error in payment creation: " . $e->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong while fetching Payments detail']);
-        }
-
     }
 
     /**
