@@ -14,13 +14,15 @@ import { Label } from "@/Components/ui/label";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/Components/ui/calendar";
+import { useEffect } from "react";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/Components/ui/popover";
+import { toast } from "sonner";
 
-export default function PaymentCreate() {
+export default function PaymentCreateForm() {
     const { orders } = usePage().props;
     console.log("Orders:", orders);
     const statusColors = {
@@ -28,7 +30,7 @@ export default function PaymentCreate() {
         Processing: "bg-blue-100 text-blue-800",
         Delivered: "bg-green-100 text-green-800",
     };
-    const { data, post, processing, errors, setData } = useForm({
+    const { data, post, processing, errors, wasSuccessful, setData } = useForm({
         order_id: "",
         customer_id: "",
         payment_date: "",
@@ -36,6 +38,15 @@ export default function PaymentCreate() {
         payment_status: "",
         payment_type: "",
     });
+
+    useEffect(() => {
+        if (wasSuccessful) {
+            toast.success("Payment created successfully!", {
+                position: "bottom-left",
+                duration: 2000,
+            });
+        }
+    }, [wasSuccessful]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -58,10 +69,10 @@ export default function PaymentCreate() {
     return (
         <>
             <Head title="Create Payment" />
-            <div>
+            <div className="w-full">
                 <p className="text-xl font-bold mb-4">Create Payment</p>
 
-                <div className="w-1/2">
+                <div className="w-full">
                     <form onSubmit={submit}>
                         <div className="mt-4">
                             <Label>Order</Label>
@@ -245,15 +256,14 @@ export default function PaymentCreate() {
                             />
                         </div>
 
-                        <div className="mt-6 flex gap-4">
-                            <Button type="submit" disabled={processing}>
+                        <div className="mt-10 flex gap-4 w-full">
+                            <Button
+                                type="submit"
+                                disabled={processing}
+                                className="w-full"
+                            >
                                 Submit
                             </Button>
-                            <Link href={route("payments.index")}>
-                                <Button variant="outline" type="button">
-                                    Cancel
-                                </Button>
-                            </Link>
                         </div>
                     </form>
                 </div>
@@ -261,5 +271,3 @@ export default function PaymentCreate() {
         </>
     );
 }
-
-PaymentCreate.layout = (page) => <MainLayout>{page}</MainLayout>;
