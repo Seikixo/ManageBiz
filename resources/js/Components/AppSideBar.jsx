@@ -86,16 +86,14 @@ export function AppSidebar() {
                 <SidebarContent className="bg-white mt-2">
                     {/* Logo */}
                     <SidebarGroup>
-                        <div className="flex justify-center w-full mb-6">
-                            <SidebarGroupLabel className="flex text-gray-700 text-lg font-semibold items-center">
-                                <img
-                                    src="/images/ManageBiz-Logo.png"
-                                    alt=""
-                                    className="w-10 h-10"
-                                />
-                                Managebiz
-                            </SidebarGroupLabel>
-                        </div>
+                        <SidebarGroupLabel className="flex text-gray-700 text-lg font-semibold">
+                            <img
+                                src="/images/ManageBiz-Logo.png"
+                                alt=""
+                                className="w-10 h-10"
+                            />
+                            Managebiz
+                        </SidebarGroupLabel>
                     </SidebarGroup>
 
                     {/* Overview */}

@@ -34,10 +34,12 @@ class ProductionController extends Controller
         {
             $search = $request->query('search', '');
             $productions = $this->productionRepository->search($search)->toArray();
+            $products = $this->productRepository->getAllName();
     
             return Inertia::render('Productions/ProductionsIndex', [
                 'productions' => $productions,
-                'search' => $search
+                'search' => $search,
+                'products' => $products
             ]);
         }
         catch (Exception $e)
@@ -46,19 +48,6 @@ class ProductionController extends Controller
         }
   
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $products = $this->productRepository->getAllName();
-
-        return Inertia::render('Productions/ProductionsCreate', [
-            'products' => $products
-        ]);
-    }
-
     /**
      * Store a newly created resource in storage.
      */

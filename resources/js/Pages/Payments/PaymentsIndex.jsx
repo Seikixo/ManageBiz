@@ -4,7 +4,6 @@ import { Head, usePage } from "@inertiajs/react";
 import { Banknote, Loader, RotateCcw, CircleX } from "lucide-react";
 
 import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
-import CreateButtonContext from "@/hooks/Contexts/CreateButtonContext";
 import NavigationButtonContext from "@/hooks/Contexts/NavigationButtonContext";
 import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
 import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
@@ -17,7 +16,7 @@ import NavigationButton from "@/Components/NavigationButton";
 import { Card, CardContent, CardHeader } from "@/Components/ui/card";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import { Separator } from "@/Components/ui/separator";
-import CreatePaymentButton from "./components/CreatePaymentButton";
+import CreatePaymentSheet from "./components/CreatePaymentSheet";
 
 const statusColors = {
     Pending: "bg-yellow-100 text-yellow-800",
@@ -122,7 +121,7 @@ export default function PaymentsIndex() {
                     <p className="text-xl font-bold">Payments</p>
                 </div>
                 <Separator />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2 mb-8">
                     {statusesCount.map(({ status, count }) => (
                         <Card
                             key={status}
@@ -163,7 +162,7 @@ export default function PaymentsIndex() {
                                 <SearchForm />
                             </SearchFormContext.Provider>
 
-                            <CreatePaymentButton />
+                            <CreatePaymentSheet />
                         </div>
 
                         <DataTable

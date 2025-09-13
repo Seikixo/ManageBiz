@@ -43,7 +43,7 @@ export default function PaymentCreateForm() {
         if (wasSuccessful) {
             toast.success("Payment created successfully!", {
                 position: "bottom-left",
-                duration: 2000,
+                duration: 3000,
             });
         }
     }, [wasSuccessful]);
@@ -256,15 +256,13 @@ export default function PaymentCreateForm() {
                             />
                         </div>
 
-                        <div className="mt-10 flex gap-4 w-full">
-                            <Button
-                                type="submit"
-                                disabled={processing}
-                                className="w-full"
-                            >
-                                Submit
-                            </Button>
-                        </div>
+                        <Button
+                            type="submit"
+                            disabled={processing}
+                            className="mt-8 w-full"
+                        >
+                            Submit
+                        </Button>
                     </form>
                 </div>
             </div>

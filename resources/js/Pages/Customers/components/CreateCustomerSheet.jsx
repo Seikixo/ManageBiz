@@ -1,35 +1,33 @@
 import { Button } from "@/Components/ui/button";
 import {
     Sheet,
-    SheetClose,
     SheetContent,
     SheetDescription,
-    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
 } from "@/Components/ui/sheet";
 import { Plus } from "lucide-react";
-import PaymentCreateForm from "./PaymentCreate";
+import CustomerCreateForm from "../CustomerCreate";
 
-export default function CreatePaymentButton() {
+export default function CreateCustomerSheet() {
     return (
         <Sheet>
             <SheetTrigger asChild>
                 <Button className="cursor-pointer" variant="default">
-                    <Plus /> Create Payment
+                    <Plus /> Create Customer
                 </Button>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
-                    <SheetTitle>Create payment from customer</SheetTitle>
+                    <SheetTitle>Create customer</SheetTitle>
                     <SheetDescription>
-                        Fill up the information of the payment here. Click
+                        Fill up the information of the customer here. Click
                         submit when you're done.
                     </SheetDescription>
                 </SheetHeader>
                 <div className="grid flex-1 auto-rows-min gap-6 px-4">
-                    <PaymentCreateForm />
+                    <CustomerCreateForm />
                 </div>
             </SheetContent>
         </Sheet>
