@@ -1,12 +1,7 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/Components/ui/card"
-import { DataTable } from '@/Components/DataTable';
-import MainLayout from '@/Layouts/MainLayout';
-import { Head, usePage } from '@inertiajs/react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
+import { DataTable } from "@/Components/DataTable";
+import MainLayout from "@/Layouts/MainLayout";
+import { Head, usePage } from "@inertiajs/react";
 import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
 import SearchForm from "@/Components/SearchForm";
 import NavigationButtonContext from "@/hooks/Contexts/NavigationButtonContext";
@@ -22,6 +17,7 @@ import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
 import UpdateButton from "@/Components/UpdateButton";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import { Separator } from "@/Components/ui/separator";
+import CreateOrderSheet from "./components/CreateOrderSheet";
 
 export default function OrdersIndex() {
     const { orders, search } = usePage().props;
@@ -51,14 +47,12 @@ export default function OrdersIndex() {
             header: "Total Price",
             cell: ({ row }) => {
                 const totalPrice = row.original.total_price;
-                return(
+                return (
                     <>
-                        <span>
-                            ₱{Number(totalPrice).toLocaleString()}
-                        </span>
+                        <span>₱{Number(totalPrice).toLocaleString()}</span>
                     </>
-                )
-            }
+                );
+            },
         },
         {
             accessorKey: "quantity",
@@ -70,68 +64,94 @@ export default function OrdersIndex() {
             cell: ({ row }) => {
                 const orderStatus = row.original.status;
 
-                return(
-                    <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[orderStatus] || "bg-gray-100 text-gray-800"}`}>
+                return (
+                    <span
+                        className={`px-2 py-1 rounded text-sm font-medium ${
+                            statusColors[orderStatus] ||
+                            "bg-gray-100 text-gray-800"
+                        }`}
+                    >
                         {orderStatus}
                     </span>
-                )
-            }
+                );
+            },
         },
         {
             accessorKey: "actions",
-            header: "Actions",      
+            header: "Actions",
             cell: ({ row }) => {
                 const order = row.original;
                 const orderId = row.original.id;
                 return (
-                    <div className='flex gap-2'>
+                    <div className="flex gap-2">
                         <Button
-                            variant='outline'
+                            variant="outline"
                             className="bg-blue-400 text-white px-4 rounded-md"
                             onClick={() => setSelectedOrder(order)}
                         >
                             <Eye />
                         </Button>
 
-                        <DeleteButtonContext.Provider value={{id: orderId, deleteRoute: 'orders.destroy', dataLabel: 'Order'}}>
-                            <DeleteButton/>
+                        <DeleteButtonContext.Provider
+                            value={{
+                                id: orderId,
+                                deleteRoute: "orders.destroy",
+                                dataLabel: "Order",
+                            }}
+                        >
+                            <DeleteButton />
                         </DeleteButtonContext.Provider>
 
-                        <UpdateButtonContext.Provider value={{id: orderId, updateRoute: 'orders.edit'}}>
-                            <UpdateButton/>
+                        <UpdateButtonContext.Provider
+                            value={{ id: orderId, updateRoute: "orders.edit" }}
+                        >
+                            <UpdateButton />
                         </UpdateButtonContext.Provider>
                     </div>
                 );
-            }
-        }
+            },
+        },
     ];
 
     return (
         <>
-            <Head title='Orders'/>
+            <Head title="Orders" />
             <div className="flex flex-col w-full gap-4">
                 <div className="flex">
-                    <SidebarTrigger/>
+                    <SidebarTrigger />
                     <p className="text-xl font-bold">Orders</p>
                 </div>
-                <Separator/>
+                <Separator />
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center w-full h-full gap-4">
-                    
                     <div className="flex flex-col flex-grow w-full h-full lg:col-span-2">
                         <Card className="p-2 h-full">
                             <div className="flex justify-between mb-2 gap-2">
-                                <SearchFormContext.Provider value={{search, indexRoute: 'orders.index', placeholder: "Search Customer..."}}>
+                                <SearchFormContext.Provider
+                                    value={{
+                                        search,
+                                        indexRoute: "orders.index",
+                                        placeholder: "Search Customer...",
+                                    }}
+                                >
                                     <SearchForm />
                                 </SearchFormContext.Provider>
-                                <CreateButtonContext.Provider value={{createRoute: 'orders.create'}}>
-                                    <CreateButton/>
-                                </CreateButtonContext.Provider>
+                                <CreateOrderSheet />
                             </div>
                             <div>
-                                <DataTable columns={orderCol} data={orders?.data || []} />
+                                <DataTable
+                                    columns={orderCol}
+                                    data={orders?.data || []}
+                                />
                             </div>
-                            <div className='flex justify-end gap-4 mt-4'>
-                                <NavigationButtonContext.Provider value={{prevPageUrl: orders.prev_page_url, nextPageUrl: orders.next_page_url, currentPage: orders.current_page, lastPage: orders.last_page}}>
+                            <div className="flex justify-end gap-4 mt-4">
+                                <NavigationButtonContext.Provider
+                                    value={{
+                                        prevPageUrl: orders.prev_page_url,
+                                        nextPageUrl: orders.next_page_url,
+                                        currentPage: orders.current_page,
+                                        lastPage: orders.last_page,
+                                    }}
+                                >
                                     <NavigationButton />
                                 </NavigationButtonContext.Provider>
                             </div>
@@ -149,28 +169,85 @@ export default function OrdersIndex() {
                                 {selectedOrder ? (
                                     <div>
                                         <div className="mb-8">
-                                            <h5 className="mt-2 mb-2 text-lg font-bold">Order</h5>
+                                            <h5 className="mt-2 mb-2 text-lg font-bold">
+                                                Order
+                                            </h5>
                                             <p>Order ID: {selectedOrder.id}</p>
-                                            <p>Customer: {selectedOrder.customer?.name || "No Customer"}</p>
-                                            <p>Order Date: {selectedOrder.order_date}</p>
-                                            <p>Total Price: {selectedOrder.total_price ? `${Number(selectedOrder.total_price).toFixed(2)}` : 'N/A'}</p>
-                                            <p>Status: <span className={`px-2 py-1 rounded text-sm font-medium ${statusColors[selectedOrder.status] || "bg-gray-100 text-gray-800"}`}>{selectedOrder.status}</span></p>
+                                            <p>
+                                                Customer:{" "}
+                                                {selectedOrder.customer?.name ||
+                                                    "No Customer"}
+                                            </p>
+                                            <p>
+                                                Order Date:{" "}
+                                                {selectedOrder.order_date}
+                                            </p>
+                                            <p>
+                                                Total Price:{" "}
+                                                {selectedOrder.total_price
+                                                    ? `${Number(
+                                                          selectedOrder.total_price
+                                                      ).toFixed(2)}`
+                                                    : "N/A"}
+                                            </p>
+                                            <p>
+                                                Status:{" "}
+                                                <span
+                                                    className={`px-2 py-1 rounded text-sm font-medium ${
+                                                        statusColors[
+                                                            selectedOrder.status
+                                                        ] ||
+                                                        "bg-gray-100 text-gray-800"
+                                                    }`}
+                                                >
+                                                    {selectedOrder.status}
+                                                </span>
+                                            </p>
                                         </div>
                                         <div>
-                                            <h5 className="text-lg font-bold">Products</h5>
+                                            <h5 className="text-lg font-bold">
+                                                Products
+                                            </h5>
                                             <ul>
-                                                {selectedOrder.products?.map((product) => (
-                                                    <li key={product.id} className="border-b py-2">
-                                                        <p>Product Name: {product.name}</p>
-                                                        <p>Quantity: {product.pivot.quantity}</p>
-                                                        <p>Price at Order: {Number(product.pivot.price_at_order || 0).toFixed(2)}</p>
-                                                    </li>
-                                                )) || <p>No Products Available</p>}
+                                                {selectedOrder.products?.map(
+                                                    (product) => (
+                                                        <li
+                                                            key={product.id}
+                                                            className="border-b py-2"
+                                                        >
+                                                            <p>
+                                                                Product Name:{" "}
+                                                                {product.name}
+                                                            </p>
+                                                            <p>
+                                                                Quantity:{" "}
+                                                                {
+                                                                    product
+                                                                        .pivot
+                                                                        .quantity
+                                                                }
+                                                            </p>
+                                                            <p>
+                                                                Price at Order:{" "}
+                                                                {Number(
+                                                                    product
+                                                                        .pivot
+                                                                        .price_at_order ||
+                                                                        0
+                                                                ).toFixed(2)}
+                                                            </p>
+                                                        </li>
+                                                    )
+                                                ) || (
+                                                    <p>No Products Available</p>
+                                                )}
                                             </ul>
                                         </div>
                                     </div>
                                 ) : (
-                                    <p>Select an order to view product orders.</p>
+                                    <p>
+                                        Select an order to view product orders.
+                                    </p>
                                 )}
                             </CardContent>
                         </Card>

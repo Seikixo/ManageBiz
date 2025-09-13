@@ -39,9 +39,13 @@ class OrderController extends Controller
         {
             $search = $request->query('search', '');
             $orders = $this->orderRepository->search($search)->toArray();
+            $products = $this->productRepository->getAllName();
+            $customers = $this->customerRepository->getAllName();
             return Inertia::render('Orders/OrdersIndex',[
                 'orders' => $orders,
-                'search' => $search
+                'search' => $search,
+                'products' => $products,
+                'customers' => $customers
             ]);
         }
         catch (Exception $e)
@@ -49,28 +53,6 @@ class OrderController extends Controller
             Log::error("Unexpected error in order fetching: " . $e->getMessage());
             return back()->withErrors(['error' => 'Something went wrong while fetching orders detail']);
         } 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        try{
-            $products = $this->productRepository->getAllName();
-            $customers = $this->customerRepository->getAllName();
-
-            return Inertia::render('Orders/OrderCreate', [
-                'products' => $products,
-                'customers' => $customers
-            ]);    
-        }
-        catch (Exception $e)
-        {
-            Log::error("Unexpected error in order creation: " . $e->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong while fetching products and customers detail']);
-        }
-
     }
 
     /**
