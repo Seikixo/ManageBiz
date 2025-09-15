@@ -6,18 +6,17 @@ import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
 import SearchForm from "@/Components/SearchForm";
 import NavigationButtonContext from "@/hooks/Contexts/NavigationButtonContext";
 import NavigationButton from "@/Components/NavigationButton";
-import { useState } from "react";
-import { Eye } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Eye, Plus } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
 import DeleteButton from "@/Components/DeleteButton";
-import CreateButtonContext from "@/hooks/Contexts/CreateButtonContext";
-import CreateButton from "@/Components/CreateButton";
 import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
 import UpdateButton from "@/Components/UpdateButton";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import { Separator } from "@/Components/ui/separator";
-import CreateOrderSheet from "./components/CreateOrderSheet";
+import { CreateActionSheet } from "@/Components/ActionSheet";
+import OrderCreateForm from "./OrderCreate";
 
 export default function OrdersIndex() {
     const { orders, search } = usePage().props;
@@ -82,6 +81,23 @@ export default function OrdersIndex() {
             cell: ({ row }) => {
                 const order = row.original;
                 const orderId = row.original.id;
+                const deleteContextValue = useMemo(
+                    () => ({
+                        id: orderId,
+                        deleteRoute: "orders.destroy",
+                        dataLabel: "Order",
+                    }),
+                    [orderId]
+                );
+
+                const updateContextValue = useMemo(
+                    () => ({
+                        id: orderId,
+                        updateRoute: "orders.edit",
+                    }),
+                    [orderId]
+                );
+
                 return (
                     <div className="flex gap-2">
                         <Button
@@ -92,19 +108,11 @@ export default function OrdersIndex() {
                             <Eye />
                         </Button>
 
-                        <DeleteButtonContext.Provider
-                            value={{
-                                id: orderId,
-                                deleteRoute: "orders.destroy",
-                                dataLabel: "Order",
-                            }}
-                        >
+                        <DeleteButtonContext.Provider value={deleteContextValue}>
                             <DeleteButton />
                         </DeleteButtonContext.Provider>
 
-                        <UpdateButtonContext.Provider
-                            value={{ id: orderId, updateRoute: "orders.edit" }}
-                        >
+                        <UpdateButtonContext.Provider value={updateContextValue}>
                             <UpdateButton />
                         </UpdateButtonContext.Provider>
                     </div>
@@ -135,7 +143,18 @@ export default function OrdersIndex() {
                                 >
                                     <SearchForm />
                                 </SearchFormContext.Provider>
-                                <CreateOrderSheet />
+                                <CreateActionSheet
+                                    title="Create Order"
+                                    description="Fill up the information of the order here. Click submit when you're done."
+                                    trigger={
+                                        <Button variant="default">
+                                            <Plus className="mr-2 h-4 w-4" />
+                                            Create Order
+                                        </Button>
+                                    }
+                                >
+                                    <OrderCreateForm onSuccess={() => {}} />
+                                </CreateActionSheet>
                             </div>
                             <div>
                                 <DataTable

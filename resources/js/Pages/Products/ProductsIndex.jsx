@@ -2,15 +2,13 @@ import MainLayout from "@/Layouts/MainLayout";
 import { DataTable } from "@/Components/DataTable";
 import { Button } from "@/Components/ui/button";
 import { Head, usePage } from "@inertiajs/react";
-import { createContext } from "react";
+import { useMemo } from "react";
 
 import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
-import CreateButtonContext from "@/hooks/Contexts/CreateButtonContext";
 import NavigationButtonContext from "@/hooks/Contexts/NavigationButtonContext";
 import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
 import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
 
-import CreateButton from "@/Components/CreateButton";
 import SearchForm from "@/Components/SearchForm";
 import UpdateButton from "@/Components/UpdateButton";
 import DeleteButton from "@/Components/DeleteButton";
@@ -18,7 +16,9 @@ import NavigationButton from "@/Components/NavigationButton";
 import { Card } from "@/Components/ui/card";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import { Separator } from "@/Components/ui/separator";
-import CreateProductSheet from "./components/CreateProductSheet";
+import { CreateActionSheet } from "@/Components/ActionSheet";
+import { Plus } from "lucide-react";
+import ProductsCreateForm from "./ProductsCreate";
 
 const productCol = [
     {
@@ -46,22 +46,30 @@ const productCol = [
         header: "Actions",
         cell: ({ row, productId }) => {
             productId = row.original.id;
+            const deleteContextValue = useMemo(
+                () => ({
+                    id: productId,
+                    deleteRoute: "products.destroy",
+                    dataLabel: "Product",
+                }),
+                [productId]
+            );
+
+            const updateContextValue = useMemo(
+                () => ({
+                    id: productId,
+                    updateRoute: "products.edit",
+                }),
+                [productId]
+            );
 
             return (
                 <div className="flex gap-2">
-                    <DeleteButtonContext.Provider
-                        value={{
-                            id: productId,
-                            deleteRoute: "products.destroy",
-                            dataLabel: "Product",
-                        }}
-                    >
+                    <DeleteButtonContext.Provider value={deleteContextValue}>
                         <DeleteButton />
                     </DeleteButtonContext.Provider>
 
-                    <UpdateButtonContext.Provider
-                        value={{ id: productId, updateRoute: "products.edit" }}
-                    >
+                    <UpdateButtonContext.Provider value={updateContextValue}>
                         <UpdateButton />
                     </UpdateButtonContext.Provider>
                 </div>
@@ -95,7 +103,18 @@ export default function ProductsIndex() {
                                 <SearchForm />
                             </SearchFormContext.Provider>
 
-                            <CreateProductSheet />
+                            <CreateActionSheet
+                                title="Create Product"
+                                description="Fill up the information of the product here. Click submit when you're done."
+                                trigger={
+                                    <Button variant="default">
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Create Product
+                                    </Button>
+                                }
+                            >
+                                <ProductsCreateForm onSuccess={() => {}} />
+                            </CreateActionSheet>
                         </div>
 
                         <DataTable

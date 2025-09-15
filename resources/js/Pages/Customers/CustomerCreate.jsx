@@ -14,7 +14,7 @@ import { Label } from "@/Components/ui/label";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export default function CustomerCreateForm() {
+export default function CustomerCreateForm({ onSuccess }) {
     const { data, post, processing, errors, wasSuccessful, setData } = useForm({
         name: "",
         address: "",
@@ -28,12 +28,18 @@ export default function CustomerCreateForm() {
                 position: "bottom-left",
                 duration: 3000,
             });
+            if (onSuccess) onSuccess();
         }
-    }, [wasSuccessful]);
+    }, [wasSuccessful, onSuccess]);
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("customers.store"), { data });
+        post(route("customers.store"), { 
+            data,
+            onSuccess: () => {
+                if (onSuccess) onSuccess();
+            }
+        });
     };
 
     return (

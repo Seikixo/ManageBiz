@@ -22,7 +22,7 @@ import {
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export default function OrderCreateForm() {
+export default function OrderCreateForm({ onSuccess }) {
     const { products, customers } = usePage().props;
 
     const { data, post, processing, errors, wasSuccessful, setData } = useForm({
@@ -38,8 +38,9 @@ export default function OrderCreateForm() {
                 position: "bottom-left",
                 duration: 3000,
             });
+            if (onSuccess) onSuccess();
         }
-    }, [wasSuccessful]);
+    }, [wasSuccessful, onSuccess]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -57,6 +58,9 @@ export default function OrderCreateForm() {
                 product_id: p.product_id,
                 quantity: Number(p.quantity),
             })),
+            onSuccess: () => {
+                if (onSuccess) onSuccess();
+            }
         });
     };
 

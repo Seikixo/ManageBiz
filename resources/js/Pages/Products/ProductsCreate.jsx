@@ -15,7 +15,7 @@ import { Textarea } from "@/Components/ui/textarea";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export default function ProductsCreateForm() {
+export default function ProductsCreateForm({ onSuccess }) {
     const { data, post, processing, errors, wasSuccessful, setData } = useForm({
         name: "",
         description: "",
@@ -29,8 +29,9 @@ export default function ProductsCreateForm() {
                 position: "bottom-left",
                 duration: 3000,
             });
+            if (onSuccess) onSuccess();
         }
-    }, [wasSuccessful]);
+    }, [wasSuccessful, onSuccess]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -40,6 +41,9 @@ export default function ProductsCreateForm() {
                 ...data,
                 price: Number(data.price),
             },
+            onSuccess: () => {
+                if (onSuccess) onSuccess();
+            }
         });
     };
 
