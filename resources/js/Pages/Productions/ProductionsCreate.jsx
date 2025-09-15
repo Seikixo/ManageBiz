@@ -22,7 +22,7 @@ import {
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export default function ProductionsCreateForm() {
+export default function ProductionsCreateForm({ onSuccess }) {
     const { products } = usePage().props;
 
     const { data, post, processing, errors, wasSuccessful, setData } = useForm({
@@ -39,8 +39,9 @@ export default function ProductionsCreateForm() {
                 position: "bottom-left",
                 duration: 3000,
             });
+            if (onSuccess) onSuccess();
         }
-    }, [wasSuccessful]);
+    }, [wasSuccessful, onSuccess]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -59,6 +60,9 @@ export default function ProductionsCreateForm() {
                     ? format(new Date(data.production_date), "yyyy-MM-dd")
                     : "", // Ensure valid date
             },
+            onSuccess: () => {
+                if (onSuccess) onSuccess();
+            }
         });
     };
 

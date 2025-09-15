@@ -1,6 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { DataTable } from "@/Components/DataTable";
 import { Head, usePage } from "@inertiajs/react";
+import { useMemo } from "react";
 
 import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
 import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
@@ -11,10 +12,13 @@ import SearchForm from "@/Components/SearchForm";
 import DeleteButton from "@/Components/DeleteButton";
 import NavigationButton from "@/Components/NavigationButton";
 import UpdateButton from "@/Components/UpdateButton";
+import { Button } from "@/Components/ui/button";
 import { Card } from "@/Components/ui/card";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import { Separator } from "@/Components/ui/separator";
-import CreateProductionSheet from "./components/CreateProductionSheet";
+import { CreateActionSheet } from "@/Components/ActionSheet";
+import { Plus } from "lucide-react";
+import ProductionsCreateForm from "./ProductionsCreate";
 
 const productionCol = [
     {
@@ -77,25 +81,30 @@ const productionCol = [
         header: "Actions",
         cell: ({ row, productionId }) => {
             productionId = row.original.id;
+            const deleteContextValue = useMemo(
+                () => ({
+                    id: productionId,
+                    deleteRoute: "productions.destroy",
+                    dataLabel: "Production",
+                }),
+                [productionId]
+            );
+
+            const updateContextValue = useMemo(
+                () => ({
+                    id: productionId,
+                    updateRoute: "productions.edit",
+                }),
+                [productionId]
+            );
 
             return (
                 <div className="flex gap-2">
-                    <DeleteButtonContext.Provider
-                        value={{
-                            id: productionId,
-                            deleteRoute: "productions.destroy",
-                            dataLabel: "Production",
-                        }}
-                    >
+                    <DeleteButtonContext.Provider value={deleteContextValue}>
                         <DeleteButton />
                     </DeleteButtonContext.Provider>
 
-                    <UpdateButtonContext.Provider
-                        value={{
-                            id: productionId,
-                            updateRoute: "productions.edit",
-                        }}
-                    >
+                    <UpdateButtonContext.Provider value={updateContextValue}>
                         <UpdateButton />
                     </UpdateButtonContext.Provider>
                 </div>
@@ -129,7 +138,18 @@ export default function ProductionsIndex() {
                                 <SearchForm />
                             </SearchFormContext.Provider>
 
-                            <CreateProductionSheet />
+                            <CreateActionSheet
+                                title="Create Production"
+                                description="Fill up the information of the production here. Click submit when you're done."
+                                trigger={
+                                    <Button variant="default">
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Create Production
+                                    </Button>
+                                }
+                            >
+                                <ProductionsCreateForm onSuccess={() => {}} />
+                            </CreateActionSheet>
                         </div>
 
                         <DataTable

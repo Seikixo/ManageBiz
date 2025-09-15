@@ -1,21 +1,22 @@
-import CreateButton from "@/Components/CreateButton";
 import { DataTable } from "@/Components/DataTable";
 import DeleteButton from "@/Components/DeleteButton";
 import NavigationButton from "@/Components/NavigationButton";
 import SearchForm from "@/Components/SearchForm";
+import { Button } from "@/Components/ui/button";
 import { Card } from "@/Components/ui/card";
 import { Separator } from "@/Components/ui/separator";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import UpdateButton from "@/Components/UpdateButton";
-import CreateButtonContext from "@/hooks/Contexts/CreateButtonContext";
+import { CreateActionSheet } from "@/Components/ActionSheet";
 import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
 import NavigationButtonContext from "@/hooks/Contexts/NavigationButtonContext";
 import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
 import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { useMemo } from "react";
-import CreateCustomerSheet from "./components/CreateCustomerSheet";
+import { Plus } from "lucide-react";
+import { useMemo, useState } from "react";
+import CustomerCreate from "./CustomerCreate";
 
 const customerCol = [
     {
@@ -99,7 +100,18 @@ export default function CustomersIndex() {
                                 <SearchForm />
                             </SearchFormContext.Provider>
 
-                            <CreateCustomerSheet />
+                            <CreateActionSheet
+                            title="Create Customer"
+                            description="Fill up the information of the customer here. Click submit when you're done."
+                            trigger={
+                                <Button variant="default">
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Create Customer
+                                </Button>
+                            }
+                        >
+                            <CustomerCreate onSuccess={() => {}} />
+                        </CreateActionSheet>
                         </div>
 
                         <DataTable

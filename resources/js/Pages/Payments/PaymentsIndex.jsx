@@ -1,22 +1,24 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { DataTable } from "@/Components/DataTable";
 import { Head, usePage } from "@inertiajs/react";
-import { Banknote, Loader, RotateCcw, CircleX } from "lucide-react";
+import { Banknote, Loader, RotateCcw, CircleX, Plus } from "lucide-react";
+import { useMemo } from "react";
 
 import SearchFormContext from "@/hooks/Contexts/SearchFormContext";
 import NavigationButtonContext from "@/hooks/Contexts/NavigationButtonContext";
 import DeleteButtonContext from "@/hooks/Contexts/DeleteButtonContext";
 import UpdateButtonContext from "@/hooks/Contexts/UpdateButtonContext";
 
-import CreateButton from "@/Components/CreateButton";
 import SearchForm from "@/Components/SearchForm";
 import UpdateButton from "@/Components/UpdateButton";
 import DeleteButton from "@/Components/DeleteButton";
 import NavigationButton from "@/Components/NavigationButton";
+import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardHeader } from "@/Components/ui/card";
 import { SidebarTrigger } from "@/Components/ui/sidebar";
 import { Separator } from "@/Components/ui/separator";
-import CreatePaymentSheet from "./components/CreatePaymentSheet";
+import { CreateActionSheet } from "@/Components/ActionSheet";
+import PaymentCreateForm from "./PaymentCreate";
 
 const statusColors = {
     Pending: "bg-yellow-100 text-yellow-800",
@@ -85,22 +87,30 @@ const paymentCol = [
         header: "Actions",
         cell: ({ row, paymentId }) => {
             paymentId = row.original.id;
+            const deleteContextValue = useMemo(
+                () => ({
+                    id: paymentId,
+                    deleteRoute: "payments.destroy",
+                    dataLabel: "Payment",
+                }),
+                [paymentId]
+            );
+
+            const updateContextValue = useMemo(
+                () => ({
+                    id: paymentId,
+                    updateRoute: "payments.edit",
+                }),
+                [paymentId]
+            );
 
             return (
                 <div className="flex gap-2">
-                    <DeleteButtonContext.Provider
-                        value={{
-                            id: paymentId,
-                            deleteRoute: "payments.destroy",
-                            dataLabel: "Payment",
-                        }}
-                    >
+                    <DeleteButtonContext.Provider value={deleteContextValue}>
                         <DeleteButton />
                     </DeleteButtonContext.Provider>
 
-                    <UpdateButtonContext.Provider
-                        value={{ id: paymentId, updateRoute: "payments.edit" }}
-                    >
+                    <UpdateButtonContext.Provider value={updateContextValue}>
                         <UpdateButton />
                     </UpdateButtonContext.Provider>
                 </div>
@@ -162,7 +172,18 @@ export default function PaymentsIndex() {
                                 <SearchForm />
                             </SearchFormContext.Provider>
 
-                            <CreatePaymentSheet />
+                            <CreateActionSheet
+                                title="Create Payment"
+                                description="Fill up the information of the payment here. Click submit when you're done."
+                                trigger={
+                                    <Button variant="default">
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Create Payment
+                                    </Button>
+                                }
+                            >
+                                <PaymentCreateForm onSuccess={() => {}} />
+                            </CreateActionSheet>
                         </div>
 
                         <DataTable

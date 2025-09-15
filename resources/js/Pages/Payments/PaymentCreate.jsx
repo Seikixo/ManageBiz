@@ -22,7 +22,7 @@ import {
 } from "@/Components/ui/popover";
 import { toast } from "sonner";
 
-export default function PaymentCreateForm() {
+export default function PaymentCreateForm({ onSuccess }) {
     const { orders } = usePage().props;
     console.log("Orders:", orders);
     const statusColors = {
@@ -45,8 +45,9 @@ export default function PaymentCreateForm() {
                 position: "bottom-left",
                 duration: 3000,
             });
+            if (onSuccess) onSuccess();
         }
-    }, [wasSuccessful]);
+    }, [wasSuccessful, onSuccess]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -63,6 +64,9 @@ export default function PaymentCreateForm() {
                     : "", // Ensure valid date
                 payment_amount: Number(data.payment_amount),
             },
+            onSuccess: () => {
+                if (onSuccess) onSuccess();
+            }
         });
     };
 
