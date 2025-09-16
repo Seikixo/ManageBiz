@@ -125,13 +125,13 @@ export default function PaymentsIndex() {
     return (
         <>
             <Head title="Payments" />
-            <div className="flex flex-col w-full gap-4">
+            <div className="flex flex-col w-full h-full gap-4">
                 <div className="flex">
                     <SidebarTrigger />
                     <p className="text-xl font-bold">Payments</p>
                 </div>
                 <Separator />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full h-1/2 md:h-1/3 lg:h-1/5 gap-2">
                     {statusesCount.map(({ status, count }) => (
                         <Card
                             key={status}
