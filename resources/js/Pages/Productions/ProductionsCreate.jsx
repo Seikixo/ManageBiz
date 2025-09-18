@@ -62,7 +62,7 @@ export default function ProductionsCreateForm({ onSuccess }) {
             },
             onSuccess: () => {
                 if (onSuccess) onSuccess();
-            }
+            },
         });
     };
 
@@ -152,6 +152,7 @@ export default function ProductionsCreateForm({ onSuccess }) {
                                             }
                                         }}
                                         initialFocus
+                                        captionLayout="dropdown"
                                     />
                                 </PopoverContent>
                             </Popover>
