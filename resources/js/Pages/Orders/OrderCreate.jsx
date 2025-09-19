@@ -60,7 +60,7 @@ export default function OrderCreateForm({ onSuccess }) {
             })),
             onSuccess: () => {
                 if (onSuccess) onSuccess();
-            }
+            },
         });
     };
 
@@ -127,6 +127,7 @@ export default function OrderCreateForm({ onSuccess }) {
                                             );
                                         }}
                                         initialFocus
+                                        captionLayout="dropdown"
                                     />
                                 </PopoverContent>
                             </Popover>

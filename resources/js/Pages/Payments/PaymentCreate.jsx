@@ -66,7 +66,7 @@ export default function PaymentCreateForm({ onSuccess }) {
             },
             onSuccess: () => {
                 if (onSuccess) onSuccess();
-            }
+            },
         });
     };
 
@@ -170,6 +170,7 @@ export default function PaymentCreateForm({ onSuccess }) {
                                             }
                                         }}
                                         initialFocus
+                                        captionLayout="dropdown"
                                     />
                                 </PopoverContent>
                             </Popover>
